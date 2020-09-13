@@ -8,6 +8,14 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import data from './InfoData';
 import InputChips from './InputChips';
+import MultiChips from './MultiChips';
+import Axios from 'axios';
+import { useEffect } from 'react';
+import {update} from './Redux/Action';
+import {useSelector,useDispatch} from 'react-redux';
+
+// import Reducer from './Redux';
+
 const useStyles = makeStyles((theme) => ({
     root: {
       margin: 'auto 20px',
@@ -38,18 +46,49 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 const Info = () =>{
+    const dispatch = useDispatch();
+    const storedData = useSelector(state=>state);
+    useEffect(()=>{
+        infoFun();
+    },[]);
     const classes = useStyles();
-    
     const [editFlag,setEditFlag] = useState(false);
+    const [startedOn,setStartedOn] = useState(null);
     const edit = ()=>{
         setEditFlag(true);
     }
     const save = () =>{
         setEditFlag(false);
+        Axios.post('http://localhost:5000/postdata',storedData)
+          .then(()=>{
+              infoFun();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
     const cancel = () =>{
         setEditFlag(false);
     }
+const [multi,setMulti] = useState([]);
+const infoFun = ()=>{
+    Axios.get('http://localhost:5000/get')
+    .then(response=>
+        {
+            const value = response.data[response.data.length-1];
+            dispatch(update(value));
+            if(value){
+            const formattedDate = Intl.DateTimeFormat('en-US',{
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit' }).format(new Date(value.date));
+            setStartedOn(formattedDate);
+            setMulti([value.camera,value.lenses,value.editing,value.others]); 
+            }
+                       
+        });
+}
+
     return(
         <>
         <div className={classes.head}>
@@ -62,18 +101,19 @@ const Info = () =>{
         </div>
         <div className={classes.root}>
             <h1><strong>Suprit Beck</strong></h1>
+            
             {data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
                 <Chip
                 avatar={val.avt}
                 className={classes.chip} label={val.label1} variant="outlined"/>: 
-                {!editFlag?<Chip className={classes.chip} label={val.label2} variant="outlined" />:null}
-                {editFlag?<InputChips className={classes.chipInput}/>:null}
+                {!editFlag?<MultiChips data={multi[ind]}/>:null}
+                {editFlag?<InputChips data={multi[ind]} indx={ind} className={classes.chipInput}/>:null}
             </div>
             )}
             <hr></hr>
             <div className={classes.text}>About Me: I am a photographer.</div>
-            <div className={classes.text}>Started On: 1st July 2020</div>
+            <div className={classes.text}>Started On: {startedOn?startedOn:null}</div>
         </div>
         </>
     );

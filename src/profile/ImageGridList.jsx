@@ -6,7 +6,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import imageData from './ImageData';
 import { useEffect,useState } from 'react';
 import ImgCarosol from './ImgCarosol';
-
+import Upload from '../upload/Upload';
+import {useSelector} from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -28,6 +29,7 @@ const ImageGridList =()=> {
   const [cells, setCells] = useState(5);
   const [imgInfo,setImgInfo] = useState({});
   const [modal,setModal] = useState(false);
+  const uploadflag = useSelector(state=>state);
   const openImage = (data)=>{
     setImgInfo(data);
   };
@@ -35,7 +37,6 @@ const ImageGridList =()=> {
     setModal(val=>{
       return val=!val;
     });
-    console.log("toggle modal");
   }
   useEffect(()=>{
     if(matches){
@@ -58,6 +59,7 @@ const ImageGridList =()=> {
       </GridList>
        
     </div>
+        <div>{uploadflag?<Upload/>:null}</div>
         <div>{modal?<ImgCarosol imgInfo={imgInfo} toggle={toggleModal} open={modal}/>:null}</div>
     </>
   );

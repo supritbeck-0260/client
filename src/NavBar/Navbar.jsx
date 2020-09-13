@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import {toggle} from '../Redux/Action';
+import {useSelector,useDispatch} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = ()=> {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <AppBar className={classes.appbar} position="fixed">
@@ -30,6 +32,7 @@ const Navbar = ()=> {
           <Typography variant="h6" className={classes.title}>
             ProClick
           </Typography>
+          <Button color="inherit" onClick={()=>dispatch(toggle())}>Upload</Button>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>

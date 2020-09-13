@@ -4,6 +4,9 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Img from './img1.jpg';
 import Info from './Info';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import infoUpdateReducer from './Redux/Index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyGrid = () => {
+  const store = createStore(infoUpdateReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -45,7 +49,9 @@ const MyGrid = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <Paper className={classes.paper}>
+            <Provider store={store}>
             <Info/>
+            </Provider>
           </Paper>
         </Grid>
       </Grid>

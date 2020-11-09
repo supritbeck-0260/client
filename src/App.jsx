@@ -1,19 +1,22 @@
 import React from 'react';
 import Navbar from './NavBar/Navbar';
-import Grid from './profile/Grid';
-import ImageGridList from './profile/ImageGridList';
 import { Provider } from 'react-redux';
+import {Route,Switch} from 'react-router-dom';
 import { createStore } from 'redux';
 import mainReducer from './Redux/Index'; 
+import ProfilePage from './profile/ProfilePage';
+import Home from './Home/Home';
 const App = ()=>{
 const mainStore = createStore(mainReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     return(
         <>
             <Provider store={mainStore}>
                 <Navbar/>
-                <Grid/>
-                <hr/>
-                <ImageGridList/>
+                <Switch>
+                    <Route exact path='/' render={()=><Home/>}/>
+                    <Route exact path='/profile' render={()=><ProfilePage/>}/>
+                
+                </Switch>
             </Provider>
         </>
     );

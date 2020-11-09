@@ -6,6 +6,7 @@ import Rating from '@material-ui/lab/Rating';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Button from '@material-ui/core/Button';
 import data from './InfoData';
 import InputChips from './InputChips';
 import MultiChips from './MultiChips';
@@ -43,17 +44,43 @@ const useStyles = makeStyles((theme) => ({
         justifyContent:'space-between',
         alignItems:'center',
         padding:'0px 20px',
+    },
+    save:{
+        margin:'0 5px',
+    },
+    cancel:{
+        margin:'0 5px',
     }
   }));
 const Info = () =>{
     const dispatch = useDispatch();
     const storedData = useSelector(state=>state);
-    useEffect(()=>{
-        infoFun();
-    },[]);
+    
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
     const [startedOn,setStartedOn] = useState(null);
+    const infoFun = ()=>{
+        Axios.get('http://localhost:5000/get')
+        .then(response=>
+            {
+                const value = response.data;
+                dispatch(update(value));
+                if(value){
+                    if(value.date){
+                        const formattedDate = Intl.DateTimeFormat('en-US',{
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit' }).format(new Date(value.date));
+                        setStartedOn(formattedDate);
+                }
+                setMulti([value.camera,value.lenses,value.editing,value.others]); 
+                }
+                           
+            });
+    }
+    useEffect(()=>{
+        infoFun();
+    },[]);
     const edit = ()=>{
         setEditFlag(true);
     }
@@ -71,32 +98,16 @@ const Info = () =>{
         setEditFlag(false);
     }
 const [multi,setMulti] = useState([]);
-const infoFun = ()=>{
-    Axios.get('http://localhost:5000/get')
-    .then(response=>
-        {
-            const value = response.data[response.data.length-1];
-            dispatch(update(value));
-            if(value){
-            const formattedDate = Intl.DateTimeFormat('en-US',{
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit' }).format(new Date(value.date));
-            setStartedOn(formattedDate);
-            setMulti([value.camera,value.lenses,value.editing,value.others]); 
-            }
-                       
-        });
-}
+
 
     return(
         <>
         <div className={classes.head}>
             <h2>Profile Rating: <Rating name="read-only" value={4} readOnly /></h2>
             <div>
-                {editFlag?<SaveIcon onClick={save}/>:null}
-                {editFlag?<CancelIcon onClick={cancel}/>:null}
-                {!editFlag?<EditIcon onClick={edit}/>:null}
+                {editFlag?<Button className={classes.save} variant="contained" color="primary" onClick={save}>Save<SaveIcon/></Button>:null}
+                {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
+                {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>
         </div>
         <div className={classes.root}>

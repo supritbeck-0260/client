@@ -19,23 +19,25 @@ const useStyles = makeStyles((theme) => ({
         height:'100%',
     }
 }));
-const Home = ()=>{
+const Home = (props)=>{
 const classes = useStyles();
-const [images, setImages] = useState(null);
-const getImges = ()=>{
-        Axios.get('http://localhost:5000/getpics').then(response=>{
-          setImages(response.data);
-          console.log(response.data);
-      });
-}
+// const [images, setImages] = useState(props.images);
+const images = props.images;
+console.log(props);
+// const getImges = ()=>{
+//         Axios.get('http://localhost:5000/getpics').then(response=>{
+//           setImages(response.data);
+//           console.log(response.data);
+//       });
+// }
 var skeletons=[];
 for(let i=1;i<=6;i++){
     skeletons.push(<GridListTile className={classes.Skeleton} cols={1}><Skeleton/></GridListTile>);
 }
                  
-useEffect(()=>{
-    getImges();
-},[]);
+// useEffect(()=>{
+//     getImges();
+// },[]);
 
     return(
         <>

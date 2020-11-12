@@ -2,12 +2,13 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-// import Img from './img1.jpg';
+import defaultImg from './profile.JPG';
 import Info from './Info';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import infoUpdateReducer from './Redux/Index';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +43,13 @@ imageInput:{
 buttons:{
   display:'flex',
   justifyContent:'space-between'
+},
+profileLoader:{
+  width:'100%',
+  minHeight:'300px',
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'center',
 }
 }));
 
@@ -61,8 +69,12 @@ useEffect(()=>{
 },[]);
 const getProfile = () =>{
   Axios.get('http://localhost:5000/get').then(response=>{
-    setFilename(response.data.profile);
+  if(response.data.profile){  
+  setFilename(response.data.profile);
     setUrl(`http://localhost:5000/profile/`+response.data.profile);
+  }else{
+    setUrl(defaultImg);
+  }
   });
 }
 const cancel = () =>{
@@ -73,7 +85,7 @@ const saveImage = () =>{
   const formData = new FormData();
     formData.append('profile',file);
     Axios.post('http://localhost:5000/profilepic',formData).then(response=>{
-        if(response.status == '200'){
+        if(response.status === '200'){
           setFile(null);
         }
     });
@@ -84,10 +96,10 @@ const saveImage = () =>{
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Paper className={classes.paperImage}>
-          <Button variant="contained" component="label">
+          {url?<Button variant="contained" component="label">
               <img className={classes.image} src={url} alt='image'></img>
               <input type="file" accept="image/*" name="profile" className={classes.imageInput} onChange={fileUploadHandler} />
-          </Button>
+          </Button>:<div className={classes.profileLoader}><CircularProgress /></div>}
           {file?<div className={classes.buttons}>
           <Button variant="contained" color="primary" onClick={saveImage}>Save</Button>
           <Button variant="contained" onClick={cancel}>Cancel</Button>

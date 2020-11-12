@@ -2,12 +2,7 @@ import React, { useState,useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import Image from 'material-ui-image';
 import Axios from 'axios';
-import {toggle} from '../Redux/Action';
-import {useDispatch} from 'react-redux';
-import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
-import { TextField } from '@material-ui/core';
 import InputGroup from './InputGroup';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from './Data';
@@ -102,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     cancel:{
         position:'relative',
         float:'right',
-        
+        margin: '1px',
     }
 }));
 
@@ -121,7 +116,6 @@ const Upload = (props) =>{
         others:''
     });
     
-    const dispatch = useDispatch();
     const fileUploadHandler = (event) =>{
         const tempUrl = URL.createObjectURL(event.target.files[0]);
         setFile(event.target.files[0]);
@@ -142,7 +136,7 @@ const postData = (event) =>{
     Axios.post('http://localhost:5000/upload',formData).then(response=>{
         if(response.status == '200'){
             props.getFun();
-            dispatch(toggle());
+            props.toggleFun();
             setUploadBtn('Upload');
         }
     });
@@ -159,18 +153,17 @@ useEffect(()=>{
         <>
         <div className={classes.root}>
             <div className={mainCls}>
-                <CloseIcon className={classes.cancel} onClick={()=>dispatch(toggle())}/>
+            <Button variant="contained" color="secondary" className={classes.cancel} onClick={props.toggleFun}><CloseIcon /></Button>
                 <h2 className={classes.header}>Upload Image </h2>
                 <hr/>
                 <form onSubmit={postData}  encType="multipart/form-data">
                 {!url?<div className={classes.mainTile}>
-                        <div className={classes.tile1}> <label htmlFor="image">Imgae</label></div>
+                        <div className={classes.tile1}> <label htmlFor="image">Image</label></div>
                         <div className={classes.tile2}> 
                             <Button variant="contained" component="label" >
                                     Choose photo
                                     <PhotoLibraryIcon className={classes.icon}/>
-
-                                    <input type="file" accept="image/*" name="file" className={classes.imageInput} onChange={fileUploadHandler}/>
+                                    <input type="file" accept="image/*" name="file" className={classes.imageInput} onChange={fileUploadHandler} required/>
                             </Button>
                             </div>  
                     </div>:null}
@@ -197,7 +190,7 @@ useEffect(()=>{
                     )}
                     
                     <div className={classes.submitDiv}>
-                    <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn}/>
+                    <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>
                     </div>
                     </div>:null}
                </form>

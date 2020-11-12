@@ -12,10 +12,8 @@ import InputChips from './InputChips';
 import MultiChips from './MultiChips';
 import Axios from 'axios';
 import { useEffect } from 'react';
-import {update} from './Redux/Action';
-import {useSelector,useDispatch} from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-// import Reducer from './Redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,21 +48,30 @@ const useStyles = makeStyles((theme) => ({
     },
     cancel:{
         margin:'0 5px',
+    },
+    loader:{
+        width:'100%',
+        display:'flex',
+        justifyContent:'center'
     }
   }));
 const Info = () =>{
-    const dispatch = useDispatch();
-    const storedData = useSelector(state=>state);
-    
+    const [chipData,setChipData]= useState({
+        camera:'',
+        lenses:'',
+        editing:'',
+        others:''
+    });
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
     const [startedOn,setStartedOn] = useState(null);
+    const [toggle,setToggle]=useState(true);
     const infoFun = ()=>{
+        setToggle(false); 
         Axios.get('http://localhost:5000/get')
         .then(response=>
             {
                 const value = response.data;
-                dispatch(update(value));
                 if(value){
                     if(value.date){
                         const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -73,32 +80,48 @@ const Info = () =>{
                         day: '2-digit' }).format(new Date(value.date));
                         setStartedOn(formattedDate);
                 }
-                setMulti([value.camera,value.lenses,value.editing,value.others]); 
+                setChipData({
+                    camera:value.camera,
+                    lenses:value.lenses,
+                    editing:value.editing,
+                    others:value.others
+                });
+                data[0].values = value.camera;
+                data[1].values = value.lenses;
+                data[2].values = value.editing;
+                data[3].values = value.others; 
                 }
-                           
+              setEditFlag(false);
+              setToggle(true);      
             });
     }
     useEffect(()=>{
+        setToggle(false);
         infoFun();
     },[]);
     const edit = ()=>{
         setEditFlag(true);
     }
     const save = () =>{
-        setEditFlag(false);
-        Axios.post('http://localhost:5000/postdata',storedData)
+        Axios.post('http://localhost:5000/postdata',chipData)
           .then(()=>{
               infoFun();
           })
           .catch(function (error) {
             console.log(error);
           });
+          
     }
     const cancel = () =>{
         setEditFlag(false);
     }
-const [multi,setMulti] = useState([]);
 
+const getValues= (key,value)=>{
+    setChipData((prev)=>{
+        prev[key]=value;
+        return {...prev};
+    });
+}
 
     return(
         <>
@@ -112,16 +135,15 @@ const [multi,setMulti] = useState([]);
         </div>
         <div className={classes.root}>
             <h1><strong>Suprit Beck</strong></h1>
-            
-            {data.map((val,ind)=>
+            {toggle?data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
                 <Chip
                 avatar={val.avt}
-                className={classes.chip} label={val.label1} variant="outlined"/>: 
-                {!editFlag?<MultiChips data={multi[ind]}/>:null}
-                {editFlag?<InputChips data={multi[ind]} indx={ind} className={classes.chipInput}/>:null}
+                className={classes.chip} label={val.label} variant="outlined"/>: 
+                {!editFlag?<MultiChips data={val.values}/>:null}
+                {editFlag?<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>:null}
             </div>
-            )}
+            ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}
             <hr></hr>
             <div className={classes.text}>About Me: I am a photographer.</div>
             <div className={classes.text}>Started On: {startedOn?startedOn:null}</div>

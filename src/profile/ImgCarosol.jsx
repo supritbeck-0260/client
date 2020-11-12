@@ -7,7 +7,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from '../upload/Data';
 import InputGroup from '../upload/InputGroup';
-// import imageData from './ImageData';
+import CloseIcon from '@material-ui/icons/Close';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
       // justifyContent:'center',
       alignItems:'center',
       flexDirection:'column',
+      borderRadius:'5px',
     },
     imgCont:{
       width:'80%',
@@ -78,7 +79,12 @@ const useStyles = makeStyles((theme) => ({
       width:'100%'
     },
     cancel:{
-      float:'right'
+      float:'right',
+      minWidth:'10px',
+      width:'28px',
+      height:'28px',
+      borderRadius:'50%',
+      margin:'1px'
     },
     info:{
       width:'70%',
@@ -86,6 +92,11 @@ const useStyles = makeStyles((theme) => ({
       justifyContent:'center',
       alignItems:'center',
       flexDirection:'column',
+    },
+    BtnShape:{
+      width:'50px',
+      height:'58px',
+      borderRadius:'50%',
     }
   }));
 const ImgCarosol = props => {
@@ -227,13 +238,15 @@ const ImgCarosol = props => {
         
     <div className={classes.root}>
         <div className={classes.modal}>
-          <div className={classes.cancelDiv}><CancelIcon className={classes.cancel} onClick={handleClose}/></div>
+          <div className={classes.cancelDiv}>
+            <Button variant="contained" color="secondary" className={classes.cancel} onClick={handleClose}><CloseIcon/></Button>
+          </div>
             <div className={arrImgClss}>
-                {leftArrFlg?<ArrowLeftIcon onClick={()=>leftImgae(photo.id)}/>:null}
+                {leftArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>leftImgae(photo.id)}><ArrowLeftIcon/></Button>:null}
                       <div className={classes.imgCont}>
                         <img className={classes.img} src={photo.info.path+photo.info.filename} alt="image"/>
                       </div>
-                {rightArrFlg?<ArrowRightIcon onClick={()=>rightImgae(photo.id)}/>:null}
+                {rightArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}
             </div> 
             {!edit?<div className={classes.button}>
                 <Button  variant="contained" color="primary" onClick={editHandler}>Edit</Button>

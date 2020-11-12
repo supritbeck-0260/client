@@ -4,8 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import {toggle} from '../Redux/Action';
-import {useDispatch} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -30,12 +28,15 @@ const useStyles = makeStyles((theme) => ({
   profile:{
     color:'white',
     textDecoration:'none',
+  },
+  BtnShape:{
+    borderRadius:'50%',
+    height: '60px',
   }
 }));
 
-const Navbar = ()=> {
+const Navbar = (props)=> {
   const classes = useStyles();
-  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <AppBar className={classes.appbar} position="fixed">
@@ -43,10 +44,12 @@ const Navbar = ()=> {
             <Typography variant="h6" className={classes.title}>
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Typography>
-          <Button color="inherit" onClick={()=>dispatch(toggle())}>Upload</Button>
+          <Button color="inherit" onClick={props.toggleFun}>Upload</Button>
           <Button color="inherit">Login</Button>
           <NavLink to='/profile' className={classes.profile} >
+          <Button className={classes.BtnShape}>
           <Avatar aria-label="recipe" className={classes.avatar} src="http://localhost:5000/profile/profile_1604060279140.jpg"/>
+          </Button>
           </NavLink>
         </Toolbar>
       </AppBar>

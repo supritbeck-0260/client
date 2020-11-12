@@ -6,23 +6,28 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
   const data = [
     {
         avt:<CameraAltRoundedIcon/>,
-        label1:"Camera",
+        label:"Camera",
+        key:'camera',
+        values:[]
            
     },
     {
         avt:<LensOutlinedIcon/>,
-        label1:"Lenses",
-           
+        label:"Lenses",
+        key:'lenses',
+        values:[]
     },
     {
         avt:<EditOutlinedIcon/>,
-        label1:"Editing Software",
-            
+        label:"Editing Software",
+        key:'editing',
+        values:[]   
     },
     {
         avt:<LibraryAddOutlinedIcon/>,
-        label1:"Others",
-           
+        label:"Others",
+        key:'others',
+        values:[]  
     },
 ]
 export default data;

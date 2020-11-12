@@ -5,8 +5,6 @@ import GridListTile from '@material-ui/core/GridListTile';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useEffect,useState } from 'react';
 import ImgCarosol from './ImgCarosol';
-import Upload from '../upload/Upload';
-import {useSelector} from 'react-redux';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +28,6 @@ const ImageGridList =()=> {
   const [imgInfo,setImgInfo] = useState({});
   const [modal,setModal] = useState(false);
   const [images,setImages] = useState(null);
-  const uploadflag = useSelector(state=>state);
   const openImage = (id)=>{
     setImgInfo(id);
   };
@@ -51,7 +48,6 @@ const ImageGridList =()=> {
   const getImges = ()=>{
     Axios.get('http://localhost:5000/getpics').then(response=>{
       setImages(response.data);
-      console.log(response.data);
   });
 }
   useEffect(()=>{
@@ -70,7 +66,7 @@ const ImageGridList =()=> {
       </GridList>
        
     </div>
-        <div>{uploadflag?<Upload getFun={getImges}/>:null}</div>
+        {/* <div>{uploadflag?<Upload getFun={getImges}/>:null}</div> */}
         {modal?<ImgCarosol imgId={imgInfo} getFun={getImges} allImages={images} toggle={toggleModal} open={modal}/>:null}
     </>
   );

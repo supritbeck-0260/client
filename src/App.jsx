@@ -1,13 +1,11 @@
 import React, { useEffect, useState }  from 'react';
 import Navbar from './NavBar/Navbar';
-import { Provider } from 'react-redux';
 import {Route,Switch} from 'react-router-dom';
-import { createStore } from 'redux';
-import mainReducer from './Redux/Index'; 
 import ProfilePage from './profile/ProfilePage';
 import Home from './Home/Home';
 import Upload from './upload/Upload';
 import Axios from 'axios';
+import Detailed from './Detailed/Detailed';
 const App = ()=>{
 const [images, setImages] = useState(null);
 const [uploadModal,setUploadModal] = useState(false);
@@ -29,6 +27,7 @@ useEffect(()=>{
                 <Switch>
                     <Route exact path='/' render={()=><Home images={images}/>}/>
                     <Route exact path='/profile' render={()=><ProfilePage/>}/>
+                    <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
                 
                 </Switch>
             {uploadModal?<Upload toggleFun={toggleModal} getFun={getImges}/>:null}

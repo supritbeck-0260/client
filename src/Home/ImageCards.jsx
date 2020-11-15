@@ -16,6 +16,7 @@ import {NavLink} from 'react-router-dom';
 const useStyles = makeStyles({
   root: {
     width: 427,
+    margin:'0 auto',
   },
   media: {
     height: 260,
@@ -58,15 +59,14 @@ const ImageCards = (props)=> {
         title={<NavLink className={classes.navLinkDec} to='/profile'>Suprit Beck</NavLink>}
         subheader={dates}
       />
+        <NavLink to={'/detailed/'+props.info._id}>
         <CardMedia
           className={classes.media}
           image={props.info.path+props.info.filename}
           title={props.info.about}
         />
+        </NavLink>
         <CardContent>
-        {/* <CardActions className={classes.avgRating}>
-        Avg Rating:<Rating name="read-only" value={4} readOnly />(14k)
-        </CardActions> */}
           <Typography gutterBottom variant="h5" component="h2">
             {props.info.about}
           </Typography>

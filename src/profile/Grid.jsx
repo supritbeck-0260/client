@@ -4,9 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import defaultImg from './profile.JPG';
 import Info from './Info';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import infoUpdateReducer from './Redux/Index';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
@@ -54,7 +51,6 @@ profileLoader:{
 }));
 
 const MyGrid = () => {
-  const store = createStore(infoUpdateReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
   const classes = useStyles();
   const [url,setUrl] = useState(null);
   const [file,setFile] = useState(null);
@@ -108,9 +104,7 @@ const saveImage = () =>{
         </Grid>
         <Grid item xs={12} sm={8}>
           <Paper className={classes.paper}>
-            <Provider store={store}>
             <Info/>
-            </Provider>
           </Paper>
         </Grid>
       </Grid>

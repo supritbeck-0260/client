@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from './Grid';
 import ImageGridList from './ImageGridList';
-const ProfilePage = ()=>{
+const ProfilePage = (props)=>{
     return(
         <>
         <Grid/>
         <hr/>
-        <ImageGridList/>
+        <ImageGridList getFun={props.getFun} images={props.images}/>
         </>
     );
 }

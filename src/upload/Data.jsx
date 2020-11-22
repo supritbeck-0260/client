@@ -44,6 +44,15 @@ const data = [
         variant:"outlined",
         value:''
     },
+    {
+        name:'location',
+        label:'location',
+        id:"outlined-basic",
+        label2:"Location",
+        placeholder:"",
+        variant:"outlined",
+        value:''
+    },
 ];
 
 export default data;

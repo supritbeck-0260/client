@@ -26,7 +26,7 @@ useEffect(()=>{
                 <Navbar toggleFun={toggleModal}/>
                 <Switch>
                     <Route exact path='/' render={()=><Home images={images}/>}/>
-                    <Route exact path='/profile' render={()=><ProfilePage/>}/>
+                    <Route exact path='/profile' render={()=><ProfilePage getFun={getImges} images={images}/>}/>
                     <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
                 
                 </Switch>

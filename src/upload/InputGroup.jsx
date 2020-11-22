@@ -29,8 +29,6 @@ const useStyles = makeStyles((theme) => ({
     textArea:{
         width:'100%',
         padding: '10.5px 7px',
-        // display:'flex',
-        // alignItems:'center'
     }
 }));
 const InputGroup = (props) =>{

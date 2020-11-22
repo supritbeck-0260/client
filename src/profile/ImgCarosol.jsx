@@ -3,14 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ArrowLeftIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowRightIcon from '@material-ui/icons/ArrowForwardIos';
-import CancelIcon from '@material-ui/icons/Cancel';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from '../upload/Data';
 import InputGroup from '../upload/InputGroup';
 import CloseIcon from '@material-ui/icons/Close';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
-
+import FadeIn from 'react-fade-in';
 const useStyles = makeStyles((theme) => ({
     root: {
      position: 'fixed',
@@ -23,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
      justifyContent:'center',
      zIndex:'1111',
     overflowY:'auto',
-    overflowX:'hidden'
-    
+    overflowX:'hidden',
     },
     img:{
         maxHeight:'90%',
@@ -115,6 +113,7 @@ const ImgCarosol = props => {
       lenses:photo.info.lenses,
       editing:photo.info.editing,
       others:photo.info.others,
+      location:photo.info.location,
       id:photo.info._id,
   });
     const [leftArrFlg,setLeftArrFlg] = useState(true);
@@ -197,6 +196,7 @@ const ImgCarosol = props => {
       data[2].value = photo.info.lenses;
       data[3].value = photo.info.editing;
       data[4].value = photo.info.others;
+      data[5].value = photo.info.location;
       setPhotoInfo(prev=>{
         prev['id']=photo.info._id;
         prev['about'] = photo.info.about;
@@ -204,6 +204,7 @@ const ImgCarosol = props => {
         prev['lenses'] = photo.info.lenses;
         prev['editing'] = photo.info.editing;
         prev['others'] = photo.info.others;
+        prev['location'] = photo.info.others;
         return{...prev}
       });
       setEdit(true);
@@ -237,6 +238,7 @@ const ImgCarosol = props => {
         <>
         
     <div className={classes.root}>
+        <FadeIn>
         <div className={classes.modal}>
           <div className={classes.cancelDiv}>
             <Button variant="contained" color="secondary" className={classes.cancel} onClick={handleClose}><CloseIcon/></Button>
@@ -250,7 +252,7 @@ const ImgCarosol = props => {
             </div> 
             {!edit?<div className={classes.button}>
                 <Button  variant="contained" color="primary" onClick={editHandler}>Edit</Button>
-    <Button variant="contained"  color="secondary" onClick={deleteHandler} autoFocus>{deleteBtn}</Button>
+                <Button variant="contained"  color="secondary" onClick={deleteHandler} autoFocus>{deleteBtn}</Button>
             </div>:null}
             {edit?<div className={classes.info}>
             {data.map((val,index)=>
@@ -273,6 +275,7 @@ const ImgCarosol = props => {
             </div>
             :null}
         </div>
+        </FadeIn>
     </div>
         </>
     );

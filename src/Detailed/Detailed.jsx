@@ -1,14 +1,12 @@
 import React, {useEffect,useState} from 'react';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Axios from 'axios';
 import ImageCards from './ImageCardsHome';
+import Skeleton from '../Home/Skeleton';
 const useStyles = makeStyles((theme) => ({
     root: {
-    //   background:'red',
       width:'100%',
       minHeight:'85vh',
     }, 
@@ -39,7 +37,7 @@ const classes = useStyles();
     return(
         <>
             <Box className={classes.root} >
-            {data?<ImageCards className={classes.imageCards} info={data}/>:<div className={classes.loader}><CircularProgress  color="secondary" /></div>}
+            {data?<ImageCards className={classes.imageCards} info={data}/>:<div className={classes.loader}><Skeleton/></div>}
             </Box>
         </>
     );

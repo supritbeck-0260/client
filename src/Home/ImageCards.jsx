@@ -41,11 +41,14 @@ const useStyles = makeStyles({
   rateTimeContainer:{
     display:'flex',
     justifyContent:'space-between',
-    width:'100%'
+    width:'97%'
   },
   rating:{
     display:'flex',
     alignItems:'center',
+  },
+  CardContent:{
+    padding:'4px',
   }
 });
 
@@ -90,15 +93,16 @@ useEffect(()=>{
           title={props.info.about}
         />
         </NavLink>
-        <CardContent>
+        <CardContent className={classes.CardContent}>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.info.about}
+            {props.info.about?props.info.about:<br/>}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.info.camera?('Camera:'+props.info.camera):null}<br/>
             {props.info.lenses?('Lenses:'+props.info.lenses):null}<br/>
             {props.info.editing?('Editing Tool:'+props.info.editing):null}<br/>
-            {props.info.others?('Others:'+props.info.others):<br/>}
+            {props.info.others?('Others:'+props.info.others):null}<br/>
+            {props.info.location?('Location:'+props.info.location):null}<br/>
           </Typography>
         </CardContent>
       </CardActionArea>

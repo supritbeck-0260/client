@@ -5,7 +5,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useEffect,useState } from 'react';
 import ImgCarosol from './ImgCarosol';
-import Axios from 'axios';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -20,14 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImageGridList =()=> {
+const ImageGridList =(props)=> {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:600px)');
   const [cellHeight, setCellHeight] = useState(250);
   const [cells, setCells] = useState(5);
   const [imgInfo,setImgInfo] = useState({});
   const [modal,setModal] = useState(false);
-  const [images,setImages] = useState(null);
+  const images = props.images;
   const openImage = (id)=>{
     setImgInfo(id);
   };
@@ -45,14 +45,6 @@ const ImageGridList =()=> {
         setCells(3);
       }
   },[matches]);
-  const getImges = ()=>{
-    Axios.get('http://localhost:5000/getpics').then(response=>{
-      setImages(response.data);
-  });
-}
-  useEffect(()=>{
-    getImges();
-  },[]);
   
   return (
     <>
@@ -66,8 +58,7 @@ const ImageGridList =()=> {
       </GridList>
        
     </div>
-        {/* <div>{uploadflag?<Upload getFun={getImges}/>:null}</div> */}
-        {modal?<ImgCarosol imgId={imgInfo} getFun={getImges} allImages={images} toggle={toggleModal} open={modal}/>:null}
+        {modal?<ImgCarosol imgId={imgInfo} getFun={props.getFun} allImages={images} toggle={toggleModal} open={modal}/>:null}
     </>
   );
 

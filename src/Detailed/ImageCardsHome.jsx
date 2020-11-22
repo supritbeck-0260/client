@@ -46,8 +46,15 @@ const useStyles = makeStyles({
     display:'flex',
     flexWrap: 'wrap',
   },
-  timeContainer:{
-    margin:'12px 0px',
+  rateTimeContainer:{
+    display:'flex',
+    justifyContent:'space-between',
+    width:'100%',
+    margin: '10px 0px',
+  },
+  rating:{
+    display:'flex',
+    alignItems:'center',
   }
 });
 
@@ -105,11 +112,13 @@ console.log('test:',props);
             {props.info.camera?<ToolComponent label="Camera" value={props.info.camera}/>:null}<br/>
             {props.info.lenses?<ToolComponent label="Editing Tool" value={props.info.editing}/>:null}<br/>
             {props.info.editing?<ToolComponent label="Lenses" value={props.info.lenses}/>:null}<br/>
-            {props.info.others?<ToolComponent label="Others" value={props.info.others}/>:<br/>}
+            {props.info.others?<ToolComponent label="Others" value={props.info.others}/>:null}<br/>
+            {props.info.location?<ToolComponent label="Others" value={props.info.location}/>:null}
   
           </div>
-          <div className={classes.timeContainer}>
-            <TimeAgo time={props.info.date}/>
+          <div className={classes.rateTimeContainer}>
+            <div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>
+            <div><TimeAgo time={props.info.date}/></div>
           </div>
           
         </CardContent>

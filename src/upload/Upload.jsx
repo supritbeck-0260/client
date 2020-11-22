@@ -7,6 +7,7 @@ import InputGroup from './InputGroup';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from './Data';
 import CloseIcon from '@material-ui/icons/Close';
+import FadeIn from 'react-fade-in';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'fixed',
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     mainSml:{
      position:'relative',
+     width:'96%',
       background:'rgb(255,255,255, 1)',
       height:'fit-content',
       margin:'3% 0',
@@ -51,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
     },
     header:{
         display:'flex',
-        justifyContent:'center'
+        justifyContent:'center',
+        margin: '11px',
     },
     mainTile:{
         display:'flex',
@@ -97,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
     cancel:{
         position:'relative',
         float:'right',
-        margin: '1px',
+        margin: '-10px 1px',
+        minWidth:'20px',
     }
 }));
 
@@ -153,6 +157,7 @@ useEffect(()=>{
         <>
         <div className={classes.root}>
             <div className={mainCls}>
+            <FadeIn>
             <Button variant="contained" color="secondary" className={classes.cancel} onClick={props.toggleFun}><CloseIcon /></Button>
                 <h2 className={classes.header}>Upload Image </h2>
                 <hr/>
@@ -194,6 +199,7 @@ useEffect(()=>{
                     </div>
                     </div>:null}
                </form>
+               </FadeIn>
             </div>
         </div>
         </>

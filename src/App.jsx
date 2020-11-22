@@ -9,23 +9,38 @@ import Detailed from './Detailed/Detailed';
 const App = ()=>{
 const [images, setImages] = useState(null);
 const [uploadModal,setUploadModal] = useState(false);
+const [isData, setIsData] = useState(false);
 const toggleModal = () =>{
     setUploadModal(prev=>!prev);
 }
-const getImges = ()=>{
-        Axios.get('http://localhost:5000/getpics').then(response=>{
-          setImages(response.data);
+const getImges = (offset)=>{
+    console.log('getimages offset',offset);
+        Axios.post('http://localhost:5000/getpics',{offset:offset}).then(response=>{
+            if(response.data.length){
+                setImages(prev=>{
+                    if(prev){
+                      return [...prev,...response.data];
+                    }else{
+                      return response.data;
+                    } 
+                  });
+                  setIsData(true);
+            }else{
+                setIsData(false);
+            }
+          
+            console.log(response.data);
       });
 }
 useEffect(()=>{
-    getImges();
+    getImges(0);
 },[]);
 
     return(
         <>
                 <Navbar toggleFun={toggleModal}/>
                 <Switch>
-                    <Route exact path='/' render={()=><Home images={images}/>}/>
+                    <Route exact path='/' render={()=><Home getFun={getImges} images={images} isData={isData}/>}/>
                     <Route exact path='/profile' render={()=><ProfilePage getFun={getImges} images={images}/>}/>
                     <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
                 

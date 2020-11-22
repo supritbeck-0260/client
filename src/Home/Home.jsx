@@ -5,15 +5,19 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Skeleton from './Skeleton';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import InfiniteScroll from "react-infinite-scroll-component";
 const useStyles = makeStyles((theme) => ({
     root: {
-      
+        
     },
     gridTitle:{
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
     },
+    InfiniteScroll:{
+        overflow:'hidden !important'
+    }
 }));
 const Home = (props)=>{
 const classes = useStyles();
@@ -39,17 +43,32 @@ useEffect(()=>{
         setCellHeight(435);
     }
 },[images]);
+const fetchNext = ()=>{
+    if(images){
+        props.getFun(Object.values(images).length);
+    }
+    
+}
     return(
         <>
          <div className={classes.root}>
-         <GridList cellHeight={cellHeight}  cols={3}>
-            {images?images.map((val,index) => (
-            <GridListTile className={classes.gridTitle} key={index} cols={column}>
-                <ImageCards key={index} info={val}/>
-            </GridListTile>
-            )):skeletons}      
-        </GridList>
-         </div>
+         <InfiniteScroll
+            className={classes.InfiniteScroll}
+            dataLength={images?Object.values(images).length:0}
+            next={fetchNext}
+            hasMore={props.isData}
+            scrollThreshold={0.8}
+            loader={<GridList cellHeight={435}  cols={3}>{skeletons}</GridList>}
+            >
+            <GridList cellHeight={cellHeight}  cols={3}>
+                {images?images.map((val,index) => (
+                <GridListTile className={classes.gridTitle} key={index} cols={column}>
+                    <ImageCards key={index} info={val}/>
+                </GridListTile>
+                )):skeletons}     
+            </GridList>
+        </InfiniteScroll> 
+        </div>
         </>
     );
 }

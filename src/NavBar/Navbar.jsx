@@ -45,7 +45,7 @@ const Navbar = (props)=> {
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Typography>
           <Button color="inherit" onClick={props.toggleFun}>Upload</Button>
-          <Button color="inherit">Login</Button>
+          <NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>
           <NavLink to='/profile' className={classes.profile} >
           <Button className={classes.BtnShape}>
           <Avatar aria-label="recipe" className={classes.avatar} src="http://localhost:5000/profile/profile_1604060279140.jpg"/>

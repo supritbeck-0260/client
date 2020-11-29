@@ -52,6 +52,7 @@ profileLoader:{
 
 const MyGrid = () => {
   const classes = useStyles();
+  const [saveFlag,setSaveFlag] = useState(false);
   const [url,setUrl] = useState(null);
   const [file,setFile] = useState(null);
   const [filename,setFilename] = useState(null);
@@ -78,11 +79,13 @@ const cancel = () =>{
   setFile(null);
 }
 const saveImage = () =>{
+  setSaveFlag(true);
   const formData = new FormData();
     formData.append('profile',file);
     Axios.post('http://localhost:5000/profilepic',formData).then(response=>{
-        if(response.status === '200'){
+        if(response.status === 200){
           setFile(null);
+          setSaveFlag(false);
         }
     });
 }
@@ -97,8 +100,8 @@ const saveImage = () =>{
               <input type="file" accept="image/*" name="profile" className={classes.imageInput} onChange={fileUploadHandler} />
           </Button>:<div className={classes.profileLoader}><CircularProgress /></div>}
           {file?<div className={classes.buttons}>
-          <Button variant="contained" color="primary" onClick={saveImage}>Save</Button>
-          <Button variant="contained" onClick={cancel}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={saveImage}>{!saveFlag?'Save':'Saving...'}</Button>
+          {!saveFlag?<Button variant="contained" onClick={cancel}>Cancel</Button>:null}
           </div>:null}
           </Paper>
         </Grid>

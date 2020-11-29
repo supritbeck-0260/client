@@ -27,7 +27,7 @@ var skeletons=[];
 const matches = useMediaQuery('(min-width:600px)');
 const [column,setColumn] = useState(1);
 for(let i=1;i<=6;i++){
-    skeletons.push(<GridListTile className={classes.gridTitle} cols={column}><Skeleton/></GridListTile>);
+    skeletons.push(<GridListTile key={i} className={classes.gridTitle} cols={column}><Skeleton/></GridListTile>);
 }
 useEffect(()=>{
     if(matches){

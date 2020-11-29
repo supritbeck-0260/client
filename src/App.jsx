@@ -14,11 +14,10 @@ const toggleModal = () =>{
     setUploadModal(prev=>!prev);
 }
 const getImges = (offset)=>{
-    console.log('getimages offset',offset);
         Axios.post('http://localhost:5000/getpics',{offset:offset}).then(response=>{
             if(response.data.length){
                 setImages(prev=>{
-                    if(prev){
+                    if(prev && offset != 0){
                       return [...prev,...response.data];
                     }else{
                       return response.data;
@@ -28,8 +27,7 @@ const getImges = (offset)=>{
             }else{
                 setIsData(false);
             }
-          
-            console.log(response.data);
+            console.log('get data:',response.data);
       });
 }
 useEffect(()=>{

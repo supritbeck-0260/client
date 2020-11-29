@@ -80,7 +80,6 @@ useEffect(()=>{
     setMediaCss(classes.mediaSmall);
   }
 },[matches]);
-console.log('test:',props);
   return (
     <Card className={css}>
       <CardActionArea>
@@ -98,7 +97,7 @@ console.log('test:',props);
       />
         <CardMedia
           className={mediaCss}
-          image={props.info.path+props.info.filename}
+          image={'http://localhost:5000/uploadOrg/'+props.info.filename}
           title={props.info.about}
         />
         <CardContent>
@@ -113,7 +112,7 @@ console.log('test:',props);
             {props.info.lenses?<ToolComponent label="Editing Tool" value={props.info.editing}/>:null}<br/>
             {props.info.editing?<ToolComponent label="Lenses" value={props.info.lenses}/>:null}<br/>
             {props.info.others?<ToolComponent label="Others" value={props.info.others}/>:null}<br/>
-            {props.info.location?<ToolComponent label="Others" value={props.info.location}/>:null}
+            {props.info.location?<ToolComponent label="Location" value={props.info.location}/>:null}
   
           </div>
           <div className={classes.rateTimeContainer}>

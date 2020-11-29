@@ -131,6 +131,11 @@ const ImgCarosol = props => {
       });
 }
     const checkArrows = () =>{
+      if(imageData.length <=1){
+        setLeftArrFlg(false);
+        setRightArrFlg(false);
+      }
+      console.log('inside image carosol:',imageData.length);
       if(photo.id === 0){
         setLeftArrFlg(false);
         if(photo.id !== imageData.length-1){
@@ -219,7 +224,7 @@ const ImgCarosol = props => {
       setSave('Saving...');
       Axios.post('http://localhost:5000/upload/edit',photoInfo).then(response=>{
           if(response.status == '200'){
-              props.getFun();
+              props.getFun(0);
               handleClose();
               setSave('Save');
           }
@@ -229,7 +234,7 @@ const ImgCarosol = props => {
     setDelete('Deleting...');
     Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id}).then(response=>{
       console.log(response);
-      props.getFun();
+      props.getFun(0);
       handleClose();
       setDelete('Delete');
     });

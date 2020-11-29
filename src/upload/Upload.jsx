@@ -139,9 +139,9 @@ const postData = (event) =>{
     formData.append('info',JSON.stringify(photoInfo));
     Axios.post('http://localhost:5000/upload',formData).then(response=>{
         if(response.status == '200'){
-            props.getFun();
-            props.toggleFun();
+            props.getFun(0);
             setUploadBtn('Upload');
+            props.toggleFun();
         }
     });
 

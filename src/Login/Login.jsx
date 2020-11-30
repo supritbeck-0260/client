@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -48,7 +48,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Login=()=> {
   const classes = useStyles();
-
+  const [user,setUser] = useState({
+    email:'',
+    password:'',
+  });
+  const setData = (field,value)=>{
+    setUser(prev=>{
+      prev[field]=value;
+      return {...prev}
+    });
+    console.log(field,value,user);
+  } 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -60,11 +70,11 @@ const Login=()=> {
               </Grid>
               <Grid item className={classes.container}>
                     <TextField className={classes.inputField} id="outlined-basic" label="Email" variant="outlined" />
-                    <Password/>
+                    <Password label='Password' setData={setData} type='p'/>
                     <Button  className={classes.inputField} variant="contained" color="secondary">Login</Button>
-                    <Typography variant="span" className={classes.haveAnAccountContainer}>
-                        <Typography variant="p" className={classes.haveAnAccount}>Don't have an Account? </Typography>
-                        <NavLink to='/signup' className={classes.loginLink}><Typography variant="p" className={classes.login}> Signup</Typography></NavLink>
+                    <Typography variant="subtitle1" className={classes.haveAnAccountContainer}>
+                        <Typography variant="body1" className={classes.haveAnAccount}>Don't have an Account? </Typography>
+                        <NavLink to='/signup' className={classes.loginLink}><Typography variant="body1" className={classes.login}> Sign Up</Typography></NavLink>
                     </Typography>
                 
               </Grid>

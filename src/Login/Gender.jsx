@@ -18,12 +18,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const Gender = ()=>{
+const Gender = (props)=>{
     const classes = useStyles();
-    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('');
 
     const handleChange = (event) => {
-      setAge(event.target.value);
+      setGender(event.target.value);
+      props.setData('gender',event.target.value);
     };
     return(
         <>
@@ -32,7 +33,7 @@ const Gender = ()=>{
             <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={age}
+            value={gender}
             onChange={handleChange}
             label="Age"
             >

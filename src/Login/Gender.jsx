@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Gender = (props)=>{
     const classes = useStyles();
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState(props.values);
 
     const handleChange = (event) => {
       setGender(event.target.value);
@@ -35,7 +35,7 @@ const Gender = (props)=>{
             id="demo-simple-select-outlined"
             value={gender}
             onChange={handleChange}
-            label="Age"
+            label="Gender"
             >
                 <MenuItem value='M'>Male</MenuItem>
                 <MenuItem value='F'>Female</MenuItem>

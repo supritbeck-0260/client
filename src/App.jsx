@@ -29,7 +29,6 @@ const getImges = (offset)=>{
             }else{
                 setIsData(false);
             }
-            console.log('get data:',response.data);
       });
 }
 useEffect(()=>{

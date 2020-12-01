@@ -9,6 +9,7 @@ import Password from './Password';
 import Gender from './Gender';
 import {NavLink} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
+import Axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,16 +52,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
   }
 }));
-
 const Signup=()=> {
   const classes = useStyles();
-  const [user,setUser] = useState({
-    name:'',
-    email:'',
-    gender:'',
-    password:'',
-    cpassword:''
-  });
+  const [user,setUser] = useState({name:'',email:'',gender:'',password:'',cpassword:''});
   const [nameAlert,setNameAlert] = useState(false);
   const [emailAlert,setEmailAlert] = useState(false);
   const [genderAlert,setGenderAlert] = useState(false);
@@ -68,6 +62,9 @@ const Signup=()=> {
   const [cPassAlert,setcPassAlert] = useState(false);
   const [matchPass,setMatchPass] = useState(false);
   const [lengthFlag,setLengthFlag] = useState(false);
+  const [loading,setLoading] = useState(false);
+  const [message,setMessage] = useState(null);
+  const [severity,setSeverity] = useState(null);
   const nameMatch = new RegExp(/^[a-zA-Z .]{3,35}$/);
   const emailMatch = new RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
   const setData = (field,value)=>{
@@ -78,6 +75,7 @@ const Signup=()=> {
     setcPassAlert(false);
     setMatchPass(false);
     setLengthFlag(false);
+    setMessage(null);
     setUser(prev=>{
       if(value){
         prev[field]=value.trim();
@@ -107,10 +105,39 @@ const Signup=()=> {
     }else if(!user.cpassword){
       setcPassAlert(true);
       return false;
-    }else if(!(user.password === user.cpassword)){
+    }else if(user.password !== user.cpassword){
       setMatchPass(true);
       return false;
+    }else{
+      postUser();
     }
+  }
+
+  const postUser = () =>{
+    setLoading(true);
+    Axios.post('http://localhost:5000/signup',user).then(response=>{
+      console.log(response);
+      console.log(user);
+      setLoading(false);
+      if(response.data){
+        switch(response.status){
+          case 200:
+              setSeverity('success');
+              setMessage(response.data.message);
+              // setUser({name:'',email:'',gender:'',password:'',cpassword:''});
+              break;
+          case 201:
+              setSeverity('warning');
+              setMessage(response.data.message);
+              break;
+          case 500:
+              setSeverity('error');
+              setMessage(response.data.message);
+              break;
+        }
+        console.log(user);
+      }
+    });
   }
   return (
     <div className={classes.root}>
@@ -124,17 +151,18 @@ const Signup=()=> {
               <Grid item className={classes.container}>
                     <TextField className={classes.inputField} onChange={(e)=>setData('name',e.target.value)} id="outlined-basic" label="Name" variant="outlined" />
                     {nameAlert?<Alert className={classes.alert} severity="error">Name is not valid- Try again.</Alert>:null}
-                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
+                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic"  label="Email" variant="outlined" />
                     {emailAlert?<Alert className={classes.alert} severity="error">Email is not valid- Try again.</Alert>:null}
-                    <Gender setData={setData}/>
+                    <Gender setData={setData} values={user.gender}/>
                     {genderAlert?<Alert className={classes.alert} severity="error">Please select your gender.</Alert>:null}
-                    <Password setData={setData} type='p' validateFun={passwordCheck}/>
+                    <Password setData={setData} type='p' validateFun={passwordCheck} values={user.password}/>
                     {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}
                     {lengthFlag?<Alert className={classes.alert} severity="error">Password should be at least 5 character long.</Alert>:null}
-                    <Password setData={setData} type='cp'/>
+                    <Password setData={setData} type='cp' values={user.cpassword}/>
                     {cPassAlert?<Alert className={classes.alert} severity="error">Please confirm your password.</Alert>:null}
                     {matchPass?<Alert className={classes.alert} severity="error">Your password does not match - Try again!</Alert>:null}
-                    <Button  className={classes.inputField} onClick={validate} variant="contained" color="secondary">Register</Button>
+                    <Button  className={classes.inputField} onClick={validate} variant="contained" color="secondary" disabled={loading}>{!loading?'Register':'Loading...'}</Button>
+                    {message?<Alert className={classes.alert} severity={severity}>{message}</Alert>:null}
                     <Typography variant="subtitle1" className={classes.haveAnAccountContainer}>
                         <Typography variant="body1" className={classes.haveAnAccount}>Already have an Account? </Typography>
                         <NavLink to='/login' className={classes.loginLink}><Typography variant="body1" className={classes.login}> Login</Typography></NavLink>

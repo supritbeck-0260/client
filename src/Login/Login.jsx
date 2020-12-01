@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Password from './Password';
 import {NavLink} from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
+import Axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,22 +45,64 @@ const useStyles = makeStyles((theme) => ({
   },
   loginLink:{
       textDecoration:'none'
+  },
+  alert:{
+    width: '74%',
+    margin: '0 auto',
   }
 }));
 
 const Login=()=> {
   const classes = useStyles();
-  const [user,setUser] = useState({
-    email:'',
-    password:'',
-  });
+  const [user,setUser] = useState({email:'',password:''});
+  const [message,setMessage] = useState(null);
+  const [severity,setSeverity] = useState(null);
+  const [loading,setLoading] = useState(false);
+  const [emailAlert,setEmailAlert] = useState(false);
+  const [passAlert,setPassAlert] = useState(false);
   const setData = (field,value)=>{
+    setEmailAlert(false);
+    setPassAlert(false);
+    setMessage(null);
     setUser(prev=>{
-      prev[field]=value;
+      prev[field]=value.trim();
       return {...prev}
     });
-    console.log(field,value,user);
   } 
+  const validate = ()=>{
+    if(!user.email){
+      setEmailAlert(true);
+      return false;
+    }else if(!user.password){
+      setPassAlert(true);
+      return false;
+    }else{
+      login();
+    }
+  }
+  const login = ()=>{
+    setLoading(true);
+    Axios.post('http://localhost:5000/login',user).then(response=>{
+      console.log(response);
+      if(response.data){
+        switch(response.status){
+          case 200:
+              setSeverity('success');
+              setMessage(response.data.message);
+              break;
+          case 201:
+              setSeverity('error');
+              setMessage(response.data.message);
+              break;
+          case 500:
+              setSeverity('error');
+              setMessage(response.data.message);
+              break;
+        }
+      }
+      setLoading(false);
+    });
+  }
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -69,9 +113,12 @@ const Login=()=> {
                 <Typography variant="h4">Login</Typography>
               </Grid>
               <Grid item className={classes.container}>
-                    <TextField className={classes.inputField} id="outlined-basic" label="Email" variant="outlined" />
-                    <Password label='Password' setData={setData} type='p'/>
-                    <Button  className={classes.inputField} variant="contained" color="secondary">Login</Button>
+                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
+                    {emailAlert?<Alert className={classes.alert} severity="error">Please enter your Email</Alert>:null}
+                    <Password label='Password' setData={setData} type='p' values={user.password}/>
+                    {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}
+                    <Button  className={classes.inputField} variant="contained" onClick={validate} disabled={loading} color="secondary">{!loading?'Login':'...'}</Button>
+                    {message?<Alert className={classes.alert} severity={severity}>{message}</Alert>:null}
                     <Typography variant="subtitle1" className={classes.haveAnAccountContainer}>
                         <Typography variant="body1" className={classes.haveAnAccount}>Don't have an Account? </Typography>
                         <NavLink to='/signup' className={classes.loginLink}><Typography variant="body1" className={classes.login}> Sign Up</Typography></NavLink>

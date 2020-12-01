@@ -17,9 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Password = (props) =>{
     const classes = useStyles();
-    // console.log(props);
     const [values, setValues] = useState({
-        password: '',
+        password: props.values,
         showPassword: false,
       });
     

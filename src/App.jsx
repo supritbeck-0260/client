@@ -44,6 +44,7 @@ useEffect(()=>{
                     <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
                     <Route exact path='/login' render={()=><Login/>}/>
                     <Route exact path='/signup' render={()=><Signup/>}/>
+                    <Route exact path='/token/:id' render={()=><Login/>}/>
                 </Switch>
             {uploadModal?<Upload toggleFun={toggleModal} getFun={getImges}/>:null}
         </>

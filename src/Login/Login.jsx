@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,8 @@ import Password from './Password';
 import {NavLink} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import Axios from 'axios';
-
+import {useParams} from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,12 +55,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Login=()=> {
   const classes = useStyles();
+  const {id} = useParams();
   const [user,setUser] = useState({email:'',password:''});
   const [message,setMessage] = useState(null);
   const [severity,setSeverity] = useState(null);
   const [loading,setLoading] = useState(false);
   const [emailAlert,setEmailAlert] = useState(false);
   const [passAlert,setPassAlert] = useState(false);
+  const [open,setOpen] = useState(false);
+  const [emailVerification,setEmailVerification] = useState(null);
   const setData = (field,value)=>{
     setEmailAlert(false);
     setPassAlert(false);
@@ -69,6 +73,28 @@ const Login=()=> {
       return {...prev}
     });
   } 
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const postToken = (id)=>{
+    console.log('inside token',id)
+    Axios.post('http://localhost:5000/token',{token:id}).then(response=>{
+      console.log(response);
+      if(response.data.message){
+        setOpen(true);
+        setEmailVerification(response.data.message);
+      }
+    });
+  }
+  useEffect(()=>{
+    if(id)
+    postToken(id);
+  },[]);
   const validate = ()=>{
     if(!user.email){
       setEmailAlert(true);
@@ -129,6 +155,9 @@ const Login=()=> {
           </Grid>
         </Grid>
       </Paper>
+      <Snackbar open={open} anchorOrigin={{vertical: 'center', horizontal: 'center',}} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} variant="filled" severity="success">{emailVerification}</Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -117,7 +117,6 @@ const Signup=()=> {
     setLoading(true);
     Axios.post('http://localhost:5000/signup',user).then(response=>{
       console.log(response);
-      console.log(user);
       setLoading(false);
       if(response.data){
         switch(response.status){
@@ -135,7 +134,6 @@ const Signup=()=> {
               setMessage(response.data.message);
               break;
         }
-        console.log(user);
       }
     });
   }

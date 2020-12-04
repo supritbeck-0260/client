@@ -9,7 +9,7 @@ import Password from './Password';
 import {NavLink} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import Axios from 'axios';
-import {useParams} from 'react-router-dom';
+import {useParams , useHistory} from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Login=()=> {
+const Login=(props)=> {
+  const history = useHistory();
   const classes = useStyles();
   const {id} = useParams();
   const [user,setUser] = useState({email:'',password:''});
@@ -83,11 +84,26 @@ const Login=()=> {
   };
   const postToken = (id)=>{
     console.log('inside token',id)
-    Axios.post('http://localhost:5000/token',{token:id}).then(response=>{
+    Axios.post('http://localhost:5000/auth/token',{token:id}).then(response=>{
       console.log(response);
       if(response.data.message){
-        setOpen(true);
-        setEmailVerification(response.data.message);
+        switch(response.status){
+          case 200:
+              setSeverity('success');
+              setOpen(true);
+              setEmailVerification(response.data.message);
+              break;
+          case 201:
+              setSeverity('error');
+              setOpen(true);
+              setEmailVerification(response.data.message);
+              break;
+          case 500:
+              setSeverity('error');
+              setOpen(true);
+              setEmailVerification(response.data.message);
+              break;
+        }
       }
     });
   }
@@ -108,13 +124,15 @@ const Login=()=> {
   }
   const login = ()=>{
     setLoading(true);
-    Axios.post('http://localhost:5000/login',user).then(response=>{
+    Axios.post('http://localhost:5000/auth/login',user).then(response=>{
       console.log(response);
       if(response.data){
         switch(response.status){
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
+              props.tokenSet(response.data.token,response.data.userID);
+              history.push('/profile/'+response.data.userID);
               break;
           case 201:
               setSeverity('error');
@@ -156,7 +174,7 @@ const Login=()=> {
         </Grid>
       </Paper>
       <Snackbar open={open} anchorOrigin={{vertical: 'center', horizontal: 'center',}} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} variant="filled" severity="success">{emailVerification}</Alert>
+          <Alert onClose={handleClose} variant="filled" severity={severity}>{emailVerification}</Alert>
       </Snackbar>
     </div>
   );

@@ -116,7 +116,7 @@ useEffect(()=>{
   
           </div>
           <div className={classes.rateTimeContainer}>
-            <div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>
+            {props.token?<div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>:<div className={classes.rating}></div>}
             <div><TimeAgo time={props.info.date}/></div>
           </div>
           

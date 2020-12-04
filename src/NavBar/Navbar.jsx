@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {NavLink} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props)=> {
   const classes = useStyles();
+  const userID = localStorage.getItem('userID');
   return (
     <div className={classes.root}>
       <AppBar className={classes.appbar} position="fixed">
@@ -44,12 +44,13 @@ const Navbar = (props)=> {
             <Typography variant="h6" className={classes.title}>
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Typography>
-          <Button color="inherit" onClick={props.toggleFun}>Upload</Button>
-          <NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>
-          <NavLink to='/profile' className={classes.profile} >
-          <Button className={classes.BtnShape}>
+          {props.token?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}
+          {props.token?<NavLink to='/' className={classes.logo}><Button onClick={()=>props.tokenSet('')} color="inherit">Log out</Button></NavLink>
+          :<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}
+          <NavLink to={'/profile/'+userID} className={classes.profile} >
+          {props.token?<Button className={classes.BtnShape}>
           <Avatar aria-label="recipe" className={classes.avatar} src="http://localhost:5000/profile/profile_1604060279140.jpg"/>
-          </Button>
+          </Button>:null}
           </NavLink>
         </Toolbar>
       </AppBar>

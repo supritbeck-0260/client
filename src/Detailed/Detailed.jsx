@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center'
     }
   }));
-const Detailed = ()=>{
+const Detailed = (props)=>{
 const {id} = useParams();
 const [data,setData] = useState(null);
 const getPicure = ()=>{
@@ -37,7 +37,7 @@ const classes = useStyles();
     return(
         <>
             <Box className={classes.root} >
-            {data?<ImageCards className={classes.imageCards} info={data}/>:<div className={classes.loader}><Skeleton/></div>}
+            {data?<ImageCards className={classes.imageCards} token={props.token} info={data}/>:<div className={classes.loader}><Skeleton/></div>}
             </Box>
         </>
     );

@@ -68,7 +68,7 @@ const Info = () =>{
     const [toggle,setToggle]=useState(true);
     const infoFun = ()=>{
         setToggle(false); 
-        Axios.get('http://localhost:5000/get')
+        Axios.get('http://localhost:5000/profile/info/fetch')
         .then(response=>
             {
                 const value = response.data;
@@ -103,7 +103,7 @@ const Info = () =>{
         setEditFlag(true);
     }
     const save = () =>{
-        Axios.post('http://localhost:5000/postdata',chipData)
+        Axios.post('http://localhost:5000/profile/info/update',chipData)
           .then(()=>{
               infoFun();
           })

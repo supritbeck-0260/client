@@ -65,7 +65,7 @@ useEffect(()=>{
   getProfile();
 },[]);
 const getProfile = () =>{
-  Axios.get('http://localhost:5000/get').then(response=>{
+  Axios.get('http://localhost:5000/profile/info/fetch').then(response=>{
   if(response.data.profile){  
   setFilename(response.data.profile);
     setUrl(`http://localhost:5000/profile/`+response.data.profile);

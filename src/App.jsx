@@ -12,6 +12,12 @@ const App = ()=>{
 const [images, setImages] = useState(null);
 const [uploadModal,setUploadModal] = useState(false);
 const [isData, setIsData] = useState(false);
+const [token,setToken] = useState(localStorage.getItem('token'));
+const tokenSet = (token,userID)=>{
+      localStorage.setItem('userID',userID)
+      localStorage.setItem('token',token);
+      setToken(localStorage.getItem('token'));
+}
 const toggleModal = () =>{
     setUploadModal(prev=>!prev);
 }
@@ -37,14 +43,14 @@ useEffect(()=>{
 
     return(
         <>
-                <Navbar toggleFun={toggleModal}/>
+                <Navbar token={token} tokenSet={tokenSet} toggleFun={toggleModal}/>
                 <Switch>
-                    <Route exact path='/' render={()=><Home getFun={getImges} images={images} isData={isData}/>}/>
-                    <Route exact path='/profile' render={()=><ProfilePage getFun={getImges} images={images}/>}/>
-                    <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
-                    <Route exact path='/login' render={()=><Login/>}/>
+                    <Route exact path='/' render={()=><Home token={token} getFun={getImges} images={images} isData={isData}/>}/>
+                    <Route exact path='/profile/:id' render={()=><ProfilePage token={token} getFun={getImges} images={images}/>}/>
+                    <Route exact path='/detailed/:id' render={()=><Detailed token={token}/>}/>
+                    <Route exact path='/login' render={()=><Login tokenSet={tokenSet}/>}/>
                     <Route exact path='/signup' render={()=><Signup/>}/>
-                    <Route exact path='/token/:id' render={()=><Login/>}/>
+                    <Route exact path='/token/:id' render={()=><Login tokenSet={tokenSet}/>}/>
                 </Switch>
             {uploadModal?<Upload toggleFun={toggleModal} getFun={getImges}/>:null}
         </>

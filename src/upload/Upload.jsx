@@ -142,7 +142,6 @@ const postData = (event) =>{
           'authorization': localStorage.getItem('token')
         }
       }).then(response=>{
-          console.log(response);
           switch(response.status){
             case 200:
                 props.getFun(0);
@@ -154,11 +153,6 @@ const postData = (event) =>{
                 props.toggleFun();
                 break;
           }
-        if(response.status == 200){
-            props.getFun(0);
-            setUploadBtn('Upload');
-            props.toggleFun();
-        }
     });
 
 }

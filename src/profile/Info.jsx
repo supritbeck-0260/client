@@ -13,6 +13,7 @@ import MultiChips from './MultiChips';
 import Axios from 'axios';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,13 +63,15 @@ const Info = () =>{
         editing:'',
         others:''
     });
+    const {id} = useParams();
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
     const [startedOn,setStartedOn] = useState(null);
     const [toggle,setToggle]=useState(true);
+    const [name,setName] = useState(null);
     const infoFun = ()=>{
         setToggle(false); 
-        Axios.get('http://localhost:5000/profile/info/fetch')
+        Axios.post('http://localhost:5000/profile/info/fetch',{id:id})
         .then(response=>
             {
                 const value = response.data;
@@ -86,6 +89,7 @@ const Info = () =>{
                     editing:value.editing,
                     others:value.others
                 });
+                setName(value.name);
                 data[0].values = value.camera;
                 data[1].values = value.lenses;
                 data[2].values = value.editing;
@@ -103,7 +107,11 @@ const Info = () =>{
         setEditFlag(true);
     }
     const save = () =>{
-        Axios.post('http://localhost:5000/profile/info/update',chipData)
+        Axios.post('http://localhost:5000/profile/info/update',chipData,{
+            headers:{
+              'authorization': localStorage.getItem('token')
+            }
+          })
           .then(()=>{
               infoFun();
           })
@@ -134,7 +142,7 @@ const getValues= (key,value)=>{
             </div>
         </div>
         <div className={classes.root}>
-            <h1><strong>Suprit Beck</strong></h1>
+            <h1><strong>{name}</strong></h1>
             {toggle?data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
                 <Chip

@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
+import { useParams } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -51,6 +52,7 @@ profileLoader:{
 }));
 
 const MyGrid = () => {
+  const {id} = useParams();
   const classes = useStyles();
   const [saveFlag,setSaveFlag] = useState(false);
   const [url,setUrl] = useState(null);
@@ -65,10 +67,10 @@ useEffect(()=>{
   getProfile();
 },[]);
 const getProfile = () =>{
-  Axios.get('http://localhost:5000/profile/info/fetch').then(response=>{
-  if(response.data.profile){  
-  setFilename(response.data.profile);
-    setUrl(`http://localhost:5000/profile/`+response.data.profile);
+  Axios.post('http://localhost:5000/profile/info/fetch',{id:id}).then(response=>{
+  if(response.data && response.data.filename){  
+  setFilename(response.data.filename);
+    setUrl(`http://localhost:5000/profile/`+response.data.filename);
   }else{
     setUrl(defaultImg);
   }
@@ -82,11 +84,21 @@ const saveImage = () =>{
   setSaveFlag(true);
   const formData = new FormData();
     formData.append('profile',file);
-    Axios.post('http://localhost:5000/profilepic',formData).then(response=>{
-        if(response.status === 200){
+    Axios.post('http://localhost:5000/profile/picture/update',formData,{
+      headers:{
+        'authorization': localStorage.getItem('token')
+      }
+    }).then(response=>{
+      switch(response.status){
+        case 200:
           setFile(null);
           setSaveFlag(false);
-        }
+            break;
+        case 201:
+            cancel();
+            setSaveFlag(false);
+            break;
+      }
     });
 }
 

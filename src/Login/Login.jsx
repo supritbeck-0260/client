@@ -83,9 +83,7 @@ const Login=(props)=> {
     setOpen(false);
   };
   const postToken = (id)=>{
-    console.log('inside token',id)
     Axios.post('http://localhost:5000/auth/token',{token:id}).then(response=>{
-      console.log(response);
       if(response.data.message){
         switch(response.status){
           case 200:
@@ -125,7 +123,6 @@ const Login=(props)=> {
   const login = ()=>{
     setLoading(true);
     Axios.post('http://localhost:5000/auth/login',user).then(response=>{
-      console.log(response);
       if(response.data){
         switch(response.status){
           case 200:

@@ -227,7 +227,6 @@ const ImgCarosol = props => {
           'authorization': localStorage.getItem('token')
         }
       }).then(response=>{
-        console.log(response);
           if(response.status == '200'){
               props.getFun(0);
               handleClose();
@@ -242,7 +241,6 @@ const ImgCarosol = props => {
         'authorization': localStorage.getItem('token')
       }
     }).then(response=>{
-      console.log(response);
       props.getFun(0);
       handleClose();
       setDelete('Delete');

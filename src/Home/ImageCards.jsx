@@ -76,14 +76,18 @@ useEffect(()=>{
       <CardActionArea>
       <CardHeader
         avatar={
-          <NavLink to='/profile'><Avatar aria-label="recipe" className={classes.avatar} src="http://localhost:5000/profile/profile_1604060279140.jpg"/></NavLink>
+          <NavLink to={'/profile/'+props.info.uid} className={classes.navLinkDec}>
+            {props.info.avatar?<Avatar aria-label="recipe" className={classes.avatar} src={"http://localhost:5000/profile/"+props.info.avatar}/>:
+              <Avatar>{props.info.owner.charAt(0)}</Avatar>
+            }
+          </NavLink>
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={<NavLink className={classes.navLinkDec} to='/profile'>Suprit Beck</NavLink>}
+      title={<NavLink className={classes.navLinkDec} to={'/profile/'+props.info.uid}>{props.info.owner}</NavLink>}
         subheader={dates}
       />
         <NavLink to={'/detailed/'+props.info._id}>

@@ -137,8 +137,24 @@ const postData = (event) =>{
     event.preventDefault();
     formData.append('file',file);
     formData.append('info',JSON.stringify(photoInfo));
-    Axios.post('http://localhost:5000/upload',formData).then(response=>{
-        if(response.status == '200'){
+    Axios.post('http://localhost:5000/upload',formData,{
+        headers:{
+          'authorization': localStorage.getItem('token')
+        }
+      }).then(response=>{
+          console.log(response);
+          switch(response.status){
+            case 200:
+                props.getFun(0);
+                setUploadBtn('Upload');
+                props.toggleFun();
+                break;
+            case 201:
+                setUploadBtn('Upload');
+                props.toggleFun();
+                break;
+          }
+        if(response.status == 200){
             props.getFun(0);
             setUploadBtn('Upload');
             props.toggleFun();

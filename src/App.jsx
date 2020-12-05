@@ -23,6 +23,7 @@ const toggleModal = () =>{
 }
 const getImges = (offset)=>{
         Axios.post('http://localhost:5000/getpics',{offset:offset}).then(response=>{
+            console.log(response);
             if(response.data.length){
                 setImages(prev=>{
                     if(prev && offset != 0){

@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import FadeIn from 'react-fade-in';
+import {NavLink} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     root: {
      position: 'fixed',
@@ -135,7 +136,6 @@ const ImgCarosol = props => {
         setLeftArrFlg(false);
         setRightArrFlg(false);
       }
-      console.log('inside image carosol:',imageData.length);
       if(photo.id === 0){
         setLeftArrFlg(false);
         if(photo.id !== imageData.length-1){
@@ -222,7 +222,12 @@ const ImgCarosol = props => {
     }
     const postData = (event) =>{
       setSave('Saving...');
-      Axios.post('http://localhost:5000/upload/edit',photoInfo).then(response=>{
+      Axios.post('http://localhost:5000/upload/edit',photoInfo,{
+        headers:{
+          'authorization': localStorage.getItem('token')
+        }
+      }).then(response=>{
+        console.log(response);
           if(response.status == '200'){
               props.getFun(0);
               handleClose();
@@ -232,7 +237,11 @@ const ImgCarosol = props => {
   }
   const deleteHandler = ()=>{
     setDelete('Deleting...');
-    Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id}).then(response=>{
+    Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id},{
+      headers:{
+        'authorization': localStorage.getItem('token')
+      }
+    }).then(response=>{
       console.log(response);
       props.getFun(0);
       handleClose();
@@ -251,7 +260,7 @@ const ImgCarosol = props => {
             <div className={arrImgClss}>
                 {leftArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>leftImgae(photo.id)}><ArrowLeftIcon/></Button>:null}
                       <div className={classes.imgCont}>
-                        <img className={classes.img} src={photo.info.path+photo.info.filename} alt="image"/>
+                        <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}><img className={classes.img} src={'http://localhost:5000/uploads/'+photo.info.filename} alt="image"/> </NavLink>
                       </div>
                 {rightArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}
             </div> 

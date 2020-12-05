@@ -45,11 +45,6 @@ const Navbar = (props)=> {
             </Typography>
           {props.token?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}
           {props.token?null:<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}
-          {/* <NavLink to={'/profile/'+userID} className={classes.profile} >
-          {props.token?<Button className={classes.BtnShape}>
-          <Avatar aria-label="recipe" className={classes.avatar} src="http://localhost:5000/profile/profile_1604060279140.jpg"/>
-          </Button>:null}
-          </NavLink> */}
           {props.token?<UserMenu tokenSet={props.tokenSet}/>:null}
         </Toolbar>
       </AppBar>

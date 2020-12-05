@@ -89,7 +89,7 @@ useEffect(()=>{
         <NavLink to={'/detailed/'+props.info._id}>
         <CardMedia
           className={classes.media}
-          image={props.info.path+props.info.filename}
+          image={'http://localhost:5000/uploads/'+props.info.filename}
           title={props.info.about}
         />
         </NavLink>

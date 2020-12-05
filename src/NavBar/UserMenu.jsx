@@ -29,11 +29,11 @@ const UserMenu = (props)=> {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
   const logoutHandler = ()=>{
+    
     Axios.get('http://localhost:5000/auth/logout',{
         headers:{
             'authorization' :token 

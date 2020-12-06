@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -53,6 +53,7 @@ profileLoader:{
 
 const MyGrid = () => {
   const {id} = useParams();
+  const location = useLocation();
   const classes = useStyles();
   const [saveFlag,setSaveFlag] = useState(false);
   const [url,setUrl] = useState(null);
@@ -65,7 +66,7 @@ const MyGrid = () => {
 }
 useEffect(()=>{
   getProfile();
-},[]);
+},[location]);
 const getProfile = () =>{
   Axios.post('http://localhost:5000/profile/info/fetch',{id:id}).then(response=>{
   if(response.data && response.data.filename){  

@@ -13,7 +13,7 @@ import MultiChips from './MultiChips';
 import Axios from 'axios';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +64,7 @@ const Info = () =>{
         others:''
     });
     const {id} = useParams();
+    const location = useLocation()
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
     const [startedOn,setStartedOn] = useState(null);
@@ -102,17 +103,18 @@ const Info = () =>{
     useEffect(()=>{
         setToggle(false);
         infoFun();
-    },[]);
+    },[location]);
     const edit = ()=>{
         setEditFlag(true);
     }
     const save = () =>{
-        Axios.post('http://localhost:5000/profile/info/update',chipData,{
+        Axios.post('http://localhost:5000/profile/info/update',{...chipData,id:id},{
             headers:{
               'authorization': localStorage.getItem('token')
             }
           })
-          .then(()=>{
+          .then((res)=>{
+              console.log(res);
               infoFun();
           })
           .catch(function (error) {

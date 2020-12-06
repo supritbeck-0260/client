@@ -115,6 +115,7 @@ const ImgCarosol = props => {
       editing:photo.info.editing,
       others:photo.info.others,
       location:photo.info.location,
+      uid:photo.info.uid,
       id:photo.info._id,
   });
     const [leftArrFlg,setLeftArrFlg] = useState(true);
@@ -204,6 +205,7 @@ const ImgCarosol = props => {
       data[5].value = photo.info.location;
       setPhotoInfo(prev=>{
         prev['id']=photo.info._id;
+        prev['uid'] = photo.info.uid;
         prev['about'] = photo.info.about;
         prev['camera'] = photo.info.camera;
         prev['lenses'] = photo.info.lenses;
@@ -227,16 +229,22 @@ const ImgCarosol = props => {
           'authorization': localStorage.getItem('token')
         }
       }).then(response=>{
-          if(response.status == '200'){
-              props.getFun(0);
-              handleClose();
-              setSave('Save');
+          switch(response.status){
+            case 200:
+                props.getFun(0);
+                handleClose();
+                setSave('Save');
+                break;
+            case 201:
+                handleClose();
+                setSave('Save');
+                break;
           }
       });
   }
   const deleteHandler = ()=>{
     setDelete('Deleting...');
-    Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id},{
+    Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id,uid:photoInfo.uid},{
       headers:{
         'authorization': localStorage.getItem('token')
       }

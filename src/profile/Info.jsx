@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {AuthContex} from '../App'
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
@@ -64,12 +65,14 @@ const Info = () =>{
         others:''
     });
     const {id} = useParams();
+    const auth = useContext(AuthContex);
     const location = useLocation()
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
     const [startedOn,setStartedOn] = useState(null);
     const [toggle,setToggle]=useState(true);
     const [name,setName] = useState(null);
+    const [isAuth,setIsAuth] = useState(false);
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post('http://localhost:5000/profile/info/fetch',{id:id})
@@ -91,6 +94,7 @@ const Info = () =>{
                     others:value.others
                 });
                 setName(value.name);
+                setIsAuth(value._id==auth.userID);
                 data[0].values = value.camera;
                 data[1].values = value.lenses;
                 data[2].values = value.editing;
@@ -110,7 +114,7 @@ const Info = () =>{
     const save = () =>{
         Axios.post('http://localhost:5000/profile/info/update',{...chipData,id:id},{
             headers:{
-              'authorization': localStorage.getItem('token')
+              'authorization': auth.token
             }
           })
           .then((res)=>{
@@ -137,11 +141,11 @@ const getValues= (key,value)=>{
         <>
         <div className={classes.head}>
             <h2>Profile Rating: <Rating name="read-only" value={4} readOnly /></h2>
-            <div>
+            {isAuth?<div>
                 {editFlag?<Button className={classes.save} variant="contained" color="primary" onClick={save}>Save<SaveIcon/></Button>:null}
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
-            </div>
+            </div>:null}
         </div>
         <div className={classes.root}>
             <h1><strong>{name}</strong></h1>

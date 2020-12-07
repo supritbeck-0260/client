@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {AuthContex} from '../App';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import defaultImg from './profile.JPG';
@@ -53,6 +54,7 @@ profileLoader:{
 
 const MyGrid = () => {
   const {id} = useParams();
+  const auth = useContext(AuthContex);
   const location = useLocation();
   const classes = useStyles();
   const [saveFlag,setSaveFlag] = useState(false);
@@ -87,7 +89,7 @@ const saveImage = () =>{
     formData.append('profile',file);
     Axios.post('http://localhost:5000/profile/picture/update',formData,{
       headers:{
-        'authorization': localStorage.getItem('token')
+        'authorization': auth.token
       }
     }).then(response=>{
       switch(response.status){

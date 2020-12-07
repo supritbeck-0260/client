@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {AuthContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ArrowLeftIcon from '@material-ui/icons/ArrowBackIos';
@@ -100,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 const ImgCarosol = props => {
     const imageData = props.allImages;
+    const auth = useContext(AuthContex);
     const [save,setSave] = useState('Save');
     const [deleteBtn, setDelete] = useState('Delete');
     const classes = useStyles();
@@ -226,7 +228,7 @@ const ImgCarosol = props => {
       setSave('Saving...');
       Axios.post('http://localhost:5000/upload/edit',photoInfo,{
         headers:{
-          'authorization': localStorage.getItem('token')
+          'authorization': auth.token
         }
       }).then(response=>{
           switch(response.status){
@@ -246,7 +248,7 @@ const ImgCarosol = props => {
     setDelete('Deleting...');
     Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id,uid:photoInfo.uid},{
       headers:{
-        'authorization': localStorage.getItem('token')
+        'authorization': auth.token
       }
     }).then(response=>{
       props.getFun(0);

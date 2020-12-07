@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import {AuthContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -59,6 +60,7 @@ const useStyles = makeStyles({
 });
 
 const ImageCardsHome = (props)=> {
+  const auth = useContext(AuthContex);
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:600px)');
   const [css,setCss] = useState(classes.rootLarge);
@@ -117,7 +119,7 @@ useEffect(()=>{
   
           </div>
           <div className={classes.rateTimeContainer}>
-            {props.token?<div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>:<div className={classes.rating}></div>}
+            {auth.isLoggedin?<div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>:<div className={classes.rating}></div>}
             <div><TimeAgo time={props.info.date}/></div>
           </div>
           

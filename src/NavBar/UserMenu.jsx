@@ -1,4 +1,5 @@
-import React,{useState} from 'react';
+import React,{useContext, useState} from 'react';
+import {AuthContex} from '../App';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 const UserMenu = (props)=> {
-  const userID = localStorage.getItem('userID');
-  const token = localStorage.getItem('token');
+  const auth = useContext(AuthContex);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -32,15 +32,6 @@ const UserMenu = (props)=> {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const logoutHandler = ()=>{
-    
-    Axios.get('http://localhost:5000/auth/logout',{
-        headers:{
-            'authorization' :token 
-        }
-    });
-      props.tokenSet('');
-  }
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -54,10 +45,10 @@ const UserMenu = (props)=> {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
-            <NavLink to={'/profile/'+userID} className={classes.profile} ><Circle/>My Profile</NavLink>
+            <NavLink to={'/profile/'+auth.userID} className={classes.profile} ><Circle/>My Profile</NavLink>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-            <NavLink to='/' className={classes.profile} onClick={logoutHandler}> <Logout/>Logout</NavLink>
+            <NavLink to='/' className={classes.profile} onClick={auth.logout}> <Logout/>Logout</NavLink>
         </MenuItem>
       </Menu>
     </div>

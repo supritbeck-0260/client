@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
+import {AuthContex} from '../App';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -107,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Upload = (props) =>{
     const matches = useMediaQuery('(min-width:600px)');
+    const auth = useContext(AuthContex);
     const [file,setFile] = useState(null); 
     const [url,setUrl] = useState(null);
     const classes = useStyles();
@@ -139,7 +141,7 @@ const postData = (event) =>{
     formData.append('info',JSON.stringify(photoInfo));
     Axios.post('http://localhost:5000/upload',formData,{
         headers:{
-          'authorization': localStorage.getItem('token')
+          'authorization': auth.token
         }
       }).then(response=>{
           switch(response.status){

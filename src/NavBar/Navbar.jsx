@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {AuthContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props)=> {
   const classes = useStyles();
+  const auth = useContext(AuthContex);
   return (
     <div className={classes.root}>
       <AppBar className={classes.appbar} position="fixed">
@@ -43,9 +45,9 @@ const Navbar = (props)=> {
             <Typography variant="h6" className={classes.title}>
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Typography>
-          {props.token?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}
-          {props.token?null:<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}
-          {props.token?<UserMenu tokenSet={props.tokenSet}/>:null}
+          {auth.isLoggedin?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}
+          {auth.isLoggedin?null:<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}
+          {auth.isLoggedin?<UserMenu/>:null}
         </Toolbar>
       </AppBar>
     </div>

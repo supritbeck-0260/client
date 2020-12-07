@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import { useLocation, useParams } from 'react-router-dom';
+import NotFound from '../NotFound/NotFound';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,6 +55,8 @@ profileLoader:{
 
 const MyGrid = () => {
   const {id} = useParams();
+  const [notFound,setNotFound] = useState(null);
+  const [isAuth,setIsAuth] = useState(false);
   const auth = useContext(AuthContex);
   const location = useLocation();
   const classes = useStyles();
@@ -71,12 +74,22 @@ useEffect(()=>{
 },[location]);
 const getProfile = () =>{
   Axios.post('http://localhost:5000/profile/info/fetch',{id:id}).then(response=>{
-  if(response.data && response.data.filename){  
-  setFilename(response.data.filename);
-    setUrl(`http://localhost:5000/profile/`+response.data.filename);
-  }else{
-    setUrl(defaultImg);
+    console.log('profile',response);
+  setIsAuth(auth.userID === response.data._id);
+  switch(response.status){
+    case 200:
+      if(response.data && response.data.filename){  
+        setFilename(response.data.filename);
+          setUrl(`http://localhost:5000/profile/`+response.data.filename);
+        }else{
+          setUrl(defaultImg);
+        }
+        break;
+    case 201:
+      setNotFound(response.data.message);
+        break;
   }
+
   });
 }
 const cancel = () =>{
@@ -107,12 +120,12 @@ const saveImage = () =>{
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
+      {!notFound?<Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Paper className={classes.paperImage}>
           {url?<Button variant="contained" component="label">
               <img className={classes.image} src={url} alt='image'></img>
-              <input type="file" accept="image/*" name="profile" className={classes.imageInput} onChange={fileUploadHandler} />
+              {isAuth?<input type="file" accept="image/*" name="profile" className={classes.imageInput} onChange={fileUploadHandler} />:null}
           </Button>:<div className={classes.profileLoader}><CircularProgress /></div>}
           {file?<div className={classes.buttons}>
           <Button variant="contained" color="primary" onClick={saveImage}>{!saveFlag?'Save':'Saving...'}</Button>
@@ -125,7 +138,7 @@ const saveImage = () =>{
             <Info/>
           </Paper>
         </Grid>
-      </Grid>
+      </Grid>:<NotFound message={notFound}/>}
     </div>
   );
 }

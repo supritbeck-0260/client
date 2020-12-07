@@ -7,11 +7,20 @@ import { useLocation, useParams } from 'react-router-dom';
 const ProfilePage = (props)=>{
     const location = useLocation();
     const {id} = useParams();
+    const [notFound,setNotFound] = useState(null);
     const [images,setImages] = useState(null);
     const userPictures = ()=>{
         Axios.post('http://localhost:5000/profile/images',{id:id}).then(response=>{
-            setImages(response.data);
-            props.getFun(0);
+            switch(response.status){
+                case 200:
+                    setImages(response.data);
+                    props.getFun(0);
+                    break;
+                case 201:
+                    setNotFound(response.data.message);
+                    break;
+              }
+
         });
     }
 useEffect(()=>{
@@ -20,8 +29,8 @@ useEffect(()=>{
     return(
         <>
         <Grid/>
-        <hr/>
-        <ImageGridList getFun={props.getFun} images={images}/>
+        {!notFound?<div><hr/>
+        <ImageGridList getFun={props.getFun} images={images}/></div>:null}
         </>
     );
 }

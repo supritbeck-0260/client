@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom';
 import Axios from 'axios';
 import ImageCards from './ImageCardsHome';
 import Skeleton from '../Home/Skeleton';
+import NotFound from '../NotFound/NotFound';
 const useStyles = makeStyles((theme) => ({
     root: {
       width:'100%',
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 const Detailed = (props)=>{
 const {id} = useParams();
+const [notFound,setNotFound]= useState(null);
 const [data,setData] = useState(null);
 const getPicure = ()=>{
     Axios.post('http://localhost:5000/get/one',{id:id})
@@ -33,6 +35,7 @@ const getPicure = ()=>{
                     setData(response.data);
                     break;
                 case 201:
+                    setNotFound(response.data.message);
                     break;
               }
         });
@@ -43,9 +46,9 @@ useEffect(()=>{
 const classes = useStyles();
     return(
         <>
-            <Box className={classes.root} >
+            {!notFound?<Box className={classes.root} >
             {data?<ImageCards className={classes.imageCards} info={data}/>:<div className={classes.loader}><Skeleton/></div>}
-            </Box>
+            </Box>:<NotFound message={notFound}/>}
         </>
     );
 }

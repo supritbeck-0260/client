@@ -8,8 +8,10 @@ import Axios from 'axios';
 import Detailed from './Detailed/Detailed';
 import Signup from './Login/Signup';
 import Login from './Login/Login';
-import AuthContex from './Authorization/AuthContex'
+import AuthContex from './Authorization/AuthContex';
 const App = ()=>{
+let tokenExpairTime = localStorage.getItem('tokenExpairTime');
+const tokenAliveFor = 8639500;
 const [images, setImages] = useState(null);
 const [uploadModal,setUploadModal] = useState(false);
 const [isData, setIsData] = useState(false);
@@ -19,6 +21,9 @@ const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:
 const login = (token,userID)=>{
     localStorage.setItem('userID',userID)
     localStorage.setItem('token',token); 
+    localStorage.setItem('tokenExpairTime',Date.now()+tokenAliveFor);
+    tokenExpairTime = localStorage.getItem('tokenExpairTime');
+    logoutTimer();
     setToken(token);
     setUserID(userID);
     setIsLoggedin(true);
@@ -26,12 +31,23 @@ const login = (token,userID)=>{
 const logout = ()=>{
     localStorage.removeItem('userID')
     localStorage.removeItem('token'); 
+    localStorage.removeItem('tokenExpairTime');
     setToken('');
     setUserID('');
     setIsLoggedin(false);
 }
 const toggleModal = () =>{
     setUploadModal(prev=>!prev);
+}
+let logoutCode;
+const logoutTimer = ()=>{
+    if(tokenExpairTime && tokenExpairTime>Date.now()){
+        console.log('time remaining:',tokenExpairTime-Date.now());
+        logoutCode=setTimeout(logout,tokenExpairTime-Date.now());
+    }else{
+        logout();
+        clearTimeout(logoutCode);
+    } 
 }
 const getImges = (offset)=>{
         Axios.post('http://localhost:5000/getpics',{offset:offset}).then(response=>{
@@ -52,7 +68,7 @@ const getImges = (offset)=>{
 useEffect(()=>{
     getImges(0);
 },[]);
-
+useEffect(logoutTimer,[]);
     return(
         <>
             <AuthContex.Provider value={{
@@ -64,12 +80,13 @@ useEffect(()=>{
             }}>
                 <Navbar toggleFun={toggleModal}/>
                 <Switch>
-                    <Route exact path='/' render={()=><Home token={token} getFun={getImges} images={images} isData={isData}/>}/>
+                    <Route exact path='/' render={()=><Home getFun={getImges} images={images} isData={isData}/>}/>
                     <Route exact path='/profile/:id' render={()=><ProfilePage getFun={getImges} images={images}/>}/>
                     <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
                     <Route exact path='/login' render={()=><Login/>}/>
                     <Route exact path='/signup' render={()=><Signup/>}/>
                     <Route exact path='/token/:id' render={()=><Login/>}/>
+                    <Route component={()=><Home getFun={getImges} images={images} isData={isData}/>}/>
                 </Switch>
             {uploadModal?<Upload toggleFun={toggleModal} getFun={getImges}/>:null}
             </AuthContex.Provider>

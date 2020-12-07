@@ -27,7 +27,14 @@ const [data,setData] = useState(null);
 const getPicure = ()=>{
     Axios.post('http://localhost:5000/get/one',{id:id})
         .then(response=>{
-            setData(response.data);
+            console.log('Get one image:',response);
+            switch(response.status){
+                case 200:
+                    setData(response.data);
+                    break;
+                case 201:
+                    break;
+              }
         });
 }
 useEffect(()=>{

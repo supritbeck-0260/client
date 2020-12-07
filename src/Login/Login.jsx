@@ -67,7 +67,6 @@ const Login=(props)=> {
   const [open,setOpen] = useState(false);
   const [emailVerification,setEmailVerification] = useState(null);
   const auth = useContext(AuthContex);
-  console.log('test contex',auth);
   const setData = (field,value)=>{
     setEmailAlert(false);
     setPassAlert(false);
@@ -131,7 +130,6 @@ const Login=(props)=> {
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
-              // props.tokenSet(response.data.token,response.data.userID);
               auth.login(response.data.token,response.data.userID);
               history.push('/profile/'+response.data.userID);
               break;

@@ -88,7 +88,7 @@ useEffect(()=>{
       <CardHeader
         avatar={
           props.info.avatar?<NavLink to={'/profile/'+props.info.uid}><Avatar aria-label="recipe" className={classes.avatar} src={"http://localhost:5000/profile/"+props.info.avatar}/></NavLink>:
-          <Avatar>{props.info.owner.charAt(0)}</Avatar>
+          props.info.owner?<Avatar>{props.info.owner.charAt(0)}</Avatar>:null
         }
         action={
           <IconButton aria-label="settings">

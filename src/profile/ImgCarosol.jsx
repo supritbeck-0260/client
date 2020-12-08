@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import FadeIn from 'react-fade-in';
-import {NavLink} from 'react-router-dom';
+import {useParams,NavLink} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     root: {
      position: 'fixed',
@@ -106,6 +106,8 @@ const ImgCarosol = props => {
     const [deleteBtn, setDelete] = useState('Delete');
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:600px)');
+    const {id} = useParams();
+    const isAuth =  (id==auth.userID);
     const [photo,setPhoto] = useState({
       info:imageData[props.imgId],
       id:props.imgId
@@ -272,7 +274,7 @@ const ImgCarosol = props => {
                       </div>
                 {rightArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}
             </div> 
-            {!edit?<div className={classes.button}>
+            {(isAuth && !edit)?<div className={classes.button}>
                 <Button  variant="contained" color="primary" onClick={editHandler}>Edit</Button>
                 <Button variant="contained"  color="secondary" onClick={deleteHandler} autoFocus>{deleteBtn}</Button>
             </div>:null}

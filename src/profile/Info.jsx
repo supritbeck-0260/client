@@ -15,7 +15,7 @@ import Axios from 'axios';
 import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
-
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     text:{
         margin:'10px',
         fontWeight:'normal',
-
+        display:'flex',
+        alignItems:'center'
     },
     chip:{
         boxShadow: ({ boxShadow }) => boxShadow,
@@ -62,7 +63,8 @@ const Info = () =>{
         camera:'',
         lenses:'',
         editing:'',
-        others:''
+        others:'',
+        about:''
     });
     const {id} = useParams();
     const auth = useContext(AuthContex);
@@ -91,7 +93,8 @@ const Info = () =>{
                     camera:value.camera,
                     lenses:value.lenses,
                     editing:value.editing,
-                    others:value.others
+                    others:value.others,
+                    about:value.about
                 });
                 setName(value.name);
                 setIsAuth(value._id==auth.userID);
@@ -118,7 +121,6 @@ const Info = () =>{
             }
           })
           .then((res)=>{
-              console.log(res);
               infoFun();
           })
           .catch(function (error) {
@@ -140,7 +142,7 @@ const getValues= (key,value)=>{
     return(
         <>
         <div className={classes.head}>
-            <h2>Profile Rating: <Rating name="read-only" value={4} readOnly /></h2>
+            <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" value={4} readOnly /></div>}</h2>
             {isAuth?<div>
                 {editFlag?<Button className={classes.save} variant="contained" color="primary" onClick={save}>Save<SaveIcon/></Button>:null}
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
@@ -154,12 +156,11 @@ const getValues= (key,value)=>{
                 <Chip
                 avatar={val.avt}
                 className={classes.chip} label={val.label} variant="outlined"/>: 
-                {!editFlag?<MultiChips data={val.values}/>:null}
-                {editFlag?<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>:null}
+                {!editFlag?<MultiChips data={val.values}/>:<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
             </div>
             ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}
             <hr></hr>
-            <div className={classes.text}>About Me: I am a photographer.</div>
+            <div className={classes.text}>About Me: {!editFlag?chipData.about:<TextField id="outlined-basic" value={chipData.about} onChange={(e)=>getValues('about',e.target.value)} variant="outlined" label="Write something" />}</div>
             <div className={classes.text}>Started On: {startedOn?startedOn:null}</div>
         </div>
         </>

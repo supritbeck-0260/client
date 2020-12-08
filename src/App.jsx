@@ -11,7 +11,7 @@ import Login from './Login/Login';
 import AuthContex from './Authorization/AuthContex';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
-const tokenAliveFor = 8639500;
+const tokenAliveFor = 86395000;
 const [images, setImages] = useState(null);
 const [uploadModal,setUploadModal] = useState(false);
 const [isData, setIsData] = useState(false);
@@ -50,7 +50,7 @@ const logoutTimer = ()=>{
     } 
 }
 const getImges = (offset)=>{
-        Axios.post('http://localhost:5000/getpics',{offset:offset}).then(response=>{
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/getpics',{offset:offset}).then(response=>{
             if(response.data.length){
                 setImages(prev=>{
                     if(prev && offset != 0){

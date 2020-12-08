@@ -52,7 +52,7 @@ const ImageGridList =(props)=> {
       <GridList cellHeight={cellHeight} className={classes.gridList} cols={cells}>
         {Array.isArray(images)?images.map((tile,index) => (
           <GridListTile key={tile._id} cols={(index%8 === 0 ? 2:1)}>
-            <img src={'http://localhost:5000/uploads/'+tile.filename}  onClick={()=>{openImage(index);toggleModal();}}  alt={tile.date} />
+            <img src={process.env.REACT_APP_SERVER_URL+'/uploads/'+tile.filename}  onClick={()=>{openImage(index);toggleModal();}}  alt={tile.date} />
           </GridListTile>
         )):null}
       </GridList>

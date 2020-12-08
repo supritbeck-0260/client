@@ -75,7 +75,7 @@ const Info = () =>{
     const [isAuth,setIsAuth] = useState(false);
     const infoFun = ()=>{
         setToggle(false); 
-        Axios.post('http://localhost:5000/profile/info/fetch',{id:id})
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id})
         .then(response=>
             {
                 const value = response.data;
@@ -112,7 +112,7 @@ const Info = () =>{
         setEditFlag(true);
     }
     const save = () =>{
-        Axios.post('http://localhost:5000/profile/info/update',{...chipData,id:id},{
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/update',{...chipData,id:id},{
             headers:{
               'authorization': auth.token
             }

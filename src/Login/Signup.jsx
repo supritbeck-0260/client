@@ -115,7 +115,7 @@ const Signup=()=> {
 
   const postUser = () =>{
     setLoading(true);
-    Axios.post('http://localhost:5000/auth/signup',user).then(response=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/signup',user).then(response=>{
       setLoading(false);
       if(response.data){
         switch(response.status){

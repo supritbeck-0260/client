@@ -77,7 +77,7 @@ useEffect(()=>{
       <CardHeader
         avatar={
           <NavLink to={'/profile/'+props.info.uid} className={classes.navLinkDec}>
-            {props.info.avatar?<Avatar aria-label="recipe" className={classes.avatar} src={"http://localhost:5000/profile/"+props.info.avatar}/>:
+            {props.info.avatar?<Avatar aria-label="recipe" className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+"/profile/"+props.info.avatar}/>:
               <Avatar>{props.info.owner.charAt(0)}</Avatar>
             }
           </NavLink>
@@ -93,7 +93,7 @@ useEffect(()=>{
         <NavLink to={'/detailed/'+props.info._id}>
         <CardMedia
           className={classes.media}
-          image={'http://localhost:5000/uploads/'+props.info.filename}
+          image={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.info.filename}
           title={props.info.about}
         />
         </NavLink>

@@ -87,7 +87,7 @@ useEffect(()=>{
       <CardActionArea>
       <CardHeader
         avatar={
-          props.info.avatar?<NavLink to={'/profile/'+props.info.uid}><Avatar aria-label="recipe" className={classes.avatar} src={"http://localhost:5000/profile/"+props.info.avatar}/></NavLink>:
+          props.info.avatar?<NavLink to={'/profile/'+props.info.uid}><Avatar aria-label="recipe" className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+"/profile/"+props.info.avatar}/></NavLink>:
           props.info.owner?<Avatar>{props.info.owner.charAt(0)}</Avatar>:null
         }
         action={
@@ -100,7 +100,7 @@ useEffect(()=>{
       />
         <CardMedia
           className={mediaCss}
-          image={'http://localhost:5000/uploadOrg/'+props.info.filename}
+          image={process.env.REACT_APP_SERVER_URL+'/uploadOrg/'+props.info.filename}
           title={props.info.about}
         />
         <CardContent>

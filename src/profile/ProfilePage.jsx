@@ -10,7 +10,7 @@ const ProfilePage = (props)=>{
     const [notFound,setNotFound] = useState(null);
     const [images,setImages] = useState(null);
     const userPictures = ()=>{
-        Axios.post('http://localhost:5000/profile/images',{id:id}).then(response=>{
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/images',{id:id}).then(response=>{
             switch(response.status){
                 case 200:
                     setImages(response.data);

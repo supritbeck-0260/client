@@ -73,14 +73,13 @@ useEffect(()=>{
   getProfile();
 },[location]);
 const getProfile = () =>{
-  Axios.post('http://localhost:5000/profile/info/fetch',{id:id}).then(response=>{
-    console.log('profile',response);
+  Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id}).then(response=>{
   setIsAuth(auth.userID === response.data._id);
   switch(response.status){
     case 200:
       if(response.data && response.data.filename){  
         setFilename(response.data.filename);
-          setUrl(`http://localhost:5000/profile/`+response.data.filename);
+          setUrl(process.env.REACT_APP_SERVER_URL+'/profile/'+response.data.filename);
         }else{
           setUrl(defaultImg);
         }
@@ -93,14 +92,14 @@ const getProfile = () =>{
   });
 }
 const cancel = () =>{
-  setUrl(`http://localhost:5000/profile/`+filename);
+  setUrl(process.env.REACT_APP_SERVER_URL+'/profile/'+filename);
   setFile(null);
 }
 const saveImage = () =>{
   setSaveFlag(true);
   const formData = new FormData();
     formData.append('profile',file);
-    Axios.post('http://localhost:5000/profile/picture/update',formData,{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/picture/update',formData,{
       headers:{
         'authorization': auth.token
       }

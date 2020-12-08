@@ -226,7 +226,7 @@ const ImgCarosol = props => {
     }
     const postData = (event) =>{
       setSave('Saving...');
-      Axios.post('http://localhost:5000/upload/edit',photoInfo,{
+      Axios.post(process.env.REACT_APP_SERVER_URL+'/upload/edit',photoInfo,{
         headers:{
           'authorization': auth.token
         }
@@ -246,7 +246,7 @@ const ImgCarosol = props => {
   }
   const deleteHandler = ()=>{
     setDelete('Deleting...');
-    Axios.post('http://localhost:5000/upload/delete',{id:photoInfo.id,uid:photoInfo.uid},{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/upload/delete',{id:photoInfo.id,uid:photoInfo.uid},{
       headers:{
         'authorization': auth.token
       }
@@ -268,7 +268,7 @@ const ImgCarosol = props => {
             <div className={arrImgClss}>
                 {leftArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>leftImgae(photo.id)}><ArrowLeftIcon/></Button>:null}
                       <div className={classes.imgCont}>
-                        <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}><img className={classes.img} src={'http://localhost:5000/uploads/'+photo.info.filename} alt="image"/> </NavLink>
+                        <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}><img className={classes.img} src={process.env.REACT_APP_SERVER_URL+'/uploads/'+photo.info.filename} alt="image"/> </NavLink>
                       </div>
                 {rightArrFlg?<Button variant="contained" className={classes.BtnShape} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}
             </div> 

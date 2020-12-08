@@ -35,7 +35,7 @@ const UserMenu = (props)=> {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <Avatar aria-label="recipe" src="http://localhost:5000/profile/profile_1604060279140.jpg"/>
+        <Avatar aria-label="recipe" src={process.env.REACT_APP_SERVER_URL+"/profile/profile_1604060279140.jpg"}/>
       </Button>
       <Menu
         id="simple-menu"

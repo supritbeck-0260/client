@@ -139,7 +139,7 @@ const postData = (event) =>{
     event.preventDefault();
     formData.append('file',file);
     formData.append('info',JSON.stringify(photoInfo));
-    Axios.post('http://localhost:5000/upload',formData,{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/upload',formData,{
         headers:{
           'authorization': auth.token
         }

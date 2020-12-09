@@ -125,12 +125,13 @@ const Login=(props)=> {
   const login = ()=>{
     setLoading(true);
     Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/login',user).then(response=>{
+      console.log('Login:',response);
       if(response.data){
         switch(response.status){
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
-              auth.login(response.data.token,response.data.userID);
+              auth.login(response.data.token,response.data.userID,response.data.avatar);
               history.push('/profile/'+response.data.userID);
               break;
           case 201:

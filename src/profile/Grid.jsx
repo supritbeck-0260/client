@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {AuthContex} from '../App';
+import {AuthContex,ServicesContex} from '../App';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import defaultImg from './profile.JPG';
@@ -58,6 +58,7 @@ const MyGrid = () => {
   const [notFound,setNotFound] = useState(null);
   const [isAuth,setIsAuth] = useState(false);
   const auth = useContext(AuthContex);
+  const services = useContext(ServicesContex);
   const location = useLocation();
   const classes = useStyles();
   const [saveFlag,setSaveFlag] = useState(false);
@@ -108,6 +109,7 @@ const saveImage = () =>{
         case 200:
           setFile(null);
           setSaveFlag(false);
+          services.updateContex(response.data.filename);
             break;
         case 201:
             cancel();

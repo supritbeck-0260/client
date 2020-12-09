@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import {ServicesContex} from '../App';
 import Grid from './Grid';
 import ImageGridList from './ImageGridList';
 import Axios from 'axios';
@@ -6,6 +7,7 @@ import { useLocation, useParams } from 'react-router-dom';
 
 const ProfilePage = (props)=>{
     const location = useLocation();
+    const services = useContext(ServicesContex);
     const {id} = useParams();
     const [notFound,setNotFound] = useState(null);
     const [images,setImages] = useState(null);
@@ -14,7 +16,6 @@ const ProfilePage = (props)=>{
             switch(response.status){
                 case 200:
                     setImages(response.data);
-                    props.getFun(0);
                     break;
                 case 201:
                     setNotFound(response.data.message);
@@ -25,12 +26,12 @@ const ProfilePage = (props)=>{
     }
 useEffect(()=>{
     userPictures();
-},[location]);
+},[location,services.reload]);
     return(
         <>
         <Grid/>
         {!notFound?<div><hr/>
-        <ImageGridList getFun={props.getFun} images={images}/></div>:null}
+        <ImageGridList images={images}/></div>:null}
         </>
     );
 }

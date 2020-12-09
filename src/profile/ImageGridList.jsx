@@ -58,7 +58,7 @@ const ImageGridList =(props)=> {
       </GridList>
        
     </div>
-        {modal?<ImgCarosol imgId={imgInfo} getFun={props.getFun} allImages={images} toggle={toggleModal} open={modal}/>:null}
+        {modal?<ImgCarosol imgId={imgInfo} allImages={images} toggle={toggleModal} open={modal}/>:null}
     </>
   );
 

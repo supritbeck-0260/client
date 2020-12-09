@@ -8,7 +8,6 @@ import Circle from '@material-ui/icons/AccountCircle';
 import Logout from '@material-ui/icons/ExitToApp';
 import { makeStyles } from '@material-ui/core/styles';
 import {NavLink} from 'react-router-dom';
-import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -35,7 +34,7 @@ const UserMenu = (props)=> {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <Avatar aria-label="recipe" src={process.env.REACT_APP_SERVER_URL+"/profile/profile_1604060279140.jpg"}/>
+      <Avatar aria-label="recipe" src={process.env.REACT_APP_SERVER_URL+'/profile/'+auth.avatar}/>
       </Button>
       <Menu
         id="simple-menu"

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {AuthContex} from '../App';
+import {AuthContex,ServicesContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ArrowLeftIcon from '@material-ui/icons/ArrowBackIos';
@@ -113,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
 const ImgCarosol = props => {
     const imageData = props.allImages;
     const auth = useContext(AuthContex);
+    const services = useContext(ServicesContex);
     const [save,setSave] = useState('Save');
     const [deleteBtn, setDelete] = useState('Delete');
     const classes = useStyles();
@@ -246,7 +247,7 @@ const ImgCarosol = props => {
       }).then(response=>{
           switch(response.status){
             case 200:
-                props.getFun(0);
+                services.updateContex();
                 handleClose();
                 setSave('Save');
                 break;
@@ -264,7 +265,7 @@ const ImgCarosol = props => {
         'authorization': auth.token
       }
     }).then(response=>{
-      props.getFun(0);
+      services.updateContex();
       handleClose();
       setDelete('Delete');
     });
@@ -283,7 +284,7 @@ const ImgCarosol = props => {
                         <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}>
                           <CardMedia
                               component="img"
-                              alt="Contemplative Reptile"
+                              alt={photo.info.about}
                               height="500"
                               image={process.env.REACT_APP_SERVER_URL+'/uploads/'+photo.info.filename}
                               title={photo.info.about}

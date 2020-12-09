@@ -1,4 +1,5 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect,useState,useContext} from 'react';
+import {AuthContex} from '../App';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom';
@@ -24,10 +25,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 const Detailed = (props)=>{
 const {id} = useParams();
+const auth = useContext(AuthContex);
 const [notFound,setNotFound]= useState(null);
 const [data,setData] = useState(null);
 const getPicure = ()=>{
-    Axios.post(process.env.REACT_APP_SERVER_URL+'/get/one',{id:id})
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/get/one',{id:id,uid:auth.userID})
         .then(response=>{
             switch(response.status){
                 case 200:
@@ -46,7 +48,7 @@ const classes = useStyles();
     return(
         <>
             {!notFound?<Box className={classes.root} >
-            {data?<ImageCards className={classes.imageCards} info={data}/>:<div className={classes.loader}><Skeleton/></div>}
+            {data?<ImageCards className={classes.imageCards} data={data}/>:<div className={classes.loader}><Skeleton/></div>}
             </Box>:<NotFound message={notFound}/>}
         </>
     );

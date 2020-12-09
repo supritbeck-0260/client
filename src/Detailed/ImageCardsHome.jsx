@@ -17,6 +17,7 @@ import {NavLink} from 'react-router-dom';
 import ToolComponent from './ToolComponent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TimeAgo from './TimeStamp';
+import Axios from 'axios';
 const useStyles = makeStyles({
   rootLarge: {
     width: '60%',
@@ -62,15 +63,17 @@ const useStyles = makeStyles({
 const ImageCardsHome = (props)=> {
   const auth = useContext(AuthContex);
   const classes = useStyles();
+  console.log(props);
   const matches = useMediaQuery('(min-width:600px)');
   const [css,setCss] = useState(classes.rootLarge);
   const [mediaCss,setMediaCss] = useState(classes.mediaLarge);
+  const [star,setStar] = useState(props.data.rate?props.data.rate:null);
   var dates;
-  if(props.info.date){
+  if(props.data.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
     year: 'numeric',
     month: 'short',
-    day: '2-digit' }).format(new Date(props.info.date));
+    day: '2-digit' }).format(new Date(props.data.info.date));
     dates=formattedDate;
 }
 useEffect(()=>{
@@ -82,45 +85,64 @@ useEffect(()=>{
     setMediaCss(classes.mediaSmall);
   }
 },[matches]);
+const changeHandler = (value)=>{
+    setStar(value);
+    const post={
+      rate:value,
+      id:props.data.info._id
+    }
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/image/rate',post,{
+      headers:{
+        'authorization': auth.token
+      }
+    }).then(response=>{
+      console.log(response);
+    });;
+}
+
   return (
     <Card className={css}>
       <CardActionArea>
       <CardHeader
         avatar={
-          props.info.avatar?<NavLink to={'/profile/'+props.info.uid}><Avatar aria-label="recipe" className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+"/profile/"+props.info.avatar}/></NavLink>:
-          props.info.owner?<Avatar>{props.info.owner.charAt(0)}</Avatar>:null
+          props.data.info.avatar?<NavLink to={'/profile/'+props.data.info.uid}><Avatar aria-label="recipe" className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+"/profile/"+props.data.info.avatar}/></NavLink>:
+          props.data.info.owner?<Avatar>{props.data.info.owner.charAt(0)}</Avatar>:null
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-      title={<NavLink className={classes.navLinkDec} to={'/profile/'+props.info.uid}>{props.info.owner}</NavLink>}
+      title={<NavLink className={classes.navLinkDec} to={'/profile/'+props.data.info.uid}>{props.data.info.owner}</NavLink>}
         subheader={dates}
       />
         <CardMedia
           className={mediaCss}
-          image={process.env.REACT_APP_SERVER_URL+'/uploadOrg/'+props.info.filename}
-          title={props.info.about}
+          image={process.env.REACT_APP_SERVER_URL+'/uploadOrg/'+props.data.info.filename}
+          title={props.data.info.about}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.info.about}
+            {props.data.info.about}
           </Typography>
           <CardActions>
             Avg Rating:<Rating name="read-only" value={4} readOnly />(14k)
           </CardActions>
           <div className={classes.container}>
-            {props.info.camera?<ToolComponent label="Camera" value={props.info.camera}/>:null}<br/>
-            {props.info.lenses?<ToolComponent label="Editing Tool" value={props.info.editing}/>:null}<br/>
-            {props.info.editing?<ToolComponent label="Lenses" value={props.info.lenses}/>:null}<br/>
-            {props.info.others?<ToolComponent label="Others" value={props.info.others}/>:null}<br/>
-            {props.info.location?<ToolComponent label="Location" value={props.info.location}/>:null}
+            {props.data.info.camera?<ToolComponent label="Camera" value={props.data.info.camera}/>:null}<br/>
+            {props.data.info.lenses?<ToolComponent label="Editing Tool" value={props.data.info.editing}/>:null}<br/>
+            {props.data.info.editing?<ToolComponent label="Lenses" value={props.data.info.lenses}/>:null}<br/>
+            {props.data.info.others?<ToolComponent label="Others" value={props.data.info.others}/>:null}<br/>
+            {props.data.info.location?<ToolComponent label="Location" value={props.data.info.location}/>:null}
   
           </div>
           <div className={classes.rateTimeContainer}>
-            {auth.isLoggedin?<div className={classes.rating}> You have Rated:<Rating name="read-only" value={4} readOnly /></div>:<div className={classes.rating}></div>}
-            <div><TimeAgo time={props.info.date}/></div>
+            {auth.isLoggedin?
+            <div className={classes.rating}> {props.data.rate?"You have Rated":"Rate this Picture"}:<Rating name="read-only"
+            value={star}
+            onChange={(event, newValue) => changeHandler(newValue)} /></div>:
+            <div className={classes.rating}></div>}
+            <div><TimeAgo time={props.data.info.date}/></div>
           </div>
           
         </CardContent>

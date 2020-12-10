@@ -118,7 +118,7 @@ useEffect(()=>{
           Learn More
         </Button> */}
         <div className={classes.rateTimeContainer}>
-          <div className={classes.rating}> Avg Rating:<Rating name="read-only" value={4} readOnly />(14k)</div>
+          {props.info.avgRate?<div className={classes.rating}> Avg Rating:<Rating name="read-only" value={props.info.avgRate.rate} readOnly />({props.info.avgRate.total})</div>:<div className={classes.rating}>No rating yet.</div>}
           <div><TimeAgo time={props.info.date}/></div>
         </div>
         

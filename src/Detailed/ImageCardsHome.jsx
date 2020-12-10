@@ -18,6 +18,10 @@ import ToolComponent from './ToolComponent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TimeAgo from './TimeStamp';
 import Axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Comments from './Comments';
 const useStyles = makeStyles({
   rootLarge: {
     width: '60%',
@@ -57,17 +61,25 @@ const useStyles = makeStyles({
   rating:{
     display:'flex',
     alignItems:'center',
-  }
+  },
+  commentBox:{
+    display:'flex',
+    justifyContent:'center',
+    flexDirection:'column'
+  },
 });
 
 const ImageCardsHome = (props)=> {
   const auth = useContext(AuthContex);
   const classes = useStyles();
-  console.log(props);
+  const [avg,setAvg] = useState(props.data.info?props.data.info.avgRate:null);
   const matches = useMediaQuery('(min-width:600px)');
   const [css,setCss] = useState(classes.rootLarge);
   const [mediaCss,setMediaCss] = useState(classes.mediaLarge);
   const [star,setStar] = useState(props.data.rate?props.data.rate:null);
+  const [btn,setBtn] = useState(false);
+  const [comment,setComment] = useState(null);
+  const [commentArray,setCommentArray] = useState(null);
   var dates;
   if(props.data.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -97,9 +109,46 @@ const changeHandler = (value)=>{
       }
     }).then(response=>{
       console.log(response);
-    });;
+      setAvg(response.data.rating);
+    });
 }
+const commentChange = (e)=>{
+    setComment(e.target.value);
+}
+const postComment = () =>{
+  const post={
+    comment:comment,
+    id:props.data.info._id
+  }
+  Axios.post(process.env.REACT_APP_SERVER_URL+'/image/comment/post',post,{
+    headers:{
+      'authorization': auth.token
+    }
+  }).then(response=>{
+    switch(response.status){
+      case 200:
+        setComment('');
+        setBtn(false);
+        setCommentArray(response.data);
+      break;
+    }
 
+  });
+}
+const getComments = ()=>{
+  const post={
+    id:props.data.info._id
+  }
+  Axios.post(process.env.REACT_APP_SERVER_URL+'/image/comment/get',post).then(response=>{
+    switch(response.status){
+      case 200:
+        setCommentArray(response.data);
+      break;
+    }
+
+  });
+}
+useEffect(getComments,[]);
   return (
     <Card className={css}>
       <CardActionArea>
@@ -125,9 +174,9 @@ const changeHandler = (value)=>{
           <Typography gutterBottom variant="h5" component="h2">
             {props.data.info.about}
           </Typography>
-          <CardActions>
-            Avg Rating:<Rating name="read-only" value={4} readOnly />(14k)
-          </CardActions>
+          {avg?<CardActions>
+            Avg Rating:<Rating name="read-only" value={avg.rate} readOnly />({avg.total})
+          </CardActions>:null}
           <div className={classes.container}>
             {props.data.info.camera?<ToolComponent label="Camera" value={props.data.info.camera}/>:null}<br/>
             {props.data.info.lenses?<ToolComponent label="Editing Tool" value={props.data.info.editing}/>:null}<br/>
@@ -147,6 +196,29 @@ const changeHandler = (value)=>{
           
         </CardContent>
       </CardActionArea>
+      {auth.isLoggedin?<Paper elevation={3} className={classes.commentBox}>
+      <TextField
+          id="outlined-full-width"
+          label="comment"
+          multiline
+          value={comment}
+          style={{ width:'99%',margin:'8px auto'}}
+          placeholder="write something..."
+          fullWidth
+          margin="normal"
+          rowsMax={4}
+          variant="outlined"
+          onFocus={()=>setBtn(true)}
+          onChange={commentChange}
+        />
+        {btn?<div>
+        <Button variant="contained" style={{ margin:'5px'}} onClick={postComment} color="primary">Post</Button>
+        <Button variant="contained" style={{ margin:'5px'}} onClick={()=>{setComment('');setBtn(false)}} >Clear</Button>
+        </div>:null}
+      </Paper>:null}
+      {commentArray?commentArray.map((value)=>
+        <Comments data={value}/>
+      ):null}
     </Card>
   );
 }

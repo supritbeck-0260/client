@@ -24,9 +24,7 @@ const ProfilePage = (props)=>{
 
         });
     }
-useEffect(()=>{
-    userPictures();
-},[location,services.reload]);
+useEffect(userPictures,[location,services.reload]);
     return(
         <>
         <Grid/>

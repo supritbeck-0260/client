@@ -149,7 +149,7 @@ const postData = (event) =>{
             case 200:
                 setUploadBtn('Upload');
                 props.toggleFun();
-                services.updateContex();
+                services.updateContex(false);
                 break;
             case 201:
                 setUploadBtn('Upload');

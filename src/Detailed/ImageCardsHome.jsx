@@ -80,6 +80,7 @@ const ImageCardsHome = (props)=> {
   const [btn,setBtn] = useState(false);
   const [comment,setComment] = useState(null);
   const [commentArray,setCommentArray] = useState(null);
+  const [postFlag,setPostFlag] = useState(true);
   var dates;
   if(props.data.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -108,7 +109,6 @@ const changeHandler = (value)=>{
         'authorization': auth.token
       }
     }).then(response=>{
-      console.log(response);
       setAvg(response.data.rating);
     });
 }
@@ -116,6 +116,7 @@ const commentChange = (e)=>{
     setComment(e.target.value);
 }
 const postComment = () =>{
+  setPostFlag(false);
   const post={
     comment:comment,
     id:props.data.info._id
@@ -130,6 +131,7 @@ const postComment = () =>{
         setComment('');
         setBtn(false);
         setCommentArray(response.data);
+        setPostFlag(true);
       break;
     }
 
@@ -212,7 +214,7 @@ useEffect(getComments,[]);
           onChange={commentChange}
         />
         {btn?<div>
-        <Button variant="contained" style={{ margin:'5px'}} onClick={postComment} color="primary">Post</Button>
+        <Button variant="contained" style={{ margin:'5px'}} onClick={postComment} disabled={!postFlag} color="primary">{postFlag?'Post':'Loading...'}</Button>
         <Button variant="contained" style={{ margin:'5px'}} onClick={()=>{setComment('');setBtn(false)}} >Clear</Button>
         </div>:null}
       </Paper>:null}

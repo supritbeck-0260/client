@@ -46,13 +46,13 @@ const Comments = (props)=>{
     const classes = useStyles();
     return(
         <>
-      <Paper elevation={3} className={classes.comments}>
+      <Paper elevation={1} className={classes.comments}>
         <Typography variant="h6" className={classes.user}>
+        <NavLink to={"/profile/"+props.data.uid} className={classes.navLink}>
             <Avatar src={process.env.REACT_APP_SERVER_URL+'/profile/'+props.data.user.avatar} className={classes.avatar}/>
-            <NavLink to={"/profile/"+props.data.uid} className={classes.navLink}>
             <Typography variant="body1" className={classes.name}>{props.data.user.name}</Typography>
-            <div className={classes.timeStamp}><TimeAgo time={props.data.date}/></div>
             </NavLink>
+            <div className={classes.timeStamp}><TimeAgo time={props.data.date}/></div>
         </Typography>
     <Typography variant="body1" className={classes.oneComment}>{props.data.comment}</Typography>
       </Paper>

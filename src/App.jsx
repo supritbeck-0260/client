@@ -9,6 +9,7 @@ import Signup from './Login/Signup';
 import Login from './Login/Login';
 import AuthContex from './Contex/AuthContex';
 import ServicesContex from './Contex/ServicesContex';
+import connect from './Socket/Connect';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -54,6 +55,7 @@ let logoutCode;
 const logoutTimer = ()=>{
     if(tokenExpairTime && tokenExpairTime>Date.now()){
         logoutCode=setTimeout(logout,tokenExpairTime-Date.now());
+        connect(userID);
     }else{
         logout();
         clearTimeout(logoutCode);

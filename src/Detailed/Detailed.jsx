@@ -42,8 +42,9 @@ const getPicure = ()=>{
         });
 }
 useEffect(()=>{
+    setData(null);
     getPicure();
-},[]);
+},[id]);
 const classes = useStyles();
     return(
         <>

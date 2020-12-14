@@ -4,10 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Password from './Password';
-import {NavLink} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import Axios from 'axios';
 import {useParams , useHistory} from 'react-router-dom';
@@ -36,50 +34,29 @@ const useStyles = makeStyles((theme) => ({
       width:'80%',
       margin:'6px auto'
   },
-  haveAnAccountContainer:{
-      display:'flex',
-      justifyContent:'center',
-      flexDirection:'column',
-      margin:'24px 10px 10px 10px'
-  },
-  haveAnAccount:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent: 'center'
-  },
-  login:{
-    color: '#ff0844',  
-  },
-  loginLink:{
-      textDecoration:'none'
-  },
   alert:{
     width: '74%',
     margin: '0 auto',
   },
-  forgot:{
-    color: '#ff0844',  
-    textAlign:'center',
-    margin:'12px',
-    fontSize:'14px'
-  }
 }));
 
-const Login=(props)=> {
+const Confirm=(props)=> {
+  const auth = useContext(AuthContex);
+  auth.logout();
   const history = useHistory();
   const classes = useStyles();
   const {id} = useParams();
-  const [user,setUser] = useState({email:'',password:''});
+  const [user,setUser] = useState({password:'',cpassword:''});
   const [message,setMessage] = useState(null);
   const [severity,setSeverity] = useState(null);
   const [loading,setLoading] = useState(false);
-  const [emailAlert,setEmailAlert] = useState(false);
-  const [passAlert,setPassAlert] = useState(false);
+const [passAlert,setPassAlert] = useState(false);
+const [cPassAlert,setcPassAlert] = useState(false);
+const [matchPass,setMatchPass] = useState(false);
+const [lengthFlag,setLengthFlag] = useState(false);
   const [open,setOpen] = useState(false);
   const [emailVerification,setEmailVerification] = useState(null);
-  const auth = useContext(AuthContex);
   const setData = (field,value)=>{
-    setEmailAlert(false);
     setPassAlert(false);
     setMessage(null);
     setUser(prev=>{
@@ -92,11 +69,11 @@ const Login=(props)=> {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
   const postToken = (id)=>{
-    Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/token',{token:id}).then(response=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/forgot/token',{token:id}).then(response=>{
+        console.log(response);
       if(response.data.message){
         switch(response.status){
           case 200:
@@ -118,32 +95,53 @@ const Login=(props)=> {
       }
     });
   }
-  useEffect(()=>{
-    if(id)
-    postToken(id);
-  },[]);
-  const validate = ()=>{
-    if(!user.email){
-      setEmailAlert(true);
-      return false;
-    }else if(!user.password){
-      setPassAlert(true);
-      return false;
+  const passwordCheck = (e) =>{
+    const value = e.target.value.trim();
+    if(value.length<5){
+      setLengthFlag(true);
     }else{
-      login();
+        setLengthFlag(false); 
     }
   }
-  const login = ()=>{
+  const resetError = ()=>{
+    setPassAlert(false);
+    setLengthFlag(false);
+    setMatchPass(false);
+    setcPassAlert(false);
+  }
+  const validate = ()=>{
+    if(!user.password){
+        setPassAlert(true);
+        return false;
+      }else if(user.password && user.password.length<5){
+        setLengthFlag(true);
+        return false;
+      }else if(!user.cpassword){
+        setcPassAlert(true);
+        return false;
+      }else if(user.password !== user.cpassword){
+        setMatchPass(true);
+        return false;
+      }else{
+      reset();
+    }
+  }
+  const reset = ()=>{
     setLoading(true);
-    Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/login',user).then(response=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/forgot/change',{password:user.password},{
+        headers:{
+          'authorization': id
+        }
+      }).then(response=>{
       console.log('Login:',response);
       if(response.data){
         switch(response.status){
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
-              auth.login(response.data.token,response.data.userID,response.data.avatar);
-              history.push('/profile/'+response.data.userID);
+              setTimeout(()=>{
+                history.push('/login')
+              },4000);
               break;
           case 201:
               setSeverity('error');
@@ -158,6 +156,10 @@ const Login=(props)=> {
       setLoading(false);
     });
   }
+  useEffect(()=>{
+    if(id)
+    postToken(id);
+  },[]);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -165,22 +167,17 @@ const Login=(props)=> {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs className={classes.head}>
-                <Typography variant="h4">Login</Typography>
+                <Typography variant="h5">Change your password</Typography>
               </Grid>
               <Grid item className={classes.container}>
-                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
-                    {emailAlert?<Alert className={classes.alert} severity="error">Please enter your Email</Alert>:null}
-                    <Password label='Password' setData={setData} type='p' values={user.password}/>
+                    <Password setData={setData} type='p' validateFun={passwordCheck} values={user.password} resetError={resetError}/>
                     {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}
-                    <Button  className={classes.inputField} variant="contained" onClick={validate} disabled={loading} color="secondary">{!loading?'Login':'...'}</Button>
-                    {message?<Alert className={classes.alert} severity={severity}>{message}</Alert>:null}
-                    <Typography variant="subtitle1" className={classes.haveAnAccountContainer}>
-                        <Typography variant="body1" className={classes.haveAnAccount}>Don't have an Account? 
-                        <NavLink to='/signup' className={classes.loginLink}><Typography variant="body1" className={classes.login}> Sign Up</Typography></NavLink>
-                        </Typography>
-                        <NavLink to='/forgot' className={classes.loginLink}><Typography variant="body1" className={classes.forgot}> Forgot your password?</Typography></NavLink>
-                    </Typography>
-                
+                    {lengthFlag?<Alert className={classes.alert} severity="error">Password should be at least 5 character long.</Alert>:null}
+                    <Password setData={setData} type='cp' values={user.cpassword} resetError={resetError}/>
+                    {cPassAlert?<Alert className={classes.alert} severity="error">Please confirm your password.</Alert>:null}
+                    {matchPass?<Alert className={classes.alert} severity="error">Your password does not match - Try again!</Alert>:null}
+                    <Button  className={classes.inputField} variant="contained" onClick={validate} disabled={loading} color="secondary">{!loading?'Reset':'...'}</Button>
+                    {message?<Alert className={classes.alert} severity={severity}>{message}</Alert>:null}                
               </Grid>
             </Grid>
           </Grid>
@@ -192,4 +189,4 @@ const Login=(props)=> {
     </div>
   );
 }
-export default Login;
+export default Confirm;

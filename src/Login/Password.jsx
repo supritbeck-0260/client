@@ -44,6 +44,7 @@ const Password = (props) =>{
                     value={values.password}
                     onChange={handleChange('password')}
                     onBlur={props.validateFun}
+                    onFocus={props.resetError}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton

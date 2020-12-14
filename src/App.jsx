@@ -1,4 +1,5 @@
 import React, { useEffect, useState }  from 'react';
+import socket from 'socket.io-client';
 import Navbar from './NavBar/Navbar';
 import {Route,Switch} from 'react-router-dom';
 import ProfilePage from './profile/ProfilePage';
@@ -9,7 +10,6 @@ import Signup from './Login/Signup';
 import Login from './Login/Login';
 import AuthContex from './Contex/AuthContex';
 import ServicesContex from './Contex/ServicesContex';
-import connect from './Socket/Connect';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -19,6 +19,8 @@ const [userID,setUserID] = useState(localStorage.getItem('userID')?localStorage.
 const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:false);
 const [avatar,setAvatar] = useState(localStorage.getItem('avatar'));
 const [reload,setReload] = useState(false);
+const [notify,setNotify] = useState('');
+const io = socket("http://localhost:5000");
 const login = (token,userID,avatar)=>{
     localStorage.setItem('userID',userID)
     localStorage.setItem('token',token); 
@@ -55,7 +57,10 @@ let logoutCode;
 const logoutTimer = ()=>{
     if(tokenExpairTime && tokenExpairTime>Date.now()){
         logoutCode=setTimeout(logout,tokenExpairTime-Date.now());
-        connect(userID);
+        io.on(userID,data=>{
+            console.log(data);
+            setNotify(data);
+        })
     }else{
         logout();
         clearTimeout(logoutCode);
@@ -75,7 +80,9 @@ useEffect(logoutTimer,[]);
             <ServicesContex.Provider
                 value={{
                     reload:reload,
-                    updateContex:updateContex
+                    updateContex:updateContex,
+                    socket:io,
+                    notify:notify
                 }}
             >
                 <Navbar toggleFun={toggleModal}/>

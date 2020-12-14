@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {AuthContex} from '../App';
+import {AuthContex,ServicesContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -71,6 +71,7 @@ const useStyles = makeStyles({
 
 const ImageCardsHome = (props)=> {
   const auth = useContext(AuthContex);
+  const services = useContext(ServicesContex);
   const classes = useStyles();
   const [avg,setAvg] = useState(props.data.info?props.data.info.avgRate:null);
   const matches = useMediaQuery('(min-width:600px)');
@@ -109,7 +110,13 @@ const changeHandler = (value)=>{
         'authorization': auth.token
       }
     }).then(response=>{
-      setAvg(response.data.rating);
+      switch(response.status){
+        case 200:
+          setAvg(response.data.rating);
+          services.socket.emit('SendData',props.data.info.uid);
+        break;
+      }
+
     });
 }
 const commentChange = (e)=>{
@@ -132,6 +139,7 @@ const postComment = () =>{
         setBtn(false);
         setCommentArray(response.data);
         setPostFlag(true);
+        services.socket.emit('SendData',props.data.info.uid);
       break;
     }
 

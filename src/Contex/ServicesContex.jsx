@@ -2,7 +2,9 @@ import {createContext} from 'react';
 
 const ServicesContex = createContext({
     refresh:false,
-    updateContex:()=>{}
+    updateContex:()=>{},
+    socket:{},
+    notify:'',
 });
 
 export default ServicesContex;

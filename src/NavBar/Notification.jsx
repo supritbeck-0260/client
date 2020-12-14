@@ -1,5 +1,5 @@
 import React,{useState,useContext, useEffect} from 'react';
-import {AuthContex} from '../App';
+import {AuthContex,ServicesContex} from '../App';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,6 @@ import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import TimeAgo from '../Detailed/TimeStamp';
-import CircularProgress from '@material-ui/core/CircularProgress';
 const useStyles = makeStyles((theme) => ({
     button: {
         width: '30px',
@@ -52,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const Notification = () =>{
     const classes = useStyles();
     const auth = useContext(AuthContex);
+    const services = useContext(ServicesContex);
     const [anchorEl, setAnchorEl] = useState(null);
     const [notify,setNotify] = useState('');
     const [count,setCount] = useState(0);
@@ -90,7 +90,7 @@ const Notification = () =>{
         }
 
       });
-    },[]);
+    },[services.notify]);
     return(
         <>
         <Button className={classes.button} onClick={handleClick}>

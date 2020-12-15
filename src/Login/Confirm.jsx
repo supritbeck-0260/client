@@ -139,6 +139,7 @@ const [lengthFlag,setLengthFlag] = useState(false);
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
+              setUser({password:'',cpassword:''});
               setTimeout(()=>{
                 history.push('/login')
               },4000);

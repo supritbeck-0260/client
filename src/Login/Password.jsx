@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 const Password = (props) =>{
     const classes = useStyles();
     const [values, setValues] = useState({
-        password: props.values,
         showPassword: false,
       });
     
@@ -41,7 +40,7 @@ const Password = (props) =>{
                 <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
+                    value={props.values}
                     onChange={handleChange('password')}
                     onBlur={props.validateFun}
                     onFocus={props.resetError}

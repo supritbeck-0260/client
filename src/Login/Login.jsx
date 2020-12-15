@@ -168,7 +168,7 @@ const Login=(props)=> {
                 <Typography variant="h4">Login</Typography>
               </Grid>
               <Grid item className={classes.container}>
-                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
+                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} value={user.email} id="outlined-basic" label="Email" variant="outlined" />
                     {emailAlert?<Alert className={classes.alert} severity="error">Please enter your Email</Alert>:null}
                     <Password label='Password' setData={setData} type='p' values={user.password}/>
                     {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}

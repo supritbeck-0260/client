@@ -130,11 +130,13 @@ const Signup=()=> {
         switch(response.status){
           case 200:
               setSeverity('success');
-              setMessage(response.data.message);
+              setMessage(response.data.message); 
+              setUser({name:'',email:'',gender:'',password:'',cpassword:''});
               break;
           case 201:
               setSeverity('warning');
               setMessage(response.data.message);
+              setUser({email:''});
               break;
           case 500:
               setSeverity('error');
@@ -154,9 +156,9 @@ const Signup=()=> {
                 <Typography variant="h4">Sign Up</Typography>
               </Grid>
               <Grid item className={classes.container}>
-                    <TextField className={classes.inputField} onChange={(e)=>setData('name',e.target.value)} id="outlined-basic" label="Name" variant="outlined" />
+                    <TextField className={classes.inputField} onChange={(e)=>setData('name',e.target.value)} value={user.name} id="outlined-basic" label="Name" variant="outlined" />
                     {nameAlert?<Alert className={classes.alert} severity="error">Name is not valid- Try again.</Alert>:null}
-                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} id="outlined-basic"  label="Email" variant="outlined" />
+                    <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} value={user.email} id="outlined-basic"  label="Email" variant="outlined" />
                     {emailAlert?<Alert className={classes.alert} severity="error">Email is not valid- Try again.</Alert>:null}
                     <Gender setData={setData} values={user.gender}/>
                     {genderAlert?<Alert className={classes.alert} severity="error">Please select your gender.</Alert>:null}

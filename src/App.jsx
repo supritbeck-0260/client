@@ -12,6 +12,7 @@ import AuthContex from './Contex/AuthContex';
 import ServicesContex from './Contex/ServicesContex';
 import Forgot from './Login/Forgot';
 import Confirm from './Login/Confirm';
+import Hits from './Hits/Hits';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -92,6 +93,7 @@ useEffect(logoutTimer,[]);
                     <Route exact path='/' render={()=><Home/>}/>
                     <Route exact path='/profile/:id' render={()=><ProfilePage/>}/>
                     <Route exact path='/detailed/:id' render={()=><Detailed/>}/>
+                    <Route exact path='/hits' render={()=><Hits/>}/>
                     <Route exact path='/login' render={()=><Login/>}/>
                     <Route exact path='/signup' render={()=><Signup/>}/>
                     <Route exact path='/token/:id' render={()=><Login/>}/>

@@ -46,6 +46,7 @@ const Navbar = (props)=> {
             <Typography variant="h6" className={classes.title}>
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Typography>
+          <NavLink to='/hits' className={classes.logo}><Button color="inherit">Hits</Button></NavLink>
           {auth.isLoggedin?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}
           {auth.isLoggedin?<Notification/>:null}
           {auth.isLoggedin?null:<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}

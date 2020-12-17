@@ -10,6 +10,7 @@ import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import TimeAgo from '../Detailed/TimeStamp';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
     button: {
         width: '30px',
@@ -94,7 +95,9 @@ const Notification = () =>{
     return(
         <>
         <Button className={classes.button} onClick={handleClick}>
+        <Tooltip title='Notification'>
             <Badge badgeContent={count}><NotificationIcon/></Badge>
+        </Tooltip>
         </Button>
     <div>
       <Menu

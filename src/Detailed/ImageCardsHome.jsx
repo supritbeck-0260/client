@@ -185,7 +185,7 @@ useEffect(getComments,[]);
             {props.data.info.about}
           </Typography>
           {avg?<CardActions>
-            Avg Rating:<Rating name="read-only" value={avg.rate} readOnly />({avg.total})
+            Avg Rating:<Rating name="read-only" precision={0.5} value={avg.rate} readOnly />({avg.total})
           </CardActions>:null}
           <div className={classes.container}>
             {props.data.info.camera?<ToolComponent label="Camera" value={props.data.info.camera}/>:null}<br/>

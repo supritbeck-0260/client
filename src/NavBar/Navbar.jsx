@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import {NavLink} from 'react-router-dom';
 import UserMenu from './UserMenu';
 import Notification from './Notification';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -44,7 +45,9 @@ const Navbar = (props)=> {
       <AppBar className={classes.appbar} position="fixed">
         <Toolbar>
             <Typography variant="h6" className={classes.title}>
+            <Tooltip title='Home'> 
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
+            </Tooltip>
             </Typography>
           <NavLink to='/hits' className={classes.logo}><Button color="inherit">Hits</Button></NavLink>
           {auth.isLoggedin?<Button color="inherit" onClick={props.toggleFun}>Upload</Button>:null}

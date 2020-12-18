@@ -33,6 +33,9 @@ const useStyles = makeStyles({
         borderRadius:'50%',
         boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
         margin:'3px',
+    },
+    image:{
+        maxHeight:'430px',
     }
 });
 const Image = (props) =>{
@@ -52,7 +55,7 @@ const Image = (props) =>{
             </NavLink>
             </div>
             <NavLink to={'/detailed/'+props.data._id}>
-            <img  height='450px' src={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.data.filename} alt={props.data.about}/>   
+            <img className={classes.image} src={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.data.filename} alt={props.data.about}/>   
             </NavLink>
         </div>
         </>

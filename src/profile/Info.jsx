@@ -56,6 +56,29 @@ const useStyles = makeStyles((theme) => ({
         width:'100%',
         display:'flex',
         justifyContent:'center'
+    },
+    username:{
+        margin:'5px',
+        width:'fit-content'
+    },
+    mentor:{
+        width:'fit-content',
+        margin:'5px',
+        background: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
+        padding:'5px',
+        borderRadius:'15px',
+        boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    },
+    mentorCont:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        width:'fit-content'
+    },
+    userCont:{
+        display:'flex',
+        flexWrap: 'wrap',
+        alignItems:'center',
     }
   }));
 const Info = () =>{
@@ -147,10 +170,18 @@ const getValues= (key,value)=>{
                 {editFlag?<Button className={classes.save} variant="contained" color="primary" onClick={save}>Save<SaveIcon/></Button>:null}
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
-            </div>:null}
+            </div>:
+            auth.isLoggedin?<Button variant="contained">Make Mentor</Button>:null}
         </div>
         <div className={classes.root}>
-            <h1><strong>{name}</strong></h1>
+            <div className={classes.userCont}>
+                <h1 className={classes.username}><strong>{name}</strong></h1>
+                <div className={classes.mentorCont}>
+                    <h5 className={classes.mentor}>MentorOf:12k</h5>
+                    {isAuth?<h5 className={classes.mentor}>Mentors:102</h5>:null}
+                </div>
+            </div>
+
             {toggle?data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
                 <Chip

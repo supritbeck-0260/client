@@ -97,12 +97,16 @@ const Info = () =>{
     const [startedOn,setStartedOn] = useState(null);
     const [toggle,setToggle]=useState(true);
     const [name,setName] = useState(null);
+    const [mentoring,setMentoring] = useState(null);
+    const [mentors,setMentors] = useState(null);
+    const [isMentor,setIsMentor] = useState(null);
     const [isAuth,setIsAuth] = useState(false);
     const infoFun = ()=>{
         setToggle(false); 
-        Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id})
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
         .then(response=>
             {
+                console.log(response);
                 const value = response.data;
                 if(value){
                     if(value.date){
@@ -119,6 +123,12 @@ const Info = () =>{
                     others:value.others,
                     about:value.about
                 });
+                setMentoring(value.mentoring);
+                if(value.mentors){
+                    setMentors(value.mentors);
+                }if(value.isMentor){
+                    setIsMentor(value.isMentor);
+                }
                 setName(value.name);
                 setIsAuth(value._id==auth.userID);
                 data[0].values = value.camera;
@@ -161,7 +171,20 @@ const getValues= (key,value)=>{
         return {...prev};
     });
 }
-
+const mentorReq = ()=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/mentor/make',{id:id},{
+        headers:{
+          'authorization': auth.token
+        }
+      }).then(response=>{
+          console.log(response);
+          switch(response.status){
+              case 200:
+                  setIsMentor(true);
+                  break
+          }
+      });
+}
     return(
         <>
         <div className={classes.head}>
@@ -171,14 +194,17 @@ const getValues= (key,value)=>{
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
-            auth.isLoggedin?<Button variant="contained">Make Mentor</Button>:null}
+            auth.isLoggedin?
+            isMentor?<Button variant="contained">Unfollow</Button>:
+            <Button onClick={mentorReq} variant="contained">Make Mentor</Button>
+            :null}
         </div>
         <div className={classes.root}>
             <div className={classes.userCont}>
                 <h1 className={classes.username}><strong>{name}</strong></h1>
                 <div className={classes.mentorCont}>
-                    <h5 className={classes.mentor}>MentorOf:12k</h5>
-                    {isAuth?<h5 className={classes.mentor}>Mentors:102</h5>:null}
+                    <h5 className={classes.mentor}>Mentoring:{mentoring}</h5>
+                    {isAuth?<h5 className={classes.mentor}>Mentors:{mentors}</h5>:null}
                 </div>
             </div>
 

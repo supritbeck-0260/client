@@ -77,9 +77,7 @@ const Signup=()=> {
     setLengthFlag(false);
     setMessage(null);
     setUser(prev=>{
-      if(value){
-        prev[field]=value.trim();
-      }
+        prev[field]=value;
       return {...prev}
     });
   } 
@@ -126,6 +124,7 @@ const Signup=()=> {
     setLoading(true);
     Axios.post(process.env.REACT_APP_SERVER_URL+'/auth/signup',user).then(response=>{
       setLoading(false);
+      console.log(response);
       if(response.data){
         switch(response.status){
           case 200:
@@ -136,7 +135,12 @@ const Signup=()=> {
           case 201:
               setSeverity('warning');
               setMessage(response.data.message);
-              setUser({email:''});
+              setUser(prev=>{
+                const {name,email,gender}=prev;
+                const password = '';
+                const cpassword = '';
+                return {name,email,gender,password,cpassword}
+              });
               break;
           case 500:
               setSeverity('error');

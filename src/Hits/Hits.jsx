@@ -40,6 +40,7 @@ useEffect(()=>{
                     }
                     break;
                 case 201:
+                    console.log(response);
                     break;
             }
         });

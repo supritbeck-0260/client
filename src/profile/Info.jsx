@@ -101,6 +101,8 @@ const Info = () =>{
     const [mentors,setMentors] = useState(null);
     const [isMentor,setIsMentor] = useState(null);
     const [isAuth,setIsAuth] = useState(false);
+    const [unfollow,setUnfollow] = useState(false);
+    const [mentorFlag,setMentorFlag] = useState(false);
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -172,6 +174,7 @@ const getValues= (key,value)=>{
     });
 }
 const mentorReq = ()=>{
+    setMentorFlag(true);
     Axios.post(process.env.REACT_APP_SERVER_URL+'/mentor/make',{id:id},{
         headers:{
           'authorization': auth.token
@@ -181,6 +184,25 @@ const mentorReq = ()=>{
           switch(response.status){
               case 200:
                   setIsMentor(true);
+                  setUnfollow(false);
+                  setMentoring(response.data.mentoring);
+                  setMentorFlag(false);
+                  break
+          }
+      });
+}
+const mentorRemove = ()=>{
+    setUnfollow(true);
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/mentor/remove',{id:id},{
+        headers:{
+          'authorization': auth.token
+        }
+      }).then(response=>{
+          console.log(response);
+          switch(response.status){
+              case 200:
+                  setIsMentor(false);
+                  setMentoring(response.data.mentoring);
                   break
           }
       });
@@ -195,15 +217,15 @@ const mentorReq = ()=>{
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
             auth.isLoggedin?
-            isMentor?<Button variant="contained">Unfollow</Button>:
-            <Button onClick={mentorReq} variant="contained">Make Mentor</Button>
+            isMentor?<Button variant="contained" disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
+            <Button onClick={mentorReq} disabled={mentorFlag} variant="contained">{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
             :null}
         </div>
         <div className={classes.root}>
             <div className={classes.userCont}>
                 <h1 className={classes.username}><strong>{name}</strong></h1>
                 <div className={classes.mentorCont}>
-                    <h5 className={classes.mentor}>Mentoring:{mentoring}</h5>
+                    {mentoring!=null?<h5 className={classes.mentor}>Mentoring:{mentoring}</h5>:null}
                     {isAuth?<h5 className={classes.mentor}>Mentors:{mentors}</h5>:null}
                 </div>
             </div>

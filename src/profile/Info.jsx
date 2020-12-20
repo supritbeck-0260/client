@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {AuthContex} from '../App'
+import {AuthContex,ServicesContex} from '../App'
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
@@ -91,6 +91,7 @@ const Info = () =>{
     });
     const {id} = useParams();
     const auth = useContext(AuthContex);
+    const services = useContext(ServicesContex);
     const location = useLocation()
     const classes = useStyles();
     const [editFlag,setEditFlag] = useState(false);
@@ -108,7 +109,6 @@ const Info = () =>{
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
         .then(response=>
             {
-                console.log(response);
                 const value = response.data;
                 if(value){
                     if(value.date){
@@ -183,6 +183,7 @@ const mentorReq = ()=>{
           console.log(response);
           switch(response.status){
               case 200:
+                services.socket.emit('SendData',id);
                   setIsMentor(true);
                   setUnfollow(false);
                   setMentoring(response.data.mentoring);

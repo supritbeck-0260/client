@@ -8,6 +8,7 @@ import {NavLink} from 'react-router-dom';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import Axios from 'axios';
 import TimeAgo from '../Detailed/TimeStamp';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -115,12 +116,14 @@ const Notification = () =>{
              <Avatar className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+'/profile/'+value.avatar}></Avatar>
           </NavLink>
               <NavLink to={'/profile/'+value.uid} className={classes.users} >
-                   <Typography variant='subtitle1'className={classes.text}> <b>{value.name}</b> {value.rate?`rated ${value.rate}`:'commented'} on your picture.</Typography>
+                    {value.type=='R'?<Typography variant='subtitle1'className={classes.text}> <b>{value.name}</b> rated {value.rate} on your picture.</Typography>:null}
+                    {value.type=='C'?<Typography variant='subtitle1'className={classes.text}> <b>{value.name}</b> commented on your picture.</Typography>:null}
+                    {value.type=='M'?<Typography variant='subtitle1'className={classes.text}> <b>{value.name}</b> made you his mentor.</Typography>:null}
                    <Typography variant='subtitle2' className={classes.timeStamp}><TimeAgo time={value.date}/></Typography>
                 </NavLink>
-            <NavLink to={'/detailed/'+value.iid}>
+            {value.type!='M'?<NavLink to={'/detailed/'+value.iid}>
                 <img className={classes.image} src={process.env.REACT_APP_SERVER_URL+'/uploads/'+value.filename}/>
-            </NavLink>
+            </NavLink>:<SupervisorAccountIcon className={classes.image}/>}
             </MenuItem>
         ):<MenuItem onClick={handleClose} className={classes.loader}>No Notifications yet.</MenuItem>}
       </Menu>

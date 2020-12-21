@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
@@ -29,13 +29,11 @@ const useStyles = makeStyles((theme) => ({
     textArea:{
         width:'100%',
         padding: '10.5px 7px',
-    }
+    },
 }));
 const InputGroup = (props) =>{
     const classes = useStyles();
-    const [value,setValue] = useState(props.value);
     const changHandler = (e)=>{
-        setValue(e.target.value);
         props.change(e.target);
     }
     return(
@@ -51,10 +49,10 @@ const InputGroup = (props) =>{
                             placeholder={props.placeholder}
                             multiline
                             variant={props.variant}
-                            value={value}
+                            value={props.value}
                             onChange={changHandler}
-                        />
-                        
+                            onClick={props.handleClick}
+                        />      
                 </div>
         </div>
         </>

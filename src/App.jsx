@@ -14,6 +14,7 @@ import Forgot from './Login/Forgot';
 import Confirm from './Login/Confirm';
 import Hits from './Hits/Hits';
 import Admin from './Admin/Admin';
+import Axios from 'axios';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -71,6 +72,14 @@ const logoutTimer = ()=>{
     } 
 }
 useEffect(logoutTimer,[]);
+const fetchProduct = async (item,name)=>{
+   const result = await Axios.post(process.env.REACT_APP_SERVER_URL+'/product/fetch',{item,name},{
+        headers:{
+          'authorization': token
+        }
+      })
+      return result;
+}
     return(
         <>
             <AuthContex.Provider value={{
@@ -86,7 +95,8 @@ useEffect(logoutTimer,[]);
                     reload:reload,
                     updateContex:updateContex,
                     socket:io,
-                    notify:notify
+                    notify:notify,
+                    fetchProduct:fetchProduct,
                 }}
             >
                 <Navbar toggleFun={toggleModal}/>

@@ -9,6 +9,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from './Data';
 import CloseIcon from '@material-ui/icons/Close';
 import FadeIn from 'react-fade-in';
+import Typography from '@material-ui/core/Typography';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Suggestion from '../suggestion/Suggestion';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'fixed',
@@ -103,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
         float:'right',
         margin: '-10px 1px',
         minWidth:'20px',
-    }
+    },
 }));
 
 const Upload = (props) =>{
@@ -115,6 +119,14 @@ const Upload = (props) =>{
     const classes = useStyles();
     const [mainCls,setMainCls] = useState(classes.mainLrg);
     const [uploadBtn,setUploadBtn] = useState('Upload');
+    const [product,setProduct] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
     const [photoInfo,setPhotoInfo] = useState({
         about:'',
         camera:'',
@@ -129,6 +141,10 @@ const Upload = (props) =>{
         setUrl(tempUrl);
     }
 const getValue = (target) =>{
+    services.fetchProduct(target.name,target.value).then(response=>{
+        console.log(response);
+        setProduct(response.data);
+    });
       setPhotoInfo((prev)=>{
           prev[target.name]=target.value;
           return {...prev};
@@ -204,6 +220,7 @@ useEffect(()=>{
                         placeholder={val.placeholder}
                         variant={val.variant}
                         change={getValue}
+                        handleClick={handleClick}
                         />
                     )}
                     
@@ -211,6 +228,7 @@ useEffect(()=>{
                     <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>
                     </div>
                     </div>:null}
+                    <Suggestion className={classes.suggestion} handleClose={handleClose} product={product} anchorEl={anchorEl}/>
                </form>
                </FadeIn>
             </div>

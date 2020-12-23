@@ -143,11 +143,11 @@ const ImgCarosol = props => {
     };
     
     const getValue = (target) =>{
-      setPhotoInfo((prev)=>{
-          prev[target.name]=target.value;
-          return {...prev};
-      });
-}
+    setPhotoInfo((prev)=>{
+      prev[target.name]={value:target.value};
+      return {...prev};
+  });
+  }
     const checkArrows = () =>{
       if(imageData.length <=1){
         setLeftArrFlg(false);
@@ -213,12 +213,6 @@ const ImgCarosol = props => {
         });
     }
     const editHandler = () =>{
-      data[0].value = photo.info.about;
-      data[1].value = photo.info.camera;
-      data[2].value = photo.info.lenses;
-      data[3].value = photo.info.editing;
-      data[4].value = photo.info.others;
-      data[5].value = photo.info.location;
       setPhotoInfo(prev=>{
         prev['id']=photo.info._id;
         prev['uid'] = photo.info.uid;
@@ -238,7 +232,7 @@ const ImgCarosol = props => {
       setEdit(false);
       checkArrows();
     }
-    const postData = (event) =>{
+    const postData = () =>{
       setSave('Saving...');
       Axios.post(process.env.REACT_APP_SERVER_URL+'/upload/edit',photoInfo,{
         headers:{
@@ -258,6 +252,12 @@ const ImgCarosol = props => {
           }
       });
   }
+  const handleBlur = (name,data) => {
+    setPhotoInfo((prev)=>{
+      prev[name]={value:data.name,link:data.link};
+      return {...prev};
+  });
+  };
   const deleteHandler = ()=>{
     setDelete('Deleting...');
     Axios.post(process.env.REACT_APP_SERVER_URL+'/upload/delete',{id:photoInfo.id,uid:photoInfo.uid},{
@@ -301,13 +301,14 @@ const ImgCarosol = props => {
                         <InputGroup 
                         key={index}
                         name={val.name}
-                        value={val.value?val.value:''}
+                        value={photoInfo[val.name]?photoInfo[val.name]:''}
                         label={val.label}
                         id={val.id}
                         label2={val.label2}
                         placeholder={val.placeholder}
                         variant={val.variant}
                         change={getValue}
+                        handleBlur={handleBlur}
                         />
                     )}
             <div className={classes.buttons}>

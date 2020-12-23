@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{useState,useContext} from 'react';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import {ServicesContex} from '../App';
 const useStyles = makeStyles((theme) => ({
     mainTile:{
         display:'flex',
@@ -25,23 +26,52 @@ const useStyles = makeStyles((theme) => ({
         height:'36px',
         display:'flex',
         alignItems: 'center',
+        position:'relative'
     },
     textArea:{
         width:'100%',
         padding: '10.5px 7px',
     },
+    dropdownMenu:{
+        background:'white',
+        zIndex:'2222',
+        width:'fit-content',
+        position:'absolute',
+        border:'2px solid silver',
+        padding:'0',
+        margin:'0',
+        listStyleType: "none",
+        top: '45px',
+        left: '15px',
+        padding: '5px',
+        borderRadius:'5px'
+    },
+    li:{
+        padding:'5px',
+    }
 }));
 const InputGroup = (props) =>{
     const classes = useStyles();
+    const services = useContext(ServicesContex);
+    const [product,setProduct] = useState([]);
     const changHandler = (e)=>{
         props.change(e.target);
+        if(e.target.name !='about' && e.target.name !='location'){
+            services.fetchProduct(e.target.name,e.target.value).then(response=>{
+                switch(response.status){
+                    case 200:
+                    setProduct(response.data);
+                        break;
+                  }
+                });
+            }
     }
     return(
         <>
         <div className={classes.mainTile}>
                 <div className={classes.tile1}>{props.label}</div>
                 <div className={classes.tile2}>
-                        <TextField
+                <TextField
                             name={props.name}
                             className={classes.textArea}
                             id={props.id}
@@ -49,10 +79,14 @@ const InputGroup = (props) =>{
                             placeholder={props.placeholder}
                             multiline
                             variant={props.variant}
-                            value={props.value}
+                            value={props.value?props.value.value:''}
                             onChange={changHandler}
-                            onClick={props.handleClick}
-                        />      
+                        /> 
+                           
+                           {product.length?<ul className={classes.dropdownMenu}>
+                            {product.map((value,index)=>
+                            <li key={index} onClick={()=>{props.handleBlur(props.name,value);setProduct([])}} className={classes.li}>{value.name}</li>)   }
+                            </ul>:null}
                 </div>
         </div>
         </>

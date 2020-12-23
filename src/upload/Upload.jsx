@@ -9,10 +9,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from './Data';
 import CloseIcon from '@material-ui/icons/Close';
 import FadeIn from 'react-fade-in';
-import Typography from '@material-ui/core/Typography';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Suggestion from '../suggestion/Suggestion';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'fixed',
@@ -119,20 +115,13 @@ const Upload = (props) =>{
     const classes = useStyles();
     const [mainCls,setMainCls] = useState(classes.mainLrg);
     const [uploadBtn,setUploadBtn] = useState('Upload');
-    const [product,setProduct] = useState(null);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
     const [photoInfo,setPhotoInfo] = useState({
-        about:'',
-        camera:'',
-        lenses:'',
-        editing:'',
-        others:''
+        about:{},
+        camera:{},
+        lenses:{},
+        editing:{},
+        others:{},
+        location:{},
     });
     
     const fileUploadHandler = (event) =>{
@@ -141,15 +130,17 @@ const Upload = (props) =>{
         setUrl(tempUrl);
     }
 const getValue = (target) =>{
-    services.fetchProduct(target.name,target.value).then(response=>{
-        console.log(response);
-        setProduct(response.data);
-    });
-      setPhotoInfo((prev)=>{
-          prev[target.name]=target.value;
-          return {...prev};
-      });
+setPhotoInfo((prev)=>{
+    prev[target.name]={value:target.value};
+    return {...prev};
+});
 }
+const handleBlur = (name,data) => {
+    setPhotoInfo((prev)=>{
+        prev[name]={value:data.name,link:data.link};
+        return {...prev};
+    });
+  };
 const postData = (event) =>{
     setUploadBtn('Uploading...');
     const formData = new FormData();
@@ -215,12 +206,13 @@ useEffect(()=>{
                         key={index}
                         name={val.name}
                         label={val.label}
+                        value={photoInfo[val.name]}
                         id={val.id}
                         label2={val.label2}
                         placeholder={val.placeholder}
                         variant={val.variant}
                         change={getValue}
-                        handleClick={handleClick}
+                        handleBlur={handleBlur}
                         />
                     )}
                     
@@ -228,7 +220,6 @@ useEffect(()=>{
                     <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>
                     </div>
                     </div>:null}
-                    <Suggestion className={classes.suggestion} handleClose={handleClose} product={product} anchorEl={anchorEl}/>
                </form>
                </FadeIn>
             </div>

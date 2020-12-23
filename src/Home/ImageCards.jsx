@@ -99,14 +99,34 @@ useEffect(()=>{
         </NavLink>
         <CardContent className={classes.CardContent}>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.info.about?props.info.about:<br/>}
+            {props.info.about?props.info.about.value:<br/>}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.info.camera?('Camera:'+props.info.camera):null}<br/>
-            {props.info.lenses?('Lenses:'+props.info.lenses):null}<br/>
-            {props.info.editing?('Editing Tool:'+props.info.editing):null}<br/>
-            {props.info.others?('Others:'+props.info.others):null}<br/>
-            {props.info.location?('Location:'+props.info.location):null}<br/>
+            {props.info.camera?
+              <span>
+                 Camera:<a className={classes.navLinkDec} href={props.info.camera.link} target='_blank'>{props.info.camera.value}</a> 
+              </span>
+            :null}<br/>
+            {props.info.lenses?
+              <span>
+                Lenses:<a className={classes.navLinkDec} href={props.info.lenses.link} target='_blank'>{props.info.lenses.value}</a> 
+              </span>
+            :null}<br/>
+            {props.info.editing?
+                <span>
+                  Editing Tool:<a className={classes.navLinkDec} href={props.info.editing.link} target='_blank'>{props.info.editing.value}</a> 
+                </span>
+            :null}<br/>
+            {props.info.others?
+              <span>
+                Others:<a className={classes.navLinkDec} href={props.info.others.link} target='_blank'>{props.info.others.value}</a> 
+              </span>
+           :null}<br/>
+            {props.info.location?
+              <span>
+                Location:<a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
+              </span>            
+            :null}<br/>
           </Typography>
         </CardContent>
       </CardActionArea>

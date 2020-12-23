@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import data from '../profile/InfoData';
 const useStyles = makeStyles({
     root: {
       width: '60%',
@@ -34,8 +35,8 @@ const ToolComponent = (props)=>{
             <div className={classes.card}>
                 <div className={classes.cardHeader}> {props.label}</div>
                     <div className="card-body">
-                        <a href="https://amzn.to/2ZYAGkr" target="_blank" className={classes.link}>
-                        <p className="card-text">{props.value}</p>
+                        <a href={props.data.link?props.data.link:'https://www.google.com/search?q='+props.data.value} target="_blank" className={classes.link}>
+                            <p className="card-text">{props.data.value}</p>
                         </a>
                 </div>
              </div>

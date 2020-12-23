@@ -182,17 +182,17 @@ useEffect(getComments,[]);
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.data.info.about}
+            {props.data.info.about.value}
           </Typography>
           {avg?<CardActions>
             Avg Rating:<Rating name="read-only" precision={0.5} value={avg.rate} readOnly />({avg.total})
           </CardActions>:null}
           <div className={classes.container}>
-            {props.data.info.camera?<ToolComponent label="Camera" value={props.data.info.camera}/>:null}<br/>
-            {props.data.info.lenses?<ToolComponent label="Editing Tool" value={props.data.info.editing}/>:null}<br/>
-            {props.data.info.editing?<ToolComponent label="Lenses" value={props.data.info.lenses}/>:null}<br/>
-            {props.data.info.others?<ToolComponent label="Others" value={props.data.info.others}/>:null}<br/>
-            {props.data.info.location?<ToolComponent label="Location" value={props.data.info.location}/>:null}
+            {props.data.info.camera?<ToolComponent label="Camera" data={props.data.info.camera}/>:null}<br/>
+            {props.data.info.lenses?<ToolComponent label="Editing Tool" data={props.data.info.editing}/>:null}<br/>
+            {props.data.info.editing?<ToolComponent label="Lenses" data={props.data.info.lenses}/>:null}<br/>
+            {props.data.info.others?<ToolComponent label="Others" data={props.data.info.others}/>:null}<br/>
+            {props.data.info.location?<ToolComponent label="Location" data={props.data.info.location}/>:null}
   
           </div>
           <div className={classes.rateTimeContainer}>

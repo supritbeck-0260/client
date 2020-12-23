@@ -104,22 +104,22 @@ useEffect(()=>{
           <Typography variant="body2" color="textSecondary" component="p">
             {props.info.camera?
               <span>
-                 Camera:<a className={classes.navLinkDec} href={props.info.camera.link} target='_blank'>{props.info.camera.value}</a> 
+                 Camera:<a className={classes.navLinkDec} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> 
               </span>
             :null}<br/>
             {props.info.lenses?
               <span>
-                Lenses:<a className={classes.navLinkDec} href={props.info.lenses.link} target='_blank'>{props.info.lenses.value}</a> 
+                Lenses:<a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
               </span>
             :null}<br/>
             {props.info.editing?
                 <span>
-                  Editing Tool:<a className={classes.navLinkDec} href={props.info.editing.link} target='_blank'>{props.info.editing.value}</a> 
+                  Editing Tool:<a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
                 </span>
             :null}<br/>
             {props.info.others?
               <span>
-                Others:<a className={classes.navLinkDec} href={props.info.others.link} target='_blank'>{props.info.others.value}</a> 
+                Others:<a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
               </span>
            :null}<br/>
             {props.info.location?
@@ -131,12 +131,6 @@ useEffect(()=>{
         </CardContent>
       </CardActionArea>
       <CardActions>
-        {/* <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button> */}
         <div className={classes.rateTimeContainer}>
           {props.info.avgRate?<div className={classes.rating}> Avg Rating:<Rating name="read-only" precision={0.5} value={props.info.avgRate.rate} readOnly />({props.info.avgRate.total})</div>:<div className={classes.rating}>No rating yet.</div>}
           <div><TimeAgo time={props.info.date}/></div>

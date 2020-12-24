@@ -29,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
     dropdownMenu:{
         background:'white',
         zIndex:'2222',
-        width:'fit-content',
+        width:'170px',
         position:'absolute',
         border:'2px solid silver',
         padding:'0',
         margin:'0',
         listStyleType: "none",
-        top: '28px',
-        left: 'rpx',
+        top: '38px',
+        right: '0px',
         padding: '5px',
         borderRadius:'5px'
     },
@@ -88,7 +88,7 @@ const deleteHandler = (value)=>{
 const selectOne =(data)=>{
     setValue(data.name);
     setData(prev=>{
-        const index = prev.findIndex(check=>check.value==data.value);
+        const index = prev.findIndex(check=>check.value==data.name);
         if(index === -1)return [...prev,{value:data.name,link:data.link}];
         else return prev;  
     });
@@ -100,7 +100,7 @@ const selectOne =(data)=>{
         {data.length?data.map((value,index)=><div key={index} className={classes.chip}>{value.value}
         <CancelIcon onClick={()=>deleteHandler(value)}/>
         </div>):null}
-            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler}/>
+            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off"/>
             {product.length?<ul className={classes.dropdownMenu}>
                             {product.map((value,index)=>
                             <li key={index} onMouseDown={()=>{selectOne(value)}} className={classes.li}>{value.name}</li>)   }

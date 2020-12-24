@@ -110,8 +110,8 @@ const Notification = () =>{
       >        
       <MenuItem className={classes.head}>Notification</MenuItem>
       <hr></hr>
-        {notify.length?notify.map((value)=>
-         <MenuItem onClick={handleClose}>
+        {notify.length?notify.map((value,index)=>
+         <MenuItem key={index} onClick={handleClose}>
            <NavLink to={'/profile/'+value.uid} className={classes.users} >
              <Avatar className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+'/profile/'+value.avatar}></Avatar>
           </NavLink>

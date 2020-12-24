@@ -186,7 +186,7 @@ const Login=(props)=> {
           </Grid>
         </Grid>
       </Paper>
-      <Snackbar open={open} anchorOrigin={{vertical: 'center', horizontal: 'center',}} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={open} anchorOrigin={{vertical: 'center', horizontal: 'center'}} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} variant="filled" severity={severity}>{emailVerification}</Alert>
       </Snackbar>
     </div>

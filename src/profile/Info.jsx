@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import Dropdown from './dropdown/Dropdown';
 const useStyles = makeStyles((theme) => ({
     root: {
       margin: 'auto 20px',
@@ -64,16 +65,17 @@ const useStyles = makeStyles((theme) => ({
     mentor:{
         width:'fit-content',
         margin:'5px',
-        background: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
+        border:'0px solid silver',
         padding:'5px',
         borderRadius:'15px',
-        boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
     },
     mentorCont:{
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        width:'fit-content'
+        width:'fit-content',
+        position:'relative',
+        minWidth:'180px'
     },
     userCont:{
         display:'flex',
@@ -104,7 +106,8 @@ const Info = () =>{
     const [isAuth,setIsAuth] = useState(false);
     const [unfollow,setUnfollow] = useState(false);
     const [mentorFlag,setMentorFlag] = useState(false);
-
+    const [dropdown,setDropdown] = useState(false);
+    const [type,setType] = useState('');
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -140,11 +143,12 @@ const Info = () =>{
                 data[3].values = value.others; 
                 }
               setEditFlag(false);
-              setToggle(true);      
+              setToggle(true);  
             });
     }
     useEffect(()=>{
         setToggle(false);
+        setDropdown(false)    
         infoFun();
     },[location]);
     const edit = ()=>{
@@ -209,6 +213,10 @@ const mentorRemove = ()=>{
           }
       });
 }
+const getList = (type)=>{
+    setDropdown(prev=>!prev);
+    setType(type);
+}
     return(
         <>
         <div className={classes.head}>
@@ -227,8 +235,9 @@ const mentorRemove = ()=>{
             <div className={classes.userCont}>
                 <h1 className={classes.username}><strong>{name}</strong></h1>
                 <div className={classes.mentorCont}>
-                    {mentoring!=null?<h5 className={classes.mentor}>Mentoring:{mentoring}</h5>:null}
-                    {isAuth?<h5 className={classes.mentor}>Mentors:{mentors}</h5>:null}
+                    {mentoring!=null?<Button className={classes.mentor} onClick={()=>getList('mentoring')}>Mentoring:{mentoring}</Button>:null}
+                    {isAuth?<Button className={classes.mentor} onClick={()=>getList('mentors')}>Mentors:{mentors}</Button>:null}
+                    {dropdown?<Dropdown type={type} id={id}/>:null}
                 </div>
             </div>
 

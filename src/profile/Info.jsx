@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-
+import Test from './Test';
 const useStyles = makeStyles((theme) => ({
     root: {
       margin: 'auto 20px',
@@ -104,6 +104,7 @@ const Info = () =>{
     const [isAuth,setIsAuth] = useState(false);
     const [unfollow,setUnfollow] = useState(false);
     const [mentorFlag,setMentorFlag] = useState(false);
+
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -217,7 +218,7 @@ const mentorRemove = ()=>{
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
-            auth.isLoggedin?
+            auth.isLoggedin && toggle?
             isMentor?<Button variant="contained" disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
             <Button onClick={mentorReq} disabled={mentorFlag} variant="contained">{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
             :null}
@@ -236,7 +237,8 @@ const mentorRemove = ()=>{
                 <Chip
                 avatar={val.avt}
                 className={classes.chip} label={val.label} variant="outlined"/>: 
-                {!editFlag?<MultiChips data={val.values}/>:<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
+                {/* {!editFlag?<MultiChips data={val.values}/>:<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>} */}
+                 {!editFlag?<MultiChips data={val.values}/>:<Test data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
             </div>
             ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}
             <hr></hr>

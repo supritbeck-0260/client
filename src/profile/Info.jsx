@@ -108,6 +108,7 @@ const Info = () =>{
     const [mentorFlag,setMentorFlag] = useState(false);
     const [dropdown,setDropdown] = useState(false);
     const [type,setType] = useState('');
+    const [loading,setLoading] = useState(false);
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -144,6 +145,7 @@ const Info = () =>{
                 }
               setEditFlag(false);
               setToggle(true);  
+              setLoading(false);
             });
     }
     useEffect(()=>{
@@ -155,6 +157,7 @@ const Info = () =>{
         setEditFlag(true);
     }
     const save = () =>{
+        setLoading(true);
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/update',{...chipData,id:id},{
             headers:{
               'authorization': auth.token
@@ -222,7 +225,7 @@ const getList = (type)=>{
         <div className={classes.head}>
             <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" value={4} readOnly /></div>}</h2>
             {isAuth?<div>
-                {editFlag?<Button className={classes.save} variant="contained" color="primary" onClick={save}>Save<SaveIcon/></Button>:null}
+                {editFlag?<Button className={classes.save} variant="contained" color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}<SaveIcon/></Button>:null}
                 {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
                 {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:

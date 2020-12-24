@@ -156,7 +156,8 @@ const postData = (event) =>{
             case 200:
                 setUploadBtn('Upload');
                 props.toggleFun();
-                services.updateContex(false);
+                services.updateContex(false,false,true);
+                services.socket.emit('newupload','newupload')
                 break;
             case 201:
                 setUploadBtn('Upload');

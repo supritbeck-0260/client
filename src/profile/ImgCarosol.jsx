@@ -241,7 +241,7 @@ const ImgCarosol = props => {
       }).then(response=>{
           switch(response.status){
             case 200:
-                services.updateContex();
+                services.updateContex(false,false,true);
                 handleClose();
                 setSave('Save');
                 break;
@@ -265,7 +265,7 @@ const ImgCarosol = props => {
         'authorization': auth.token
       }
     }).then(response=>{
-      services.updateContex();
+      services.updateContex(false,false,true);
       handleClose();
       setDelete('Delete');
     });

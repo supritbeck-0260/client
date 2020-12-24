@@ -94,7 +94,7 @@ useEffect(()=>{
         <CardMedia
           className={classes.media}
           image={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.info.filename}
-          title={props.info.about}
+          title={props.info.about?props.info.about.value:''}
         />
         </NavLink>
         <CardContent className={classes.CardContent}>

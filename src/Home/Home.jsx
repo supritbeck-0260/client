@@ -7,6 +7,8 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Skeleton from './Skeleton';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import InfiniteScroll from "react-infinite-scroll-component";
+import Snackbar from '@material-ui/core/Snackbar';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +28,7 @@ const classes = useStyles();
 const services = useContext(ServicesContex);
 const [cellHeight,setCellHeight] = useState(435);
 const [images,setImages] = useState(null);
+const [open,setOpen] = useState(false);
 var skeletons=[];
 const matches = useMediaQuery('(min-width:600px)');
 const [column,setColumn] = useState(1);
@@ -71,6 +74,21 @@ const fetchNext = ()=>{
         homeImages(Object.values(images).length);
     }   
 }
+const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    services.updateContex(false,false,false);
+
+  };
+useEffect(()=>{
+    setOpen(services.newupload);
+},[services.newupload]);
+const newFeed = ()=>{
+    setOpen(false);
+    services.updateContex(false,false,true);
+}
     return(
         <>
          <div className={classes.root}>
@@ -91,6 +109,12 @@ const fetchNext = ()=>{
             </GridList>
         </InfiniteScroll> 
         </div>
+        <Snackbar open={open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
+        autoHideDuration={6000}
+        message="New Feed" 
+        onClose={handleClose}
+        action={<ArrowUpwardIcon onClick={newFeed}/>}
+        />
         </>
     );
 }

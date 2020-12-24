@@ -25,6 +25,7 @@ const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:
 const [avatar,setAvatar] = useState(localStorage.getItem('avatar'));
 const [reload,setReload] = useState(false);
 const [notify,setNotify] = useState('');
+const [newupload,setNewupload] = useState(false);
 const io = socket("http://localhost:5000");
 const login = (token,userID,avatar)=>{
     localStorage.setItem('userID',userID)
@@ -51,12 +52,13 @@ const logout = ()=>{
 const toggleModal = () =>{
     setUploadModal(prev=>!prev);
 }
-const updateContex = (avatar)=>{
-        setReload(prev=>!prev);
+const updateContex = (avatar,newupload,reload)=>{
+        if(reload)setReload(prev=>!prev);
         if(avatar){
         localStorage.setItem('avatar',avatar);
         setAvatar(avatar);
         }
+        setNewupload(newupload);
 }
 let logoutCode;
 const logoutTimer = ()=>{
@@ -65,11 +67,15 @@ const logoutTimer = ()=>{
         io.on(userID,data=>{
             console.log(data);
             setNotify(data);
-        })
+        });
     }else{
         logout();
         clearTimeout(logoutCode);
     } 
+    io.on('newupload',data=>{
+        console.log(data);
+        if(data) setNewupload(true);
+    });
 }
 useEffect(logoutTimer,[]);
 const fetchProduct = async (item,name)=>{
@@ -96,6 +102,7 @@ const fetchProduct = async (item,name)=>{
                     updateContex:updateContex,
                     socket:io,
                     notify:notify,
+                    newupload:newupload,
                     fetchProduct:fetchProduct,
                 }}
             >

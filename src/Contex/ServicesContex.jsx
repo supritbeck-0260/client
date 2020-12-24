@@ -5,6 +5,7 @@ const ServicesContex = createContext({
     updateContex:()=>{},
     socket:{},
     notify:'',
+    newupload:false,
     fetchProduct:()=>{},
 });
 

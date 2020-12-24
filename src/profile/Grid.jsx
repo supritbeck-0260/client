@@ -109,7 +109,7 @@ const saveImage = () =>{
         case 200:
           setFile(null);
           setSaveFlag(false);
-          services.updateContex(response.data.filename);
+          services.updateContex(response.data.filename,false,true);
             break;
         case 201:
             cancel();

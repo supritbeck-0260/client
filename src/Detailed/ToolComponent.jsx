@@ -32,14 +32,14 @@ const ToolComponent = (props)=>{
     const classes = useStyles();
     return(
         <>
-            <div className={classes.card}>
+            {props.data?<div className={classes.card}>
                 <div className={classes.cardHeader}> {props.label}</div>
                     <div className="card-body">
                         <a href={props.data.link?props.data.link:'https://www.google.com/search?q='+props.data.value} target="_blank" className={classes.link}>
                             <p className="card-text">{props.data.value}</p>
                         </a>
                 </div>
-             </div>
+             </div>:null}
         </>
     )
 }

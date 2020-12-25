@@ -178,11 +178,11 @@ useEffect(getComments,[]);
         <CardMedia
           className={mediaCss}
           image={process.env.REACT_APP_SERVER_URL+'/uploadOrg/'+props.data.info.filename}
-          title={props.data.info.about}
+          title={props.data.info.about?props.data.info.about.value:''}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.data.info.about.value}
+          {props.data.info.about?props.data.info.about.value:''}
           </Typography>
           {avg?<CardActions>
             Avg Rating:<Rating name="read-only" precision={0.5} value={avg.rate} readOnly />({avg.total})

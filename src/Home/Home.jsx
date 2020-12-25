@@ -9,6 +9,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Snackbar from '@material-ui/core/Snackbar';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import Button from '@material-ui/core/Button';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -113,7 +114,7 @@ const newFeed = ()=>{
         autoHideDuration={6000}
         message="New Feed" 
         onClose={handleClose}
-        action={<ArrowUpwardIcon onClick={newFeed}/>}
+        action={<Button onClick={newFeed}><ArrowUpwardIcon style={{color:'white'}}/></Button>}
         />
         </>
     );

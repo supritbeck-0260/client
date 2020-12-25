@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Dropdown from './dropdown/Dropdown';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -217,8 +218,12 @@ const mentorRemove = ()=>{
       });
 }
 const getList = (type)=>{
-    setDropdown(prev=>!prev);
+    setDropdown(false);
+    setDropdown(true);
     setType(type);
+}
+const handleClickAway =()=>{
+    setDropdown(false);
 }
     return(
         <>
@@ -237,11 +242,13 @@ const getList = (type)=>{
         <div className={classes.root}>
             <div className={classes.userCont}>
                 <h1 className={classes.username}><strong>{name}</strong></h1>
+                <ClickAwayListener onClickAway={handleClickAway}>
                 <div className={classes.mentorCont}>
                     {mentoring!=null?<Button className={classes.mentor} onClick={()=>getList('mentoring')}>Mentoring:{mentoring}</Button>:null}
                     {isAuth?<Button className={classes.mentor} onClick={()=>getList('mentors')}>Mentors:{mentors}</Button>:null}
                     {dropdown?<Dropdown type={type} id={id}/>:null}
                 </div>
+                </ClickAwayListener>
             </div>
 
             {toggle?data.map((val,ind)=>

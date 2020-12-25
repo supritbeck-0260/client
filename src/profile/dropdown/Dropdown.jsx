@@ -57,26 +57,29 @@ const useStyles = makeStyles((theme) => ({
 const Dropdown = (props)=>{
     const classes = useStyles();
     const [list,setList] = useState([]);
+    const [loading,setLoading] = useState(false);
 useEffect(()=>{
+    setLoading(true);
     Axios.post(process.env.REACT_APP_SERVER_URL+'/mentor/list/',{id:props.id,type:props.type}).then(response=>{
         switch(response.status){
             case 200:
                 setList(response.data);
+                setLoading(false);
                 break;
         }
     });
-},[]);
+},[props.type]);
     return(
         <>
         <ul className={classes.dropdownMenu} style={{right:props.type=='mentors'?'0px':''}}>
             <li className={classes.heading}>{props.type} <hr/></li>
-           {list.length? list.map((value,index)=>
+           {!loading?(list.length? list.map((value,index)=>
            <li className={index%2==0?classes.li:classes.lis} key={index}>
             <NavLink className={classes.navLink} to={value.uid}>
              <Avatar className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+'/profile/'+value.avatar}/> {value.name}
              </NavLink>
             </li>
-           ):<li className={classes.loader}><CircularProgress/></li>}
+           ):<li className={classes.li}>No record found</li>):<li className={classes.loader}><CircularProgress/></li>}
         </ul>
         </>
     )

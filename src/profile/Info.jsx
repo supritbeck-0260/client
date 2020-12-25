@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
         padding:'0px 20px',
     },
     save:{
-        margin:'0 5px',
+        margin:'0 0px',
     },
     cancel:{
-        margin:'0 5px',
+        margin:'0 0px',
     },
     loader:{
         width:'100%',
@@ -218,7 +218,6 @@ const mentorRemove = ()=>{
       });
 }
 const getList = (type)=>{
-    setDropdown(false);
     setDropdown(true);
     setType(type);
 }
@@ -230,9 +229,9 @@ const handleClickAway =()=>{
         <div className={classes.head}>
             <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" value={4} readOnly /></div>}</h2>
             {isAuth?<div>
-                {editFlag?<Button className={classes.save} variant="contained" color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}<SaveIcon/></Button>:null}
-                {editFlag?<Button className={classes.cancel} variant="contained"  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
-                {!editFlag?<Button variant="contained" onClick={edit}>Edit<EditIcon/></Button>:null}
+                {editFlag?<Button className={classes.save} color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}<SaveIcon/></Button>:null}
+                {editFlag?<Button className={classes.cancel}  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
+                {!editFlag?<Button onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
             auth.isLoggedin && toggle?
             isMentor?<Button variant="contained" disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:

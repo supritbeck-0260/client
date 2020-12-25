@@ -284,10 +284,10 @@ const ImgCarosol = props => {
                         <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}>
                           <CardMedia
                               component="img"
-                              alt={photo.info.about}
+                              alt={photo.info.about?photo.info.about.value:''}
                               height="500"
                               image={process.env.REACT_APP_SERVER_URL+'/uploads/'+photo.info.filename}
-                              title={photo.info.about}
+                              title={photo.info.about?photo.info.about.value:''}
                           />
                         </NavLink>
                 {rightArrFlg?<Button variant="contained" className={classes.BtnShapeR} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}

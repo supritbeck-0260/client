@@ -21,6 +21,11 @@ import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import CameraIcon from '@material-ui/icons/CameraAltRounded';
+import LensIcon from '@material-ui/icons/LensOutlined';
+import EditIcon from '@material-ui/icons/EditOutlined';
+import LibraryIcon from '@material-ui/icons/LibraryAddOutlined';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Comments from './Comments';
 const useStyles = makeStyles({
   rootLarge: {
@@ -188,11 +193,11 @@ useEffect(getComments,[]);
             Avg Rating:<Rating name="read-only" precision={0.5} value={avg.rate} readOnly />({avg.total})
           </CardActions>:null}
           <div className={classes.container}>
-            {props.data.info.camera?<ToolComponent label="Camera" data={props.data.info.camera}/>:null}<br/>
-            {props.data.info.lenses?<ToolComponent label="Editing Tool" data={props.data.info.editing}/>:null}<br/>
-            {props.data.info.editing?<ToolComponent label="Lenses" data={props.data.info.lenses}/>:null}<br/>
-            {props.data.info.others?<ToolComponent label="Others" data={props.data.info.others}/>:null}<br/>
-            {props.data.info.location?<ToolComponent label="Location" data={props.data.info.location}/>:null}
+            {props.data.info.camera?<ToolComponent avatar={CameraIcon} label="Camera" data={props.data.info.camera}/>:null}<br/>
+            {props.data.info.lenses?<ToolComponent avatar={EditIcon}  label="Editing Tool" data={props.data.info.editing}/>:null}<br/>
+            {props.data.info.editing?<ToolComponent avatar={LensIcon} label="Lense" data={props.data.info.lenses}/>:null}<br/>
+            {props.data.info.others?<ToolComponent avatar={LibraryIcon} label="Others" data={props.data.info.others}/>:null}<br/>
+            {props.data.info.location?<ToolComponent avatar={LocationOnIcon} label="Location" data={props.data.info.location}/>:null}
   
           </div>
           <div className={classes.rateTimeContainer}>

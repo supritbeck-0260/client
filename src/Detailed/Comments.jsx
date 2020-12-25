@@ -14,7 +14,7 @@ const useStyles = makeStyles({
       user:{
         display:'flex',
         alignItems:'center',
-        background: 'linear-gradient(0deg, #fdfcfb 16%, #e2d1c3 100%)'
+        background: 'white'
       },
       avatar:{
           width:'20px',

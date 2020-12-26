@@ -34,7 +34,8 @@ const UserMenu = (props)=> {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-      <Avatar aria-label="recipe" src={process.env.REACT_APP_SERVER_URL+'/profile/'+auth.avatar}/>
+      {auth.avatar?<Avatar aria-label="recipe" src={process.env.REACT_APP_SERVER_URL+'/profile/'+auth.avatar}/>:
+      <Avatar className={classes.avatar}>{auth.name.charAt(0)}</Avatar>}
       </Button>
       <Menu
         id="simple-menu"

@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
       head:{
           display:'flex',
           justifyContent:'center',
-        //   background:'silver'
       },
       image:{
           width:'60px',
@@ -113,7 +112,8 @@ const Notification = () =>{
         {notify.length?notify.map((value,index)=>
          <MenuItem key={index} onClick={handleClose}>
            <NavLink to={'/profile/'+value.uid} className={classes.users} >
-             <Avatar className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+'/profile/'+value.avatar}></Avatar>
+            {value.avatar?<Avatar className={classes.avatar} src={process.env.REACT_APP_SERVER_URL+'/profile/'+value.avatar}></Avatar>:
+            <Avatar className={classes.avatar}>{value.name.charAt(0)}</Avatar>}
           </NavLink>
               <NavLink to={'/profile/'+value.uid} className={classes.users} >
                     {value.type=='R'?<Typography variant='subtitle1'className={classes.text}> <b>{value.name}</b> rated {value.rate} on your picture.</Typography>:null}

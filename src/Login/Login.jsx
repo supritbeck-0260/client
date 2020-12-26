@@ -142,7 +142,7 @@ const Login=(props)=> {
           case 200:
               setSeverity('success');
               setMessage(response.data.message);
-              auth.login(response.data.token,response.data.userID,response.data.avatar);
+              auth.login(response.data.token,response.data.userID,response.data.avatar,response.data.name);
               history.push('/profile/'+response.data.userID);
               break;
           case 201:

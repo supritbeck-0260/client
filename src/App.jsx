@@ -4,7 +4,6 @@ import Navbar from './NavBar/Navbar';
 import {Route,Switch} from 'react-router-dom';
 import ProfilePage from './profile/ProfilePage';
 import Home from './Home/Home';
-
 import Detailed from './Detailed/Detailed';
 import Signup from './Login/Signup';
 import Login from './Login/Login';
@@ -23,14 +22,16 @@ const [token,setToken] = useState(localStorage.getItem('token')?localStorage.get
 const [userID,setUserID] = useState(localStorage.getItem('userID')?localStorage.getItem('userID'):'');
 const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:false);
 const [avatar,setAvatar] = useState(localStorage.getItem('avatar'));
+const [name,setName] = useState('');
 const [reload,setReload] = useState(false);
 const [notify,setNotify] = useState('');
 const [newupload,setNewupload] = useState(false);
 const io = socket(process.env.REACT_APP_SERVER_URL);
-const login = (token,userID,avatar)=>{
+const login = (token,userID,avatar,name)=>{
     localStorage.setItem('userID',userID)
     localStorage.setItem('token',token); 
     localStorage.setItem('avatar',avatar);
+    localStorage.setItem('name',name);
     localStorage.setItem('tokenExpairTime',Date.now()+tokenAliveFor);
     tokenExpairTime = localStorage.getItem('tokenExpairTime');
     logoutTimer();
@@ -38,6 +39,7 @@ const login = (token,userID,avatar)=>{
     setUserID(userID);
     setAvatar(avatar);
     setIsLoggedin(true);
+    setName(name);
 }
 const logout = ()=>{
     localStorage.removeItem('userID')
@@ -89,6 +91,7 @@ const fetchProduct = async (item,name)=>{
             <AuthContex.Provider value={{
                 token:token,
                 avatar:avatar,
+                name:name,
                 isLoggedin:isLoggedin,
                 userID:userID,
                 login:login,

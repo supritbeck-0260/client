@@ -132,9 +132,8 @@ const Info = () =>{
                     about:value.about
                 });
                 setMentoring(value.mentoring);
-                if(value.mentors){
-                    setMentors(value.mentors);
-                }if(value.isMentor){
+                setMentors(value.mentors);
+                if(value.isMentor){
                     setIsMentor(value.isMentor);
                 }
                 setName(value.name);

@@ -4,7 +4,7 @@ import Navbar from './NavBar/Navbar';
 import {Route,Switch} from 'react-router-dom';
 import ProfilePage from './profile/ProfilePage';
 import Home from './Home/Home';
-import Upload from './upload/Upload';
+
 import Detailed from './Detailed/Detailed';
 import Signup from './Login/Signup';
 import Login from './Login/Login';
@@ -18,7 +18,7 @@ import Axios from 'axios';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
-const [uploadModal,setUploadModal] = useState(false);
+
 const [token,setToken] = useState(localStorage.getItem('token')?localStorage.getItem('token'):'');
 const [userID,setUserID] = useState(localStorage.getItem('userID')?localStorage.getItem('userID'):'');
 const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:false);
@@ -26,7 +26,7 @@ const [avatar,setAvatar] = useState(localStorage.getItem('avatar'));
 const [reload,setReload] = useState(false);
 const [notify,setNotify] = useState('');
 const [newupload,setNewupload] = useState(false);
-const io = socket("http://localhost:5000");
+const io = socket(process.env.REACT_APP_SERVER_URL);
 const login = (token,userID,avatar)=>{
     localStorage.setItem('userID',userID)
     localStorage.setItem('token',token); 
@@ -49,9 +49,7 @@ const logout = ()=>{
     setAvatar('');
     setIsLoggedin(false);
 }
-const toggleModal = () =>{
-    setUploadModal(prev=>!prev);
-}
+
 const updateContex = (avatar,newupload,reload)=>{
         if(reload)setReload(prev=>!prev);
         if(avatar){
@@ -106,7 +104,7 @@ const fetchProduct = async (item,name)=>{
                     fetchProduct:fetchProduct,
                 }}
             >
-                <Navbar toggleFun={toggleModal}/>
+                <Navbar/>
                 <Switch>
                     <Route exact path='/' render={()=><Home/>}/>
                     <Route exact path='/profile/:id' render={()=><ProfilePage/>}/>
@@ -120,7 +118,6 @@ const fetchProduct = async (item,name)=>{
                     <Route exact path='/password/:id' render={()=><Confirm/>}/>
                     <Route component={()=><Home/>}/>
                 </Switch>
-            {uploadModal?<Upload toggleFun={toggleModal}/>:null}
             </ServicesContex.Provider>
             </AuthContex.Provider>
         </>

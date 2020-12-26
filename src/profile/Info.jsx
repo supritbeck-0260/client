@@ -234,8 +234,8 @@ const handleClickAway =()=>{
                 {!editFlag?<Button onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
             auth.isLoggedin && toggle?
-            isMentor?<Button variant="contained" disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
-            <Button onClick={mentorReq} disabled={mentorFlag} variant="contained">{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
+            isMentor?<Button disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
+            <Button onClick={mentorReq} disabled={mentorFlag}>{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
             :null}
         </div>
         <div className={classes.root}>

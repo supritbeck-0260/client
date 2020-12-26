@@ -20,7 +20,7 @@ const MultiChips = (props)=>{
   const data = props.data;
     return(
         <>
-        {data.length?data.map((val,ind)=>
+        {data && data.length?data.map((val,ind)=>
         <div className={classes.root} key={ind}>
           <a href={val.link?val.link:'https://www.google.com/search?q='+val.value} className={classes.link} target='_blank'>{val.value}</a>
           </div>

@@ -22,7 +22,7 @@ const [token,setToken] = useState(localStorage.getItem('token')?localStorage.get
 const [userID,setUserID] = useState(localStorage.getItem('userID')?localStorage.getItem('userID'):'');
 const [isLoggedin, setIsLoggedin] = useState(localStorage.getItem('token')?true:false);
 const [avatar,setAvatar] = useState(localStorage.getItem('avatar'));
-const [name,setName] = useState('');
+const [name,setName] = useState(localStorage.getItem('name')?localStorage.getItem('name'):'');
 const [reload,setReload] = useState(false);
 const [notify,setNotify] = useState('');
 const [newupload,setNewupload] = useState(false);
@@ -30,7 +30,7 @@ const io = socket(process.env.REACT_APP_SERVER_URL);
 const login = (token,userID,avatar,name)=>{
     localStorage.setItem('userID',userID)
     localStorage.setItem('token',token); 
-    localStorage.setItem('avatar',avatar);
+    localStorage.setItem('avatar',avatar?avatar:'');
     localStorage.setItem('name',name);
     localStorage.setItem('tokenExpairTime',Date.now()+tokenAliveFor);
     tokenExpairTime = localStorage.getItem('tokenExpairTime');
@@ -46,9 +46,11 @@ const logout = ()=>{
     localStorage.removeItem('token'); 
     localStorage.removeItem('tokenExpairTime');
     localStorage.removeItem('avatar');
+    localStorage.removeItem('name');
     setToken('');
     setUserID('');
     setAvatar('');
+    setName('');
     setIsLoggedin(false);
 }
 

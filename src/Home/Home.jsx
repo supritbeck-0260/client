@@ -50,7 +50,7 @@ const homeImages = (offset)=>{
         }
   });
 }
-for(let i=1;i<=6;i++){
+for(let i=1;i<=3;i++){
     skeletons.push(<GridListTile key={i} className={classes.gridTitle} cols={column}><Skeleton/></GridListTile>);
 }
 useEffect(()=>{
@@ -98,7 +98,7 @@ const newFeed = ()=>{
             dataLength={images?Object.values(images).length:0}
             next={fetchNext}
             hasMore={isData}
-            scrollThreshold={0.8}
+            scrollThreshold={0.7}
             loader={<GridList cellHeight={435}  cols={3}>{skeletons}</GridList>}
             >
             <GridList cellHeight={cellHeight}  cols={3}>

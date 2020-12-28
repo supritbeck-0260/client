@@ -10,6 +10,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import { useLocation, useParams } from 'react-router-dom';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import NotFound from '../NotFound/NotFound';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,9 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
   },
   image:{
-    maxWidth: '100%',
-   maxHeight: '333px'
-   
+    width: '100%',
+    height: '343px',   
 },
 imageInput:{
   display:'none'
@@ -124,8 +126,12 @@ const saveImage = () =>{
       {!notFound?<Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Paper className={classes.paperImage}>
-          {url?<Button variant="contained" component="label">
-              <img className={classes.image} src={url} alt='image'></img>
+          {url?<Button style={{padding:'0px'}} component='label'>
+              <CardMedia 
+                className={classes.image}
+                image={url}
+                title='Profile Picture'
+              />
               {isAuth?<input type="file" accept="image/*" name="profile" className={classes.imageInput} onChange={fileUploadHandler} />:null}
           </Button>:<div className={classes.profileLoader}><CircularProgress /></div>}
           {file?<div className={classes.buttons}>

@@ -35,7 +35,8 @@ const useStyles = makeStyles({
         margin:'3px',
     },
     image:{
-        maxHeight:'430px',
+        height:'426px',
+        maxWidth:'100%'
     }
 });
 const Image = (props) =>{
@@ -55,7 +56,12 @@ const Image = (props) =>{
             </NavLink>
             </div>
             <NavLink to={'/detailed/'+props.data._id}>
-            <img className={classes.image} src={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.data.filename} alt={props.data.about}/>   
+            {/* <CardMedia 
+                className={classes.image}
+                image={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.data.filename}
+                title={props.data.about?props.data.about.value:''}
+              /> */}
+            <img className={classes.image} src={process.env.REACT_APP_SERVER_URL+'/uploads/'+props.data.filename} alt={props.data.about?props.data.about.value:''}/>   
             </NavLink>
         </div>
         </>

@@ -12,9 +12,6 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Button from '@material-ui/core/Button';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
-    root: {
-        
-    },
     gridTitle:{
         display:'flex',
         justifyContent:'center',
@@ -111,7 +108,6 @@ const newFeed = ()=>{
         </InfiniteScroll> 
         </div>
         <Snackbar open={open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
-        autoHideDuration={6000}
         message="New Feed" 
         onClose={handleClose}
         action={<Button onClick={newFeed}><ArrowUpwardIcon style={{color:'white'}}/></Button>}

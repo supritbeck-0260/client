@@ -31,7 +31,6 @@ const Hits = () =>{
     const [play,setPlay] = useState(true);
 useEffect(()=>{
         Axios.get(process.env.REACT_APP_SERVER_URL+'/hits').then(response=>{
-            console.log(response);
             switch(response.status){
                 case 200:
                     if(response.data.length){

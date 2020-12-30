@@ -76,7 +76,10 @@ const logoutTimer = ()=>{
     } 
     io.on('newupload',data=>{
         console.log(data);
-        if(data) setNewupload(true);
+        if(data){ 
+            setNewupload(true);
+            setTimeout(()=>setNewupload(false),6000);
+        };
     });
 }
 useEffect(logoutTimer,[]);

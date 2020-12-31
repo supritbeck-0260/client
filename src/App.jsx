@@ -14,6 +14,7 @@ import Confirm from './Login/Confirm';
 import Hits from './Hits/Hits';
 import Admin from './Admin/Admin';
 import Axios from 'axios';
+import Search from './Search/Search';
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -121,6 +122,7 @@ const fetchProduct = async (item,name)=>{
                     <Route exact path='/login' render={()=><Login/>}/>
                     <Route exact path='/signup' render={()=><Signup/>}/>
                     <Route exact path='/token/:id' render={()=><Login/>}/>
+                    <Route exact path='/search' render={()=><Search/>}/>
                    {isLoggedin?null: <Route exact path='/forgot' render={()=><Forgot/>}/>}
                    <Route exact path='/adminaccess' render={()=><Admin/>}/>
                     <Route exact path='/password/:id' render={()=><Confirm/>}/>

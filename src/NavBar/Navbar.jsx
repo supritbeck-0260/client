@@ -4,11 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import {NavLink} from 'react-router-dom';
 import UserMenu from './UserMenu';
 import Notification from './Notification';
-import Tooltip from '@material-ui/core/Tooltip';
 import Upload from '../upload/Upload';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   BtnShape:{
     borderRadius:'50%',
     height: '60px',
+  },
+  search:{
+    minWidth:'30px',
+    width:'20px',
   }
 }));
 
@@ -54,7 +59,10 @@ const Navbar = (props)=> {
             <NavLink to='/' className={classes.logo}>ProClick</NavLink>
             </Tooltip>
             </Typography>
-          <NavLink to='/hits' className={classes.logo}><Button color="inherit">Hits</Button></NavLink>
+          <Tooltip title='Search'>
+          <NavLink to='/search'><Button className={classes.search}><SearchIcon/></Button></NavLink>
+          </Tooltip>
+          <NavLink to='/hits' className={classes.logo}><Button color="inherit" style={{minWidth:'30px'}}>Hits</Button></NavLink>
           {auth.isLoggedin?<Button color="inherit" onClick={toggleModal}>Upload</Button>:null}
           {auth.isLoggedin?<Notification/>:null}
           {auth.isLoggedin?null:<NavLink to='/login' className={classes.logo}><Button color="inherit">Login</Button></NavLink>}

@@ -95,6 +95,7 @@ const Search = () => {
     const [resultF,setResultF] = useState(false);
     const [searchType,setSearchType] = useState({category:'',search:''});
     const [data,setData] = useState({category:'camera',search:''});
+    const [column,setColumn] = useState(3);
     const [message,setMessage] = useState(null);
     const [loading,setLoading] = useState(false);
     const getValues = (type,value)=>{
@@ -126,8 +127,13 @@ const Search = () => {
         });
     }
     useEffect(()=>{
-        if(matches) setView({header:classes.headerW});
-        else setView({header:classes.headerM});
+        if(matches){ 
+            setView({header:classes.headerW});
+            setColumn(1);
+        }else{ 
+            setView({header:classes.headerM});
+            setColumn(3);
+        }
     },[matches]);
     useEffect(()=>search('all'),[]);
     return (
@@ -145,7 +151,7 @@ const Search = () => {
         <div className={classes.container}>
             {!loading?<GridList cellHeight={300} className={classes.gridList} cols={3}>
             {results.length?results.map((value,index)=>
-            <GridListTile key={index} className={classes.gridTitle} cols={1}>
+            <GridListTile key={index} className={classes.gridTitle} cols={column}>
                 <NavLink to={(searchType.category=='photographer'?'/profile/':'/detailed/')+value._id}>
                         <CardMedia
                         component="img"

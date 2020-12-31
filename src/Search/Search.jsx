@@ -94,7 +94,7 @@ const Search = () => {
     const [results,setResults] = useState([]);
     const [resultF,setResultF] = useState(false);
     const [searchType,setSearchType] = useState({category:'',search:''});
-    const [data,setData] = useState({category:'',search:''});
+    const [data,setData] = useState({category:'camera',search:''});
     const [message,setMessage] = useState(null);
     const [loading,setLoading] = useState(false);
     const getValues = (type,value)=>{
@@ -103,12 +103,12 @@ const Search = () => {
             return {...prev};
         });
     }
-    const search = ()=>{
+    const search = (param)=>{
         setLoading(true);
-        setResultF([]);
+        setResults([]);
         setResultF(false);
         setSearchType({category:'',search:''});
-        Axios.post(process.env.REACT_APP_SERVER_URL+'/search',{...data}).then(response=>{
+        Axios.post(process.env.REACT_APP_SERVER_URL+'/search',{...data,param}).then(response=>{
             console.log(response);
             setSearchType({search:response.data.search,category:response.data.category});
             switch(response.status){
@@ -129,7 +129,7 @@ const Search = () => {
         if(matches) setView({header:classes.headerW});
         else setView({header:classes.headerM});
     },[matches]);
-    // useEffect(search,[]);
+    useEffect(()=>search('all'),[]);
     return (
         <>
         <div className={view.header}>
@@ -140,7 +140,7 @@ const Search = () => {
             </div>
         </div>
        {resultF?<div style={{width:'100%',marginTop:'8px'}}>
-           <span className={classes.results}>{results.length} Results found for <b>'{searchType.search}'</b> in {searchType.category} category.</span>
+           <span className={classes.results}>{results.length} results found for <b>'{searchType.search}'</b> in {searchType.category} category.</span>
            </div>:null}
         <div className={classes.container}>
             {!loading?<GridList cellHeight={300} className={classes.gridList} cols={3}>

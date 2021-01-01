@@ -81,11 +81,13 @@ const InputGroup = (props) =>{
                             variant={props.variant}
                             value={props.value?props.value.value:''}
                             onChange={changHandler}
+                            onFocus={changHandler}
+                            onBlur={()=>setProduct([])}
                         /> 
                            
                            {product.length?<ul className={classes.dropdownMenu}>
                             {product.map((value,index)=>
-                            <li key={index} onClick={()=>{props.handleBlur(props.name,value);setProduct([])}} className={classes.li}>{value.name}</li>)   }
+                            <li key={index} onMouseDown={()=>{props.handleBlur(props.name,value);setProduct([])}} className={classes.li}>{value.name}</li>)   }
                             </ul>:null}
                 </div>
         </div>

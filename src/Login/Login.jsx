@@ -170,7 +170,7 @@ const Login=(props)=> {
               <Grid item className={classes.container}>
                     <TextField className={classes.inputField} onChange={(e)=>setData('email',e.target.value)} value={user.email} id="outlined-basic" label="Email" variant="outlined" />
                     {emailAlert?<Alert className={classes.alert} severity="error">Please enter your Email</Alert>:null}
-                    <Password label='Password' setData={setData} type='p' values={user.password}/>
+                    <Password label='Password' validate={validate} setData={setData} type='p' values={user.password}/>
                     {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}
                     <Button  className={classes.inputField} variant="contained" onClick={validate} disabled={loading} color="secondary">{!loading?'Login':'...'}</Button>
                     {message?<Alert className={classes.alert} severity={severity}>{message}</Alert>:null}

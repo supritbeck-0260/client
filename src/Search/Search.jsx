@@ -7,6 +7,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import CardMedia from '@material-ui/core/CardMedia';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import image from '../default.JPG';
 import {NavLink} from 'react-router-dom';
 import Axios from 'axios';
 import SelectBox from './SelectBox';
@@ -160,7 +161,7 @@ const Search = () => {
                         component="img"
                         className={classes.image}
                         alt={value.about?value.about.value:'image'}
-                        image={process.env.REACT_APP_SERVER_URL+(searchType.category=='photographer'?'/profile/':'/uploads/')+value.filename}
+                        image={value.filename?(process.env.REACT_APP_SERVER_URL+(searchType.category=='photographer'?'/profile/':'/uploads/')+value.filename):image}
                         title={value.about?value.about.value:'image'}
                         />
                 </NavLink>

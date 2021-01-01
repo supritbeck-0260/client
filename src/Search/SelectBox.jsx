@@ -26,10 +26,11 @@ const SelectBox = (props) => {
             value={props.value}
             label="Category"
             >
-                <MenuItem selected value='camera'>Camera</MenuItem>
+                <MenuItem value='camera'>Camera</MenuItem>
                 <MenuItem value='lenses'>Lens</MenuItem>
                 <MenuItem value='editing'>Editing tool</MenuItem>
                 <MenuItem value='others'>Other</MenuItem>
+                <MenuItem value='location'>Location</MenuItem>
                 <MenuItem value='photographer'>Photographer</MenuItem>
             </Select>
       </FormControl>

@@ -141,7 +141,10 @@ const Search = () => {
         <div className={view.header}>
         <SelectBox value={data.category} getValues={getValues}/>
             <div className={classes.inputBox}>
-                <input className={classes.input} value={data.search} onChange={(e)=>getValues('search',e.target.value)} placeholder='Search Box' type="text"/>
+                <input className={classes.input} value={data.search} 
+                onChange={(e)=>getValues('search',e.target.value)} 
+                onKeyDown={(e)=>(e.key === 'Enter'?search():'')}
+                placeholder='Search Box' type="text"/>
                 <Button className={classes.searchBtn} disabled={data.search.length==0} onClick={search}><SearchIcon/></Button>
             </div>
         </div>

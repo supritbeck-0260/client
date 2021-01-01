@@ -110,12 +110,15 @@ const Info = () =>{
     const [dropdown,setDropdown] = useState(false);
     const [type,setType] = useState('');
     const [loading,setLoading] = useState(false);
+    const [profileRate,setProfileRate] = useState(null);
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
         .then(response=>
             {
+                console.log(response);
                 const value = response.data;
+                setProfileRate(value.avgRate);
                 if(value){
                     if(value.date){
                         const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -188,7 +191,6 @@ const mentorReq = ()=>{
           'authorization': auth.token
         }
       }).then(response=>{
-          console.log(response);
           switch(response.status){
               case 200:
                 services.socket.emit('SendData',id);
@@ -226,7 +228,7 @@ const handleClickAway =()=>{
     return(
         <>
         <div className={classes.head}>
-            <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" value={4} readOnly /></div>}</h2>
+            <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" precision={0.5} value={profileRate?profileRate.rate:0} readOnly /></div>}</h2>
             {isAuth?<div>
                 {editFlag?<Button className={classes.save} color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}<SaveIcon/></Button>:null}
                 {editFlag?<Button className={classes.cancel}  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}

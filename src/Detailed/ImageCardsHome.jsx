@@ -146,6 +146,11 @@ const postComment = () =>{
         setPostFlag(true);
         services.socket.emit('SendData',props.data.info.uid);
       break;
+      case 201:
+        setComment('');
+        setBtn(false);
+        setPostFlag(true); 
+        break;
     }
 
   });

@@ -102,27 +102,27 @@ useEffect(()=>{
             {props.info.about?props.info.about.value:<br/>}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.info.camera?
+            {props.info.camera && props.info.camera.value?
               <span>
                  Camera:<a className={classes.navLinkDec} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> 
               </span>
             :null}<br/>
-            {props.info.lenses?
+            {props.info.lenses && props.info.lenses.value?
               <span>
                 Lenses:<a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
               </span>
             :null}<br/>
-            {props.info.editing?
+            {props.info.editing && props.info.editing.value?
                 <span>
                   Editing Tool:<a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
                 </span>
             :null}<br/>
-            {props.info.others?
+            {props.info.others && props.info.others.value?
               <span>
                 Others:<a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
               </span>
            :null}<br/>
-            {props.info.location?
+            {props.info.location && props.info.location.value?
               <span>
                 Location:<a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
               </span>            

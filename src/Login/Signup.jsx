@@ -166,10 +166,10 @@ const Signup=()=> {
                     {emailAlert?<Alert className={classes.alert} severity="error">Email is not valid- Try again.</Alert>:null}
                     <Gender setData={setData} values={user.gender}/>
                     {genderAlert?<Alert className={classes.alert} severity="error">Please select your gender.</Alert>:null}
-                    <Password setData={setData} type='p' validateFun={passwordCheck} values={user.password} resetError={resetError}/>
+                    <Password validate={validate} setData={setData} type='p' validateFun={passwordCheck} values={user.password} resetError={resetError}/>
                     {passAlert?<Alert className={classes.alert} severity="error">Please enter your password.</Alert>:null}
                     {lengthFlag?<Alert className={classes.alert} severity="error">Password should be at least 5 character long.</Alert>:null}
-                    <Password setData={setData} type='cp' values={user.cpassword}resetError={resetError}/>
+                    <Password validate={validate} setData={setData} type='cp' values={user.cpassword}resetError={resetError}/>
                     {cPassAlert?<Alert className={classes.alert} severity="error">Please confirm your password.</Alert>:null}
                     {matchPass?<Alert className={classes.alert} severity="error">Your password does not match - Try again!</Alert>:null}
                     <Button  className={classes.inputField} onClick={validate} variant="contained" color="secondary" disabled={loading}>{!loading?'Register':'Loading...'}</Button>

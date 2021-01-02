@@ -46,7 +46,7 @@ const data = [
     },
     {
         name:'location',
-        label:'location',
+        label:'Location',
         id:"outlined-basic",
         label2:"Location",
         placeholder:"",

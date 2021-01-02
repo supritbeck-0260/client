@@ -41,7 +41,7 @@ const ToolComponent = (props)=>{
 
     return(
         <>
-            {props.data?<div className={classes.card}>
+            {props.data && props.data.value?<div className={classes.card}>
                 <div className={classes.cardHeader}><props.avatar/> {props.label}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>

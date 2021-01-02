@@ -221,7 +221,7 @@ const ImgCarosol = props => {
         prev['lenses'] = photo.info.lenses;
         prev['editing'] = photo.info.editing;
         prev['others'] = photo.info.others;
-        prev['location'] = photo.info.others;
+        prev['location'] = photo.info.location;
         return{...prev}
       });
       setEdit(true);

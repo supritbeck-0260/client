@@ -72,7 +72,7 @@ const ProductSearch = (props) => {
                 </NavLink>
                 </CardActionArea>
                 <CardActions>
-                <Button size="small" color="primary" href={value[searchType.category]?value[searchType.category].link:''} target="_blank">
+                <Button size="small" color="primary" href={value[searchType.category] && value[searchType.category].link?value[searchType.category].link:'https://www.google.com/search?q='+value[searchType.category].value} target="_blank">
                 {value[searchType.category]?value[searchType.category].value:''}
                 </Button>
             </CardActions>

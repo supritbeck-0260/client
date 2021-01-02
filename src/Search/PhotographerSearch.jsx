@@ -26,12 +26,15 @@ const useStyles = makeStyles((theme) => ({
         height:'200px',
         display:'flex',
         justifyContent:'center',
+        padding:'5px',
     },
     imageW:{
         height:250,
+        borderRadius:'50%'
     },
     imageM:{
         height:150,
+        borderRadius:'50%',
     },
     label:{
         height:'10%',
@@ -45,21 +48,22 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         flexWrap: 'wrap',
         justifyContent:'center',
-        flexDirection:'column'
+        flexDirection:'column',
+        padding:'5px'
     },
 }));
 const PhotographerSearch = (props) => {
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:600px)');
     const [column,setColumn] = useState(3);
-    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px'});
+    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 25px'});
     useEffect(()=>{
         if(matches){
             setColumn(1);
-            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px'});
+            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 25px'});
         }else {
             setColumn(2);
-            setView({image:classes.imageM,gridTitle:classes.gridTitleM,height:240,name:'8px',star:'12px'});
+            setView({image:classes.imageM,gridTitle:classes.gridTitleM,height:210,name:'8px',star:'12px',cardArea:'5px'});
         }
     },[matches]);
     return (
@@ -68,7 +72,7 @@ const PhotographerSearch = (props) => {
             {props.value.map((value,index)=>
             <GridListTile key={index} className={view.gridTitle} cols={column}>
                 <Card>
-                <CardActionArea>
+                <CardActionArea style={{padding:view.cardArea}}>
                 <NavLink to={'/profile/'+value._id}>
                         <CardMedia
                         component="img"

@@ -1,35 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useState , useEffect , useContext } from 'react';
 import {AuthContex,ServicesContex} from '../App'
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
 import Rating from '@material-ui/lab/Rating';
 import EditIcon from '@material-ui/icons/Edit';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
 import Button from '@material-ui/core/Button';
 import data from './InfoData';
 import InputChips from './InputChips';
 import MultiChips from './MultiChips';
 import Axios from 'axios';
-import { useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dropdown from './dropdown/Dropdown';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
     text:{
-        margin:'10px',
+        margin:'5px',
         fontWeight:'normal',
         display:'flex',
-        flexWrap: 'wrap',
+        flexDirection:'row',
         alignItems:'center'
     },
     chip:{
         fontSize:'10px',
-        // padding: '0px 7px',
+        height:'28px'
     },
     chipInput:{
         minWidth:'10px',
@@ -93,6 +89,16 @@ const useStyles = makeStyles((theme) => ({
     icons:{
         height:'19px !important',
         width:'19px !important'
+    },
+    infoChips:{
+        display:'flex',
+        flexWrap:'wrap',
+    },
+    aboutme:{
+        width:'246px',
+        padding:'5px',
+        borderRadius: '8px',
+       border:'1px solid silver',
     }
   }));
 const Info = () =>{
@@ -124,6 +130,7 @@ const Info = () =>{
     const [loading,setLoading] = useState(false);
     const [profileRate,setProfileRate] = useState(null);
     const [view,setView] = useState({});
+    const [aboutme,setAboutme] = useState(null);
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -147,6 +154,7 @@ const Info = () =>{
                     others:value.others,
                     about:value.about
                 });
+                setAboutme(value.about);
                 setMentoring(value.mentoring);
                 setMentors(value.mentors);
                 if(value.isMentor){
@@ -171,6 +179,13 @@ const Info = () =>{
     },[location]);
     const edit = ()=>{
         setEditFlag(true);
+        setChipData({
+            camera:data[0].values,
+            lenses:data[1].values,
+            editing:data[2].values,
+            others:data[3].values,
+            about:aboutme
+        });
     }
     const save = () =>{
         setLoading(true);
@@ -239,8 +254,8 @@ const handleClickAway =()=>{
     setDropdown(false);
 }
 useEffect(()=>{
-    if(matches) setView({head:'25px',buttons:classes.buttonsW,root:'0 20px',fonts:'',name:'',icon:'',star:''});
-    else setView({head:'17px',buttons:classes.buttonsM,root:'0px',fonts:'10px',name:'25px',icon:classes.icons,star:'20px'});
+    if(matches) setView({head:'25px',buttons:classes.buttonsW,root:'0 20px',fonts:'',name:'',icon:'',star:'',chip:'',});
+    else setView({head:'17px',buttons:classes.buttonsM,root:'0px',fonts:'10px',name:'25px',icon:classes.icons,star:'20px',chip:classes.chip});
 },[matches]);
     return(
         <>
@@ -271,15 +286,22 @@ useEffect(()=>{
 
             {toggle?data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
+                <Tooltip title={val.tooltip}>
                 <Chip
                 avatar={val.avt(view.icon)}
-                className={view.chip} label={val.label} variant="outlined"/>: 
-                {!editFlag?<MultiChips data={val.values}/>:<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
+                className={view.chip} label={val.label} variant="outlined"/></Tooltip>: 
+                <div className={classes.infoChips}>
+                    {!editFlag?<MultiChips data={val.values} view={view.fonts}/>:
+                    <InputChips data={val} view={view.fonts} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
+                </div>
             </div>
             ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}
             <hr></hr>
-            <div className={classes.text}>About Me: {!editFlag?chipData.about:<TextField id="outlined-basic" value={chipData.about} onChange={(e)=>getValues('about',e.target.value)} variant="outlined" label="Write something" />}</div>
-            <div className={classes.text}>Started On: {startedOn?startedOn:null}</div>
+            <div className={classes.text} style={{fontSize:view.fonts}}>
+                About Me: {!editFlag?aboutme:
+                <input type="text" style={{fontSize:view.fonts}} className={classes.aboutme} value={chipData.about} onChange={(e)=>getValues('about',e.target.value)} placeholder="Write something"/>
+                }</div>
+            <div className={classes.text} style={{fontSize:view.fonts}}>Started On: {startedOn?startedOn:null}</div>
         </div>
         </>
     );

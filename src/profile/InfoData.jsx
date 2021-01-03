@@ -8,6 +8,8 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
         avt:(value)=><CameraAltRoundedIcon className={value}/>,
         label:"Camera",
         key:'camera',
+        placeholder:'Cameras you have..',
+        tooltip:'Camera Collection',
         values:[]
            
     },
@@ -15,18 +17,24 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
         avt:(value)=><LensOutlinedIcon className={value}/>,
         label:"Lenses",
         key:'lenses',
+        placeholder:'Lenses you have..',
+        tooltip:'Lense Collection',
         values:[]
     },
     {
         avt:(value)=><EditOutlinedIcon className={value}/>,
-        label:"Editing Software",
+        label:"Editing",
         key:'editing',
+        placeholder:'Editing tools you use..',
+        tooltip:'Editing Softwares',
         values:[]   
     },
     {
         avt:(value)=><LibraryAddOutlinedIcon className={value}/>,
         label:"Others",
         key:'others',
+        placeholder:'Other equipments you have..',
+        tooltip:'Other equipments Collection',
         values:[]  
     },
 ]

@@ -9,20 +9,23 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         border:'1px solid silver',
         padding:'5px',
-        borderRadius:'5px'
+        borderRadius:'5px',
+        flexWrap:'wrap'
     },
     textBox:{
         position:'relative',
         outline:'none',
-        border:'none' 
+        border:'none' ,
+        width:'165px',
     },
     chip:{
         position:'relative',
         width:'fit-content',
-        background:'silver',
+        background:'#D3D3D3',
         padding: '2px',
-        marginRight: '3px',
-        borderRadius:'3px',
+        margin: '1px',
+        borderRadius:'10px',
+        border:'1px solid silver',
         display: 'flex',
         alignItems: 'center',
     },
@@ -46,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 const InputChips = (props) =>{
-const [data,setData] = useState(props.data?props.data:[]);
+const [data,setData] = useState(props.data?props.data.values:[]);
 const [value,setValue] = useState('');
 const classes = useStyles();
 const services = useContext(ServicesContex);
@@ -97,10 +100,12 @@ const selectOne =(data)=>{
     return(
         <>
         <div className={classes.root}>
-        {data.length?data.map((value,index)=><div key={index} className={classes.chip}>{value.value}
+        {data.length?data.map((value,index)=>
+        <div key={index} style={{fontSize:props.view}} className={classes.chip}>
+            {value.value}
         <CancelIcon onClick={()=>deleteHandler(value)}/>
         </div>):null}
-            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onFocus={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off"/>
+            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onFocus={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off" placeholder={props.data?props.data.placeholder:''}/>
             {product.length?<ul className={classes.dropdownMenu}>
                             {product.map((value,index)=>
                             <li key={index} onMouseDown={()=>{selectOne(value)}} className={classes.li}>{value.name}</li>)   }

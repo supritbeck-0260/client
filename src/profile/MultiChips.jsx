@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     border:'1px solid silver',
     padding:'5px',
-    borderRadius:'5px',
-    marginRight:'3px',
+    borderRadius:'10px',
+    margin:'2px',
   },
   link:{
     textDecoration:'none',
@@ -21,7 +21,7 @@ const MultiChips = (props)=>{
     return(
         <>
         {data && data.length?data.map((val,ind)=>
-        <div className={classes.root} key={ind}>
+        <div className={classes.root} style={{fontSize:props.view}} key={ind}>
           <a href={val.link?val.link:'https://www.google.com/search?q='+val.value} className={classes.link} target='_blank'>{val.value}</a>
           </div>
         ):null}

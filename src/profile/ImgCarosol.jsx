@@ -166,8 +166,8 @@ const ImgCarosol = props => {
     },[photo.id]);
  
  useEffect(()=>{
-      if(matches) setView({container:'70vw',imgHeight:'500',fonts:'',info:'70%',size:'medium'});
-      else setView({container:'100vw',imgHeight:'250',fonts:'10px',info:'98%',size:'small'});
+      if(matches) setView({container:'70vw',imgHeight:'500',fonts:'',info:'70%',size:'medium',tile2:'19px 0'});
+      else setView({container:'100vw',imgHeight:'250',fonts:'10px',info:'98%',size:'small',tile2:''});
     },[matches]);
     
     const leftImgae = (id)=> {
@@ -290,7 +290,7 @@ const ImgCarosol = props => {
             {data.map((val,index)=>
                         <InputGroup 
                         key={index}
-                        styles={{fonts:view.fonts,size:view.size}}
+                        styles={{fonts:view.fonts,size:view.size,tile2:view.tile2}}
                         name={val.name}
                         value={photoInfo[val.name]?photoInfo[val.name]:''}
                         label={val.label}

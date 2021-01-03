@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         alignItems: 'center',
         position:'relative',
-        margin:'0px 0px',
         padding:'0 5px 0 0'
     },
     textArea:{
@@ -70,7 +69,7 @@ const InputGroup = (props) =>{
         <>
         <div className={classes.mainTile}>
                 <div className={classes.tile1} style={{fontSize:props.styles.fonts}}>{props.label}</div>
-                <div className={classes.tile2}>
+                <div className={classes.tile2} style={{margin:props.styles.tile2}}>
                 <TextField
                             name={props.name}
                             className={classes.textArea}

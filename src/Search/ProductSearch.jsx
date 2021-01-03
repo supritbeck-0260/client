@@ -44,14 +44,14 @@ const ProductSearch = (props) => {
     const searchType = props.type;
     const matches = useMediaQuery('(min-width:600px)');
     const [column,setColumn] = useState(3);
-    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:300});
+    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:300,product:'12px'});
     useEffect(()=>{
         if(matches){
             setColumn(1);
-            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:300});
+            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:300,product:'12px'});
         }else {
             setColumn(2);
-            setView({image:classes.imageM,gridTitle:classes.gridTitleM,height:200});
+            setView({image:classes.imageM,gridTitle:classes.gridTitleM,height:200,product:'8px'});
         }
     },[matches]);
     return (
@@ -72,7 +72,7 @@ const ProductSearch = (props) => {
                 </NavLink>
                 </CardActionArea>
                 <CardActions>
-                <Button size="small" color="primary" href={value[searchType.category] && value[searchType.category].link?value[searchType.category].link:'https://www.google.com/search?q='+value[searchType.category].value} target="_blank">
+                <Button style={{fontSize:view.product}} size="small" color="primary" href={value[searchType.category] && value[searchType.category].link?value[searchType.category].link:'https://www.google.com/search?q='+value[searchType.category].value} target="_blank">
                 {value[searchType.category]?value[searchType.category].value:''}
                 </Button>
             </CardActions>

@@ -15,7 +15,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles((theme) => ({
     gridList: {
         width: '100%',
-        padding:'5px'
       },
     gridTitleW:{
         height:'300px',
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         height:'200px',
         display:'flex',
         justifyContent:'center',
-        padding:'5px',
     },
     imageW:{
         height:250,
@@ -56,11 +54,11 @@ const PhotographerSearch = (props) => {
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:600px)');
     const [column,setColumn] = useState(3);
-    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 25px'});
+    const [view,setView] = useState({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 30px'});
     useEffect(()=>{
         if(matches){
             setColumn(1);
-            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 25px'});
+            setView({image:classes.imageW,gridTitle:classes.gridTitleW,height:330,name:'12px',star:'22px',cardArea:'5px 30px'});
         }else {
             setColumn(2);
             setView({image:classes.imageM,gridTitle:classes.gridTitleM,height:210,name:'8px',star:'12px',cardArea:'5px'});
@@ -71,7 +69,7 @@ const PhotographerSearch = (props) => {
         <GridList cellHeight={view.height} className={classes.gridList} cols={4}>
             {props.value.map((value,index)=>
             <GridListTile key={index} className={view.gridTitle} cols={column}>
-                <Card>
+                <Card style={{margin:'3px 3px 0px 3px'}}>
                 <CardActionArea style={{padding:view.cardArea}}>
                 <NavLink to={'/profile/'+value._id}>
                         <CardMedia

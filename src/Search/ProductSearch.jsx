@@ -12,7 +12,7 @@ import { Card } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     gridList: {
         width: '100%',
-        padding:'5px'
+        padding:'2px'
       },
     gridTitleW:{
         height:'300px',

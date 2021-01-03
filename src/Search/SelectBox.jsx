@@ -18,7 +18,7 @@ const SelectBox = (props) => {
     const classes= useStyles();
     return (
         <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
+        <InputLabel id="demo-simple-select-outlined-label">Search By</InputLabel>
             <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"

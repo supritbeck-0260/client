@@ -53,7 +53,7 @@ const services = useContext(ServicesContex);
 const [product,setProduct] = useState([]);
 const keyHandler = (e)=>{
     const targetValue = e.target.value;
-    if((e.key === 'Enter' || e.type === 'blur') && targetValue){
+    if((e.key === 'Enter' || e.type === 'blur')){
         setData(prev=>{
             const index = prev.findIndex(check=>check.value==targetValue);
             if(index === -1 && targetValue.trim()){

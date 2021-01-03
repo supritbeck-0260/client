@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import {AuthContex,ServicesContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -8,7 +8,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from '../upload/Data';
 import InputGroup from '../upload/InputGroup';
 import CloseIcon from '@material-ui/icons/Close';
-import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import FadeIn from 'react-fade-in';
 import {useParams,NavLink} from 'react-router-dom';
@@ -49,14 +48,8 @@ const useStyles = makeStyles((theme) => ({
       justifyContent:'center',
       alignItems:'center',
     },
-    arrowAndImageLarge:{
+    arrowAndImage:{
       width:'70vw',
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
-    },
-    arrowAndImageSmall:{
-      width:'100%',
       display:'flex',
       justifyContent:'center',
       alignItems:'center',
@@ -86,11 +79,11 @@ const useStyles = makeStyles((theme) => ({
       margin:'1px'
     },
     info:{
-      width:'70%',
       display:'flex',
       justifyContent:'center',
       alignItems:'center',
       flexDirection:'column',
+      padding:'5px',
     },
     BtnShapeR:{
       position:'absolute',
@@ -137,7 +130,7 @@ const ImgCarosol = props => {
     const [leftArrFlg,setLeftArrFlg] = useState(true);
     const [rightArrFlg,setRightArrFlg] = useState(true);
     const [edit,setEdit]= useState(false);
-    const [arrImgClss,setImgClss]=useState(classes.arrowAndImageLarge);
+    const [view,setView]=useState({});
     const handleClose = () => {
       props.toggle();
     };
@@ -173,11 +166,8 @@ const ImgCarosol = props => {
     },[photo.id]);
  
  useEffect(()=>{
-      if(!matches){
-        setImgClss(classes.arrowAndImageSmall);
-      }else{
-        setImgClss(classes.arrowAndImageLarge);
-      }
+      if(matches) setView({container:'70vw',imgHeight:'500',fonts:'',info:'70%',size:'medium'});
+      else setView({container:'100vw',imgHeight:'250',fonts:'10px',info:'98%',size:'small'});
     },[matches]);
     
     const leftImgae = (id)=> {
@@ -279,13 +269,13 @@ const ImgCarosol = props => {
           <div className={classes.cancelDiv}>
             <Button variant="contained" color="secondary" className={classes.cancel} onClick={handleClose}><CloseIcon/></Button>
           </div>
-            <div className={arrImgClss}>
+            <div className={classes.arrowAndImage} style={{width:view.container}}>
                 {leftArrFlg?<Button variant="contained" className={classes.BtnShapeL} onClick={()=>leftImgae(photo.id)}><ArrowLeftIcon/></Button>:null}
                         <NavLink to={'/detailed/'+photo.info._id} className={classes.imgCont}>
                           <CardMedia
                               component="img"
                               alt={photo.info.about?photo.info.about.value:''}
-                              height="500"
+                              height={view.imgHeight}
                               image={process.env.REACT_APP_SERVER_URL+'/uploads/'+photo.info.filename}
                               title={photo.info.about?photo.info.about.value:''}
                           />
@@ -293,13 +283,14 @@ const ImgCarosol = props => {
                 {rightArrFlg?<Button variant="contained" className={classes.BtnShapeR} onClick={()=>rightImgae(photo.id)}><ArrowRightIcon /></Button>:null}
             </div> 
             {(isAuth && !edit)?<div className={classes.button}>
-                <Button  variant="contained" className={classes.BtnWidth} color="primary" onClick={editHandler}>Edit</Button>
-                <Button variant="contained" className={classes.BtnWidth}  color="secondary" onClick={deleteHandler} autoFocus>{deleteBtn}</Button>
+                <Button  variant="contained" style={{fontSize:view.fonts}} className={classes.BtnWidth} color="primary" onClick={editHandler}>Edit</Button>
+                <Button variant="contained" style={{fontSize:view.fonts}} className={classes.BtnWidth}  color="secondary" onClick={deleteHandler} autoFocus>{deleteBtn}</Button>
             </div>:null}
-            {edit?<div className={classes.info}>
+            {edit?<div className={classes.info} style={{width:view.info}}>
             {data.map((val,index)=>
                         <InputGroup 
                         key={index}
+                        styles={{fonts:view.fonts,size:view.size}}
                         name={val.name}
                         value={photoInfo[val.name]?photoInfo[val.name]:''}
                         label={val.label}
@@ -312,8 +303,8 @@ const ImgCarosol = props => {
                         />
                     )}
             <div className={classes.buttons}>
-            <Button className={classes.BtnWidth}  variant="contained" color="primary" onClick={postData}>{save}</Button>
-            <Button className={classes.BtnWidth} variant="contained"  color="secondary" autoFocus onClick={cancelHancler}>Cancel</Button>
+            <Button className={classes.BtnWidth} style={{fontSize:view.fonts}} variant="contained" color="primary" onClick={postData}>{save}</Button>
+            <Button className={classes.BtnWidth} style={{fontSize:view.fonts}} variant="contained"  color="secondary" autoFocus onClick={cancelHancler}>Cancel</Button>
             </div>
             </div>
             :null}

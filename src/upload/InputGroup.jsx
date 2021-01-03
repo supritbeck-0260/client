@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         width:'100%',
         justifyContent:'left',
         alignItems: 'center',
-        margin:'0.9% 0'
     },
     tile1:{
         width:'20%',
@@ -23,14 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
     tile2:{
         width:'77%;',
-        height:'36px',
+        height:'25px',
         display:'flex',
         alignItems: 'center',
-        position:'relative'
+        position:'relative',
+        margin:'0px 0px',
+        padding:'0 5px 0 0'
     },
     textArea:{
         width:'100%',
-        padding: '10.5px 7px',
     },
     dropdownMenu:{
         background:'white',
@@ -69,7 +69,7 @@ const InputGroup = (props) =>{
     return(
         <>
         <div className={classes.mainTile}>
-                <div className={classes.tile1}>{props.label}</div>
+                <div className={classes.tile1} style={{fontSize:props.styles.fonts}}>{props.label}</div>
                 <div className={classes.tile2}>
                 <TextField
                             name={props.name}
@@ -78,6 +78,7 @@ const InputGroup = (props) =>{
                             label={props.label2}
                             placeholder={props.placeholder}
                             multiline
+                            size={props.styles.size}
                             variant={props.variant}
                             value={props.value?props.value.value:''}
                             onChange={changHandler}

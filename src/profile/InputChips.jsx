@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         border:'1px solid silver',
         padding:'5px',
-        borderRadius:'5px',
+        borderRadius:'12px',
         flexWrap:'wrap'
     },
     textBox:{

@@ -268,8 +268,8 @@ useEffect(()=>{
                 {!editFlag?<Button variant='outlined' className={view.buttons} onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
             auth.isLoggedin && toggle?
-            isMentor?<Button disabled={unfollow} className={classes.mentorBtn} variant='outlined' onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
-            <Button onClick={mentorReq} className={classes.mentorBtn} variant='outlined' disabled={mentorFlag}>{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
+            isMentor?<Button disabled={unfollow} className={classes.mentorBtn} variant='outlined' onClick={mentorRemove}>{unfollow?'Removing':'Remove'}</Button>:
+            <Button onClick={mentorReq} className={classes.mentorBtn} variant='outlined' disabled={mentorFlag}>{mentorFlag?'Requsest':'Make Mentor'}</Button>
             :null}
         </div>
         <div style={{margin:view.root}}>

@@ -5,26 +5,26 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
   const data = [
     {
-        avt:<CameraAltRoundedIcon/>,
+        avt:(value)=><CameraAltRoundedIcon className={value}/>,
         label:"Camera",
         key:'camera',
         values:[]
            
     },
     {
-        avt:<LensOutlinedIcon/>,
+        avt:(value)=><LensOutlinedIcon className={value}/>,
         label:"Lenses",
         key:'lenses',
         values:[]
     },
     {
-        avt:<EditOutlinedIcon/>,
+        avt:(value)=><EditOutlinedIcon className={value}/>,
         label:"Editing Software",
         key:'editing',
         values:[]   
     },
     {
-        avt:<LibraryAddOutlinedIcon/>,
+        avt:(value)=><LibraryAddOutlinedIcon className={value}/>,
         label:"Others",
         key:'others',
         values:[]  

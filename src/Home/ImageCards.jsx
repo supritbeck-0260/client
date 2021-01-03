@@ -18,7 +18,7 @@ import TimeAgo from '../Detailed/TimeStamp';
 const useStyles = makeStyles({
   rootLarge: {
     width: 427,
-    margin:'0 auto',
+    margin:'0 3px',
   },
   rootSmall: {
     width: '100vw',

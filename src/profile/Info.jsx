@@ -17,11 +17,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dropdown from './dropdown/Dropdown';
 const useStyles = makeStyles((theme) => ({
-    root: {
-      margin: 'auto 20px',
-    },
     text:{
         margin:'10px',
         fontWeight:'normal',
@@ -30,29 +28,32 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center'
     },
     chip:{
-        boxShadow: ({ boxShadow }) => boxShadow,
-        "&:hover": {
-            boxShadow: '10px 10px 15px grey'
-        }   
+        fontSize:'10px',
+        // padding: '0px 7px',
     },
     chipInput:{
         minWidth:'10px',
         margin: '-3px 0px -3px 8px', 
     },
     head:{
-        width:'95%',
         height:'50px',
         background:'#EAE6DA',
         display:'flex',
         justifyContent:'space-between',
         alignItems:'center',
-        padding:'0px 20px',
+        padding:'0px 5px',
     },
-    save:{
-        margin:'0 0px',
+    rateContainer:{
+       display:'flex',
+       alignItems:'center'
     },
-    cancel:{
-        margin:'0 0px',
+    buttonsW:{
+        margin:'0px 2px',
+    },
+    buttonsM:{
+        margin:'0px 2px',
+        fontSize:'12px',
+        padding:'5px !important',
     },
     loader:{
         width:'100%',
@@ -65,9 +66,9 @@ const useStyles = makeStyles((theme) => ({
     },
     mentor:{
         width:'fit-content',
-        margin:'5px',
+        margin:'0px 5px',
         border:'0px solid silver',
-        padding:'5px',
+        padding:'0px 5px',
         borderRadius:'15px',
     },
     mentorCont:{
@@ -76,12 +77,22 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         width:'fit-content',
         position:'relative',
-        minWidth:'180px'
+        minWidth:'180px',
+        margin:'0px',
+        padding:'0px'
     },
     userCont:{
         display:'flex',
         flexWrap: 'wrap',
         alignItems:'center',
+    },
+    mentorBtn:{
+        padding:'4px 7px',
+        fontSize:'10px'
+    },
+    icons:{
+        height:'19px !important',
+        width:'19px !important'
     }
   }));
 const Info = () =>{
@@ -93,6 +104,7 @@ const Info = () =>{
         about:''
     });
     const {id} = useParams();
+    const matches = useMediaQuery('(min-width:600px)');
     const auth = useContext(AuthContex);
     const services = useContext(ServicesContex);
     const location = useLocation()
@@ -111,6 +123,7 @@ const Info = () =>{
     const [type,setType] = useState('');
     const [loading,setLoading] = useState(false);
     const [profileRate,setProfileRate] = useState(null);
+    const [view,setView] = useState({});
     const infoFun = ()=>{
         setToggle(false); 
         Axios.post(process.env.REACT_APP_SERVER_URL+'/profile/info/fetch',{id:id,myuid:auth.userID})
@@ -225,27 +238,32 @@ const getList = (type)=>{
 const handleClickAway =()=>{
     setDropdown(false);
 }
+useEffect(()=>{
+    if(matches) setView({head:'25px',buttons:classes.buttonsW,root:'0 20px',fonts:'',name:'',icon:'',star:''});
+    else setView({head:'17px',buttons:classes.buttonsM,root:'0px',fonts:'10px',name:'25px',icon:classes.icons,star:'20px'});
+},[matches]);
     return(
         <>
         <div className={classes.head}>
-            <h2>{editFlag?<div>Edit Profile</div>:<div>Profile Rating: <Rating name="read-only" precision={0.5} value={profileRate?profileRate.rate:0} readOnly /></div>}</h2>
+            <h2 style={{fontSize:view.head}}>{editFlag?'Edit Profile':
+            <div className={classes.rateContainer}>Profile Rating: <Rating style={{fontSize:view.star}} name="read-only" precision={0.5} value={profileRate?profileRate.rate:0} readOnly /></div>}</h2>
             {isAuth?<div>
-                {editFlag?<Button className={classes.save} color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}<SaveIcon/></Button>:null}
-                {editFlag?<Button className={classes.cancel}  color="secondary" autoFocus onClick={cancel}>Cancel<CancelIcon/></Button>:null}
-                {!editFlag?<Button onClick={edit}>Edit<EditIcon/></Button>:null}
+                {editFlag?<Button className={view.buttons} variant='outlined' color="primary" disable={loading} onClick={save}>{loading?'Saving...':'Save'}</Button>:null}
+                {editFlag?<Button className={view.buttons} variant='outlined'  color="secondary" autoFocus onClick={cancel}>Cancel</Button>:null}
+                {!editFlag?<Button variant='outlined' className={view.buttons} onClick={edit}>Edit<EditIcon/></Button>:null}
             </div>:
             auth.isLoggedin && toggle?
-            isMentor?<Button disabled={unfollow} onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
-            <Button onClick={mentorReq} disabled={mentorFlag}>{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
+            isMentor?<Button disabled={unfollow} className={classes.mentorBtn} variant='outlined' onClick={mentorRemove}>{unfollow?'Unfollowing':'Unfollow'}</Button>:
+            <Button onClick={mentorReq} className={classes.mentorBtn} variant='outlined' disabled={mentorFlag}>{mentorFlag?'Mentor Requsest':'Make Mentor'}</Button>
             :null}
         </div>
-        <div className={classes.root}>
+        <div style={{margin:view.root}}>
             <div className={classes.userCont}>
-                <h1 className={classes.username}><strong>{name}</strong></h1>
+                <h1 className={classes.username} style={{font:view.name}}><strong>{name}</strong></h1>
                 <ClickAwayListener onClickAway={handleClickAway}>
                 <div className={classes.mentorCont}>
-                    {mentoring!=null?<Button className={classes.mentor} onClick={()=>getList('mentoring')}>Mentoring:{mentoring}</Button>:null}
-                    {isAuth?<Button className={classes.mentor} onClick={()=>getList('mentors')}>Mentors:{mentors}</Button>:null}
+                    {mentoring!=null?<Button className={classes.mentor} style={{fontSize:view.fonts}} onClick={()=>getList('mentoring')}>Mentoring:{mentoring}</Button>:null}
+                    {isAuth?<Button className={classes.mentor} style={{fontSize:view.fonts}} onClick={()=>getList('mentors')}>Mentors:{mentors}</Button>:null}
                     {dropdown?<Dropdown type={type} id={id}/>:null}
                 </div>
                 </ClickAwayListener>
@@ -254,8 +272,8 @@ const handleClickAway =()=>{
             {toggle?data.map((val,ind)=>
                 <div className={classes.text} key={ind}>
                 <Chip
-                avatar={val.avt}
-                className={classes.chip} label={val.label} variant="outlined"/>: 
+                avatar={val.avt(view.icon)}
+                className={view.chip} label={val.label} variant="outlined"/>: 
                 {!editFlag?<MultiChips data={val.values}/>:<InputChips data={val.values} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
             </div>
             ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}

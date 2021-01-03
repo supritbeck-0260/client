@@ -56,7 +56,7 @@ const keyHandler = (e)=>{
     if((e.key === 'Enter' || e.type === 'blur') && targetValue){
         setData(prev=>{
             const index = prev.findIndex(check=>check.value==targetValue);
-            if(index === -1){
+            if(index === -1 && targetValue.trim()){
                 props.getFun(props.variable,[...prev,{value:targetValue}]);
                 return [...prev,{value:targetValue}];
             }else{ 
@@ -100,7 +100,7 @@ const selectOne =(data)=>{
         {data.length?data.map((value,index)=><div key={index} className={classes.chip}>{value.value}
         <CancelIcon onClick={()=>deleteHandler(value)}/>
         </div>):null}
-            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off"/>
+            <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onFocus={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off"/>
             {product.length?<ul className={classes.dropdownMenu}>
                             {product.map((value,index)=>
                             <li key={index} onMouseDown={()=>{selectOne(value)}} className={classes.li}>{value.name}</li>)   }

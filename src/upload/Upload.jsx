@@ -171,7 +171,7 @@ const postData = (event) =>{
             <div className={view.main}>
             <FadeIn>
             <Button color="secondary" className={classes.cancel} onClick={props.toggleFun}><CloseIcon /></Button>
-                <h2 className={classes.header}>Upload Image </h2>
+                <h2 className={classes.header}>Upload Picture </h2>
                 <hr/>
                 <form onSubmit={postData}  encType="multipart/form-data">
                 {!url?<div className={classes.mainTile}>

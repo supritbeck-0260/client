@@ -1,9 +1,9 @@
 const data = [
     {
         name:'about',
-        label:'About',
+        label:'Title',
         id:"filled-textarea",
-        label2:"About this Imgae",
+        label2:"Picture title..",
         placeholder:"write someting...",
         variant:"filled",
         value:''
@@ -12,7 +12,7 @@ const data = [
         name:'camera',
         label:'Camera',
         id:"outlined-basic",
-        label2:"Camera Name",
+        label2:"Camera used..",
         placeholder:"",
         variant:"outlined",
         value:''
@@ -21,7 +21,7 @@ const data = [
         name:'lenses',
         label:'Lenses',
         id:"outlined-basic",
-        label2:"Lense Name",
+        label2:"Lense used..",
         placeholder:"",
         variant:"outlined",
         value:''
@@ -30,7 +30,7 @@ const data = [
         name:'editing',
         label:'Editing Tool',
         id:"outlined-basic",
-        label2:"Editing Software used",
+        label2:"Editing tool used..",
         placeholder:"",
         variant:"outlined",
         value:''
@@ -39,7 +39,7 @@ const data = [
         name:'others',
         label:'Others',
         id:"outlined-basic",
-        label2:"Other Tools used",
+        label2:"Other tool used..",
         placeholder:"",
         variant:"outlined",
         value:''

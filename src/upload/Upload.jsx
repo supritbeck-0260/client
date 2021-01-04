@@ -23,19 +23,18 @@ const useStyles = makeStyles((theme) => ({
         overflowY:'auto',
         overflowX:'hidden'
     },
-    mainLrg:{
+    mainW:{
         background:'white',
         width:'40%',
         margin:'70px 0px',
-        height:'fit-content',
-      
+        height:'fit-content', 
     },
-    mainSml:{
-     position:'relative',
-     width:'96%',
-      background:'rgb(255,255,255, 1)',
-      height:'fit-content',
-      margin:'3% 0',
+    mainM:{
+        background:'white',
+        width:'100%',
+        margin:'0px',
+        minHeight:'100vh',
+        height:'fit-content',
     },
     imageInput:{
         display: 'none',
@@ -43,14 +42,10 @@ const useStyles = makeStyles((theme) => ({
     icon:{
         color:'#d299c2',
     },
-    image:{
-        width:'70%',
-    },
     imgCont:{
         width:'100%',
         display:'flex',
         justifyContent:'center',
-        margin:'10px 0px 10px 0px'
     },
     header:{
         display:'flex',
@@ -89,8 +84,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
         backgroundColor: '#337ab7',
         borderColor: '#2e6da4',
-        borderRadius:'10px',
-        
+        borderRadius:'10px',  
     },
     submitDiv:{
         width:'100%',
@@ -113,7 +107,7 @@ const Upload = (props) =>{
     const [file,setFile] = useState(null); 
     const [url,setUrl] = useState(null);
     const classes = useStyles();
-    const [mainCls,setMainCls] = useState(classes.mainLrg);
+    const [view,setView]=useState({});
     const [uploadBtn,setUploadBtn] = useState('Upload');
     const [photoInfo,setPhotoInfo] = useState({
         about:{},
@@ -167,19 +161,16 @@ const postData = (event) =>{
     });
 
 }
-useEffect(()=>{
-    if(matches){
-        setMainCls(classes.mainLrg);
-    }else{
-        setMainCls(classes.mainSml);
-    }
+  useEffect(()=>{
+    if(matches) setView({main:classes.mainW,fonts:'',size:'medium',tile2:'19px 0',image:'350px'});
+    else setView({main:classes.mainM,fonts:'10px',size:'small',tile2:'',image:'250px'});
   },[matches]);
     return(
         <>
         <div className={classes.root}>
-            <div className={mainCls}>
+            <div className={view.main}>
             <FadeIn>
-            <Button variant="contained" color="secondary" className={classes.cancel} onClick={props.toggleFun}><CloseIcon /></Button>
+            <Button color="secondary" className={classes.cancel} onClick={props.toggleFun}><CloseIcon /></Button>
                 <h2 className={classes.header}>Upload Image </h2>
                 <hr/>
                 <form onSubmit={postData}  encType="multipart/form-data">
@@ -195,8 +186,8 @@ useEffect(()=>{
                     </div>:null}
                     {url?
                     <div className={classes.imgCont}>
-                        <Button variant="contained" component="label">
-                        <img src={url} className={classes.image} alt="image"/>
+                        <Button variant='outlined' style={{padding:'0px 0px'}} component="label">
+                        <img src={url} style={{maxHeight:view.image,maxWidth:'100%'}} alt="image"/>
                         <input type="file" accept="image/*" name="file" className={classes.imageInput} onChange={fileUploadHandler}/>
                         </Button>
                     </div>:null}
@@ -205,6 +196,7 @@ useEffect(()=>{
                     {data.map((val,index)=>
                         <InputGroup 
                         key={index}
+                        styles={{fonts:view.fonts,size:view.size,tile2:view.tile2}}
                         name={val.name}
                         label={val.label}
                         value={photoInfo[val.name]}

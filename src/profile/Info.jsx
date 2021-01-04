@@ -254,8 +254,8 @@ const handleClickAway =()=>{
     setDropdown(false);
 }
 useEffect(()=>{
-    if(matches) setView({head:'25px',buttons:classes.buttonsW,root:'0 20px',fonts:'',name:'',icon:'',star:'',chip:'',});
-    else setView({head:'17px',buttons:classes.buttonsM,root:'0px',fonts:'10px',name:'25px',icon:classes.icons,star:'20px',chip:classes.chip});
+    if(matches) setView({head:'25px',buttons:classes.buttonsW,root:'0 20px',fonts:'',name:'',icon:'',star:'',chip:'',list:'40px'});
+    else setView({head:'17px',buttons:classes.buttonsM,root:'0px',fonts:'10px',name:'25px',icon:classes.icons,star:'20px',chip:classes.chip,list:'25px'});
 },[matches]);
     return(
         <>
@@ -292,7 +292,7 @@ useEffect(()=>{
                 className={view.chip} label={val.label} variant="outlined"/></Tooltip>: 
                 <div className={classes.infoChips}>
                     {!editFlag?<MultiChips data={val.values} view={view.fonts}/>:
-                    <InputChips data={val} view={view.fonts} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
+                    <InputChips data={val} view={{fonts:view.fonts,list:view.list}} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
                 </div>
             </div>
             ):<div className={classes.loader}><CircularProgress color="secondary"/></div>}

@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         width:'40%',
         margin:'70px 0px',
         height:'fit-content', 
+        borderRadius:'8px',
     },
     mainM:{
         background:'white',

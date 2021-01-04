@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
         outline:'none',
         border:'none' ,
         width:'165px',
+        height:'30px'
     },
     chip:{
         position:'relative',
@@ -38,10 +39,11 @@ const useStyles = makeStyles((theme) => ({
         padding:'0',
         margin:'0',
         listStyleType: "none",
-        top: '38px',
-        right: '0px',
+        right: '-17px',
         padding: '5px',
-        borderRadius:'5px'
+        borderRadius:'5px',
+        maxHeight:'200px',
+        overflowY:'auto',
     },
     li:{
         padding:'5px',
@@ -101,15 +103,17 @@ const selectOne =(data)=>{
         <>
         <div className={classes.root}>
         {data.length?data.map((value,index)=>
-        <div key={index} style={{fontSize:props.view}} className={classes.chip}>
+        <div key={index} style={{fontSize:props.view.fonts}} className={classes.chip}>
             {value.value}
         <CancelIcon onClick={()=>deleteHandler(value)}/>
         </div>):null}
+            <div style={{position:'relative'}}>
             <input type='text' name={props.variable} className={classes.textBox} value={value} onChange={changeHandler} onFocus={changeHandler} onKeyDown={keyHandler} onBlur={keyHandler} autocomplete="off" placeholder={props.data?props.data.placeholder:''}/>
-            {product.length?<ul className={classes.dropdownMenu}>
+            {product.length?<ul className={classes.dropdownMenu} style={{top:props.view.list}}>
                             {product.map((value,index)=>
                             <li key={index} onMouseDown={()=>{selectOne(value)}} className={classes.li}>{value.name}</li>)   }
                             </ul>:null}
+            </div>
         </div>
         </>
     )

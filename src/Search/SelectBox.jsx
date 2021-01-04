@@ -29,10 +29,10 @@ const SelectBox = (props) => {
                 <MenuItem value='camera'>Camera</MenuItem>
                 <MenuItem value='lenses'>Lens</MenuItem>
                 <MenuItem value='editing'>Editing Tool</MenuItem>
-                <MenuItem value='others'>Other</MenuItem>
                 <MenuItem value='location'>Location</MenuItem>
                 <MenuItem value='photographer'>Photographer</MenuItem>
                 <MenuItem value='about'>Title</MenuItem>
+                <MenuItem value='others'>Other</MenuItem>
             </Select>
       </FormControl>
     );

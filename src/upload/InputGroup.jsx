@@ -40,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
         padding:'0',
         margin:'0',
         listStyleType: "none",
-        top: '45px',
+        top: '38px',
         left: '15px',
         padding: '5px',
-        borderRadius:'5px'
+        borderRadius:'5px',
+        maxHeight:'200px',
+        overflowY:'auto',
     },
     li:{
         padding:'5px',

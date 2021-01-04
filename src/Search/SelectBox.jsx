@@ -32,6 +32,7 @@ const SelectBox = (props) => {
                 <MenuItem value='others'>Other</MenuItem>
                 <MenuItem value='location'>Location</MenuItem>
                 <MenuItem value='photographer'>Photographer</MenuItem>
+                <MenuItem value='about'>Title</MenuItem>
             </Select>
       </FormControl>
     );

@@ -11,7 +11,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { red } from '@material-ui/core/colors';
 import {NavLink} from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TimeAgo from '../Detailed/TimeStamp';
@@ -31,7 +30,6 @@ const useStyles = makeStyles({
     padding:'0',
   },
   avatar:{
-    backgroundColor: red[500],
     border:'2px solid #e2d1c3',
   },
   navLinkDec:{

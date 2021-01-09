@@ -9,6 +9,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import data from './Data';
 import CloseIcon from '@material-ui/icons/Close';
 import FadeIn from 'react-fade-in';
+import CameraMode from './CameraMode';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'fixed',
@@ -209,7 +210,9 @@ const postData = (event) =>{
                         handleBlur={handleBlur}
                         />
                     )}
-                    
+                    <CameraMode 
+                    styles={{fonts:view.fonts,size:view.size,tile2:view.tile2}}
+                    />
                     <div className={classes.submitDiv}>
                     <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>
                     </div>

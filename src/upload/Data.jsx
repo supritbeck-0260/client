@@ -19,7 +19,7 @@ const data = [
     },
     {
         name:'lenses',
-        label:'Lenses',
+        label:'Lense',
         id:"outlined-basic",
         label2:"Lense used..",
         placeholder:"",

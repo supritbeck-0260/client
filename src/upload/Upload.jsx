@@ -164,8 +164,8 @@ const postData = (event) =>{
 
 }
   useEffect(()=>{
-    if(matches) setView({main:classes.mainW,fonts:'',size:'medium',tile2:'19px 0',image:'350px'});
-    else setView({main:classes.mainM,fonts:'10px',size:'small',tile2:'',image:'250px'});
+    if(matches) setView({main:classes.mainW,fonts:'',size:'medium',tile2:'19px 0',image:'350px',input:'56px',inheight:'25px',select:'20%',label:'10px'});
+    else setView({main:classes.mainM,fonts:'10px',size:'small',tile2:'',image:'250px',input:'48px',inheight:'20px',select:'30%',label:'9px'});
   },[matches]);
     return(
         <>
@@ -211,7 +211,7 @@ const postData = (event) =>{
                         />
                     )}
                     <CameraMode 
-                    styles={{fonts:view.fonts,size:view.size,tile2:view.tile2}}
+                    styles={{fonts:view.fonts,size:view.size,input:view.input,inheight:view.inheight,select:view.select,label:view.label}}
                     />
                     <div className={classes.submitDiv}>
                     <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>

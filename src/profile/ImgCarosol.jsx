@@ -12,6 +12,7 @@ import Axios from 'axios';
 import FadeIn from 'react-fade-in';
 import {useParams,NavLink} from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
+import CameraMode from '../upload/CameraMode';
 const useStyles = makeStyles((theme) => ({
     root: {
      position: 'fixed',
@@ -124,6 +125,7 @@ const ImgCarosol = props => {
       editing:photo.info.editing,
       others:photo.info.others,
       location:photo.info.location,
+      settings:photo.info.settings,
       uid:photo.info.uid,
       id:photo.info._id,
   });
@@ -137,7 +139,8 @@ const ImgCarosol = props => {
     
     const getValue = (target) =>{
     setPhotoInfo((prev)=>{
-      prev[target.name]={value:target.value};
+      if(target.name == 'settings') prev[target.name]=target.value;
+      else prev[target.name]={value:target.value};
       return {...prev};
   });
   }
@@ -166,8 +169,8 @@ const ImgCarosol = props => {
     },[photo.id]);
  
  useEffect(()=>{
-      if(matches) setView({container:'70vw',imgHeight:'500',fonts:'',info:'70%',size:'medium',tile2:'19px 0'});
-      else setView({container:'100vw',imgHeight:'250',fonts:'10px',info:'98%',size:'small',tile2:''});
+      if(matches) setView({container:'70vw',imgHeight:'500',fonts:'',info:'70%',size:'medium',tile2:'19px 0',input:'56px',inheight:'25px',select:'20%',label:'10px'});
+      else setView({container:'100vw',imgHeight:'250',fonts:'10px',info:'98%',size:'small',tile2:'',input:'48px',inheight:'20px',select:'30%',label:'9px'});
     },[matches]);
     
     const leftImgae = (id)=> {
@@ -212,6 +215,7 @@ const ImgCarosol = props => {
         prev['editing'] = photo.info.editing;
         prev['others'] = photo.info.others;
         prev['location'] = photo.info.location;
+        prev['settings'] = photo.info.settings;
         return{...prev}
       });
       setEdit(true);
@@ -302,6 +306,11 @@ const ImgCarosol = props => {
                         handleBlur={handleBlur}
                         />
                     )}
+                  <CameraMode 
+                    styles={{fonts:view.fonts,size:view.size,input:view.input,inheight:view.inheight,select:view.select,label:view.label}}
+                    change={getValue}
+                    value={photoInfo['settings']}
+                    />
             <div className={classes.buttons}>
             <Button className={classes.BtnWidth} style={{fontSize:view.fonts}} variant="contained" color="primary" onClick={postData}>{save}</Button>
             <Button className={classes.BtnWidth} style={{fontSize:view.fonts}} variant="contained"  color="secondary" autoFocus onClick={cancelHancler}>Cancel</Button>

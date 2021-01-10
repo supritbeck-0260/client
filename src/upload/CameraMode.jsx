@@ -48,15 +48,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 const CameraMode = (props) => {
     const classes = useStyles();
-    const [mode,setMode] = useState('A');
+    const [mode,setMode] = useState(props.mode?props.mode:'Auto');
     const [settings,setSettings] = useState(props.value?props.value:{shutter:'',apprature:'',iso:'',focus:''});
     const changeHandler = (e)=>{
         let {name,value} = e.target;
-        setSettings(prev=>{
-            prev[name]=value;
-            props.change({name:'settings',value:{...prev}});
-            return {...prev};
-        });
+        if(name == 'mode'){
+            setMode(value);
+            props.change({name,value});
+        }else{
+            setSettings(prev=>{
+                prev[name]=value;
+                props.change({name:'settings',value:{...prev}});
+                return {...prev};
+            }); 
+        }
+
     }
     return (
         <>
@@ -67,16 +73,17 @@ const CameraMode = (props) => {
                         <Select
                         labelId="demo-simple-select-outlined-label"
                         id="demo-simple-select-outlined"
+                        name='mode'
                         value={mode}
-                        onChange={(e)=>setMode(e.target.value)}
+                        onChange={changeHandler}
                         label="mode"
                         >
-                            <MenuItem value='A'>Auto</MenuItem>
-                            <MenuItem value='M'>Manual</MenuItem>
+                            <MenuItem value='Auto'>Auto</MenuItem>
+                            <MenuItem value='Manual'>Manual</MenuItem>
                         </Select>
                 </FormControl>
             </div>
-            {mode =='M'?<div className={classes.mainTile}>
+            {mode =='Manual'?<div className={classes.mainTile}>
                 <div className={classes.tile1} style={{fontSize:props.styles.fonts}}>Settings</div> 
                 <div className={classes.container}>
                     <span className={classes.label} style={{fontSize:props.styles.label}}>Shutter Speed</span>

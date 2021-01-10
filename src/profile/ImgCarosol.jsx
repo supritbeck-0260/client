@@ -126,6 +126,7 @@ const ImgCarosol = props => {
       others:photo.info.others,
       location:photo.info.location,
       settings:photo.info.settings,
+      mode:photo.info.mode,
       uid:photo.info.uid,
       id:photo.info._id,
   });
@@ -139,7 +140,7 @@ const ImgCarosol = props => {
     
     const getValue = (target) =>{
     setPhotoInfo((prev)=>{
-      if(target.name == 'settings') prev[target.name]=target.value;
+      if(target.name == 'settings' || target.name == 'mode') prev[target.name]=target.value;
       else prev[target.name]={value:target.value};
       return {...prev};
   });
@@ -216,6 +217,7 @@ const ImgCarosol = props => {
         prev['others'] = photo.info.others;
         prev['location'] = photo.info.location;
         prev['settings'] = photo.info.settings;
+        prev['mode'] = photo.info.mode;
         return{...prev}
       });
       setEdit(true);
@@ -310,6 +312,7 @@ const ImgCarosol = props => {
                     styles={{fonts:view.fonts,size:view.size,input:view.input,inheight:view.inheight,select:view.select,label:view.label}}
                     change={getValue}
                     value={photoInfo['settings']}
+                    mode={photoInfo['mode']}
                     />
             <div className={classes.buttons}>
             <Button className={classes.BtnWidth} style={{fontSize:view.fonts}} variant="contained" color="primary" onClick={postData}>{save}</Button>

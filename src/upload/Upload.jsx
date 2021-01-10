@@ -118,7 +118,8 @@ const Upload = (props) =>{
         editing:{},
         others:{},
         location:{},
-        settings:{shutter:'',apprature:'',iso:'',focus:''}
+        settings:{shutter:'',apprature:'',iso:'',focus:''},
+        mode:'Auto',
     });
     
     const fileUploadHandler = (event) =>{
@@ -128,7 +129,7 @@ const Upload = (props) =>{
     }
 const getValue = (target) =>{
 setPhotoInfo((prev)=>{
-    if(target.name == 'settings') prev[target.name]=target.value;
+    if(target.name == 'settings' || target.name == 'mode') prev[target.name]=target.value;
     else prev[target.name]={value:target.value};
     return {...prev};
 });

@@ -49,11 +49,12 @@ const useStyles = makeStyles((theme) => ({
 const CameraMode = (props) => {
     const classes = useStyles();
     const [mode,setMode] = useState('A');
-    const [settings,setSettings] = useState({shutter:'',apprature:'',iso:'',focus:''});
+    const [settings,setSettings] = useState(props.value);
     const changeHandler = (e)=>{
         let {name,value} = e.target;
         setSettings(prev=>{
             prev[name]=value;
+            props.change({name:'settings',value:{...prev}});
             return {...prev};
         });
     }

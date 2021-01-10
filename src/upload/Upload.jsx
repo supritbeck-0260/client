@@ -118,6 +118,7 @@ const Upload = (props) =>{
         editing:{},
         others:{},
         location:{},
+        settings:{shutter:'',apprature:'',iso:'',focus:''}
     });
     
     const fileUploadHandler = (event) =>{
@@ -127,7 +128,8 @@ const Upload = (props) =>{
     }
 const getValue = (target) =>{
 setPhotoInfo((prev)=>{
-    prev[target.name]={value:target.value};
+    if(target.name == 'settings') prev[target.name]=target.value;
+    else prev[target.name]={value:target.value};
     return {...prev};
 });
 }
@@ -212,6 +214,8 @@ const postData = (event) =>{
                     )}
                     <CameraMode 
                     styles={{fonts:view.fonts,size:view.size,input:view.input,inheight:view.inheight,select:view.select,label:view.label}}
+                    change={getValue}
+                    value={photoInfo['settings']}
                     />
                     <div className={classes.submitDiv}>
                     <input variant="contained" type="submit" className={classes.submit} component="label" value={uploadBtn} disabled={uploadBtn==='Uploading...'}/>

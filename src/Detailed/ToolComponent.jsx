@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         alignItems:'center',
         flexDirection:'column',
         boxShadow: '10px 10px 5px grey',
-        margin:'0px 7px',
+        margin:'7px 7px',
     },
     cardBody:{
         padding:'0 5px',

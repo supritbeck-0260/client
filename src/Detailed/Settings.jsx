@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import SettingsIcon from '@material-ui/icons/Settings';
 const useStyles = makeStyles({
     root: {
       width: '60%',
@@ -40,7 +41,7 @@ const Settings = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.card}>
-                <div className={classes.cardHeader}>{props.mode=='Manual'?'Settings':'Mode'}</div>
+                <div className={classes.cardHeader}><SettingsIcon/>{props.mode=='Manual'?'Settings':'Mode'}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>
                             {props.mode == 'Manual' && props.settings?

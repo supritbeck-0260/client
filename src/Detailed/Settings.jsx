@@ -41,15 +41,15 @@ const Settings = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.card}>
-                <div className={classes.cardHeader}><SettingsIcon/>{props.mode=='Manual'?'Settings':'Mode'}</div>
+                <div className={classes.cardHeader}>{props.mode=='Manual'?<span><SettingsIcon/>Settings</span>:'Mode'}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>
                             {props.mode == 'Manual' && props.settings?
                             <p className="card-text">
-                               {props.settings.shutter?<Tooltip title="Shutter"><span>{props.settings.shutter}</span></Tooltip>:null}
-                               {props.settings.apprature?<Tooltip title="Apprature"><span>,{props.settings.apprature}</span></Tooltip>:null}
-                               {props.settings.iso?<Tooltip title="ISO"><span>,{props.settings.iso}</span></Tooltip>:null}
-                               {props.settings.focus?<Tooltip title="Focus"><span>,{props.settings.focus}</span></Tooltip>:null}
+                               {props.settings.shutter && <Tooltip title="Shutter"><span>{props.settings.shutter}</span></Tooltip>}
+                               {props.settings.apprature && <Tooltip title="Apprature"><span>,{props.settings.apprature}</span></Tooltip>}
+                               {props.settings.iso && <Tooltip title="ISO"><span>,{props.settings.iso}</span></Tooltip>}
+                               {props.settings.focus && <Tooltip title="Focus"><span>,{props.settings.focus}</span></Tooltip>}
                             </p>:
                              <p className="card-text">{props.mode}</p>
                             }

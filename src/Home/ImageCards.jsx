@@ -14,6 +14,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {NavLink} from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TimeAgo from '../Detailed/TimeStamp';
+import CameraIcon from '@material-ui/icons/CameraAltRounded';
+import LensIcon from '@material-ui/icons/LensOutlined';
+import EditIcon from '@material-ui/icons/EditOutlined';
+import LibraryIcon from '@material-ui/icons/LibraryAddOutlined';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles({
   rootLarge: {
     width: 427,
@@ -47,7 +53,18 @@ const useStyles = makeStyles({
   },
   CardContent:{
     padding:'4px',
+  },
+  cameraSettings:{
+    display:'flex',
+    justifyContent:'space-between'
+  },
+  icons:{
+    margin:'0px 4px'
+  },
+  items:{
+    display:'flex'
   }
+
 });
 
 const ImageCards = (props)=> {
@@ -101,30 +118,36 @@ useEffect(()=>{
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.info.camera && props.info.camera.value?
-              <span>
-                 Camera:<a className={classes.navLinkDec} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> 
-              </span>
-            :null}<br/>
+              <div className={classes.cameraSettings}>
+                <span className={classes.items}><Tooltip title='Camera'><CameraIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> </span>
+                {props.info.mode == 'Manual' && props.info.settings?<span className={classes.icons}>
+                {props.info.settings.shutter && <Tooltip title="Shutter"><span>{props.info.settings.shutter}</span></Tooltip>}
+                {props.info.settings.apprature && <Tooltip title="Apprature"><span>,{props.info.settings.apprature}</span></Tooltip>}
+                {props.info.settings.iso && <Tooltip title="ISO"><span>,{props.info.settings.iso}</span></Tooltip>}
+                {props.info.settings.focus && <Tooltip title="Focus"><span>,{props.info.settings.focus}</span></Tooltip>}
+                </span>:props.info.mode}
+              </div>
+            :null}
             {props.info.lenses && props.info.lenses.value?
-              <span>
-                Lenses:<a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
-              </span>
-            :null}<br/>
+              <div className={classes.items}>
+               <Tooltip title='Lense'><LensIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
+              </div>
+            :null}
             {props.info.editing && props.info.editing.value?
-                <span>
-                  Editing Tool:<a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
-                </span>
-            :null}<br/>
+                <div className={classes.items}>
+                  <Tooltip title='Editing Tool'><EditIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
+                </div>
+            :null}
             {props.info.others && props.info.others.value?
-              <span>
-                Others:<a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
-              </span>
-           :null}<br/>
+              <div className={classes.items}>
+                 <Tooltip title='Others'><LibraryIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
+              </div>
+           :null}
             {props.info.location && props.info.location.value?
-              <span>
-                Location:<a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
-              </span>            
-            :null}<br/>
+              <div className={classes.items}>
+                <Tooltip title='Location'><LocationOnIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
+              </div>            
+            :null}
           </Typography>
         </CardContent>
       </CardActionArea>

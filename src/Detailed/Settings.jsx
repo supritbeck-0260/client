@@ -41,7 +41,7 @@ const Settings = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.card}>
-                <div className={classes.cardHeader}>{props.mode=='Manual'?<span><SettingsIcon/>Settings</span>:'Mode'}</div>
+                <div className={classes.cardHeader}><SettingsIcon/>{props.mode=='Manual'?'Settings':'Mode'}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>
                             {props.mode == 'Manual' && props.settings?

@@ -127,27 +127,27 @@ useEffect(()=>{
                 {props.info.settings.focus && <Tooltip title="Focus"><span>,{props.info.settings.focus}</span></Tooltip>}
                 </span>:props.info.mode}
               </div>
-            :null}
+            :<br/>}
             {props.info.lenses && props.info.lenses.value?
               <div className={classes.items}>
                <Tooltip title='Lense'><LensIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
               </div>
-            :null}
+            :<br/>}
             {props.info.editing && props.info.editing.value?
                 <div className={classes.items}>
                   <Tooltip title='Editing Tool'><EditIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
                 </div>
-            :null}
+            :<br/>}
             {props.info.others && props.info.others.value?
               <div className={classes.items}>
                  <Tooltip title='Others'><LibraryIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
               </div>
-           :null}
+           :<br/>}
             {props.info.location && props.info.location.value?
               <div className={classes.items}>
                 <Tooltip title='Location'><LocationOnIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
               </div>            
-            :null}
+            :<br/>}
           </Typography>
         </CardContent>
       </CardActionArea>

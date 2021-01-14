@@ -204,7 +204,7 @@ useEffect(getComments,[]);
             {props.data.info.editing?<ToolComponent avatar={LensIcon} label="Lense" data={props.data.info.lenses}/>:null}<br/>
             {props.data.info.others?<ToolComponent avatar={LibraryIcon} label="Others" data={props.data.info.others}/>:null}<br/>
             {props.data.info.location?<ToolComponent avatar={LocationOnIcon} label="Location" data={props.data.info.location}/>:null}
-            {props.data.info.settings && props.data.info.mode?
+            {props.data.info.mode?
             <Settings settings={props.data.info.settings} mode={props.data.info.mode}/>:null}
           </div>
           <div className={classes.rateTimeContainer}>

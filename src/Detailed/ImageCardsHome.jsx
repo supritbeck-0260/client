@@ -29,19 +29,8 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Comments from './Comments';
 import Settings from './Settings';
 const useStyles = makeStyles({
-  rootLarge: {
-    width: '60%',
+  root: {
     margin:'0 auto',
-  },
-  rootSmall: {
-    width: '100%',
-    margin:'0 auto',
-  },
-  mediaLarge: {
-    height: '70vh',
-  },
-  mediaSmall: {
-    minHeight: '30vh',
   },
   avgRating:{
     padding:'0',
@@ -81,13 +70,12 @@ const ImageCardsHome = (props)=> {
   const classes = useStyles();
   const [avg,setAvg] = useState(props.data.info?props.data.info.avgRate:null);
   const matches = useMediaQuery('(min-width:600px)');
-  const [css,setCss] = useState(classes.rootLarge);
-  const [mediaCss,setMediaCss] = useState(classes.mediaLarge);
   const [star,setStar] = useState(props.data.rate?props.data.rate:null);
   const [btn,setBtn] = useState(false);
   const [comment,setComment] = useState(null);
   const [commentArray,setCommentArray] = useState(null);
   const [postFlag,setPostFlag] = useState(true);
+  const [view,setView] = useState({});
   var dates;
   if(props.data.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -97,13 +85,8 @@ const ImageCardsHome = (props)=> {
     dates=formattedDate;
 }
 useEffect(()=>{
-  if(matches){
-    setCss(classes.rootLarge);
-    setMediaCss(classes.mediaLarge);
-  }else{
-    setCss(classes.rootSmall);
-    setMediaCss(classes.mediaSmall);
-  }
+  if(matches) setView({root:'60%',media:{height: '70vh'},about:'1.5rem'});
+  else setView({root:'100%',media:{minHeight: '30vh'},about:'0.9rem'});
 },[matches]);
 const changeHandler = (value)=>{
     setStar(value);
@@ -171,7 +154,7 @@ const getComments = ()=>{
 }
 useEffect(getComments,[]);
   return (
-    <Card className={css}>
+    <Card className={classes.root} style={{width:view.root}}>
       <CardActionArea>
       <CardHeader
         avatar={
@@ -187,12 +170,12 @@ useEffect(getComments,[]);
         subheader={dates}
       />
         <CardMedia
-          className={mediaCss}
+          style={view.media}
           image={process.env.REACT_APP_SERVER_URL+'/uploadOrg/'+props.data.info.filename}
           title={props.data.info.about?props.data.info.about.value:''}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" style={{fontSize:view.about}}>
           {props.data.info.about?props.data.info.about.value:''}
           </Typography>
           {avg?<CardActions>

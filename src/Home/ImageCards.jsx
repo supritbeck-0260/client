@@ -21,13 +21,8 @@ import LibraryIcon from '@material-ui/icons/LibraryAddOutlined';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles({
-  rootLarge: {
-    width: 427,
+  root: {
     margin:'0 3px',
-  },
-  rootSmall: {
-    width: '100vw',
-    margin:'0 auto',
   },
   media: {
     height: 260,
@@ -70,7 +65,7 @@ const useStyles = makeStyles({
 const ImageCards = (props)=> {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:600px)');
-  const [root,setRoot] = useState(classes.rootLarge);
+  const [view,setView] = useState({});
   var dates;
   if(props.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -80,14 +75,11 @@ const ImageCards = (props)=> {
     dates=formattedDate;
 }
 useEffect(()=>{
-  if(matches){
-    setRoot(classes.rootLarge);
-  }else{
-    setRoot(classes.rootSmall);
-  }
+  if(matches) setView({root:427,about:'1.2rem'});
+  else setView({root:'100vw',about:'0.9rem'})
 },[matches]);
   return (
-    <Card className={root}>
+    <Card className={classes.root} style={{width:view.root}}>
       <CardActionArea>
       <CardHeader
         avatar={
@@ -113,7 +105,7 @@ useEffect(()=>{
         />
         </NavLink>
         <CardContent className={classes.CardContent}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" style={{fontSize:view.about}}>
             {props.info.about?props.info.about.value:<br/>}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

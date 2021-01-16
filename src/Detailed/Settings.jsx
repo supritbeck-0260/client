@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles({
     root: {
       width: '60%',
@@ -10,7 +11,6 @@ const useStyles = makeStyles({
     cardHeader:{
     display:'flex',
     alignItems:'center',
-    padding: '.75rem 1.25rem',
     backgroundColor: 'rgba(0,0,0,.03)',
     },
     card:{
@@ -20,8 +20,6 @@ const useStyles = makeStyles({
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        boxShadow: '10px 10px 5px grey',
-        margin:'7px 7px',
     },
     cardBody:{
         padding:'0 5px',
@@ -39,9 +37,16 @@ const useStyles = makeStyles({
   });
 const Settings = (props) => {
     const classes = useStyles();
+    const matches = useMediaQuery('(min-width:600px)');
+    const [view,setView] = useState({});
+    useEffect(()=>{
+        if(matches) setView({font:'12px',margin:'7px',boxShadow: '10px 10px 5px grey',padding: '.75rem 1.25rem',icon:'20px'});
+        else setView({font:'9px',margin:'4px',boxShadow: '5px 5px 5px grey',padding: '5px',icon:'15px'});
+      },[matches]);
     return (
-        <div className={classes.card}>
-                <div className={classes.cardHeader}><SettingsIcon/>{props.mode=='Manual'?'Settings':'Mode'}</div>
+        <div className={classes.card} style={{fontSize:view.font,margin:view.margin,boxShadow:view.boxShadow}}>
+                <div className={classes.cardHeader} style={{padding:view.padding}}>
+                    <SettingsIcon style={{fontSize:view.icon}}/>{props.mode=='Manual'?'Settings':'Mode'}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>
                             {props.mode == 'Manual' && props.settings?

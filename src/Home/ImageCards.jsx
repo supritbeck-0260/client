@@ -106,7 +106,7 @@ useEffect(()=>{
         </NavLink>
         <CardContent className={classes.CardContent}>
           <Typography gutterBottom variant="h5" component="h2" style={{fontSize:view.about}}>
-            {props.info.about?props.info.about.value:<br/>}
+            {props.info.about && props.info.about.value?props.info.about.value:<br/>}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.info.camera && props.info.camera.value?

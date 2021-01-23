@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {ServicesContex} from '../App';
 const useStyles = makeStyles((theme) => ({
   root: {
     position:'relative',
@@ -17,12 +18,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 const MultiChips = (props)=>{
   const classes = useStyles();
+  const services = useContext(ServicesContex);
   const data = props.data;
     return(
         <>
         {data && data.length?data.map((val,ind)=>
         <div className={classes.root} style={{fontSize:props.view}} key={ind}>
-          <a href={val.link?val.link:'https://www.google.com/search?q='+val.value} className={classes.link} target='_blank'>{val.value}</a>
+          <a onClick={()=>services.analysis(props.user.uid,props.user.name,val.value,props.type)}  href={val.link?val.link:'https://www.google.com/search?q='+val.value} className={classes.link} target='_blank'>{val.value}</a>
           </div>
         ):null}
         </>

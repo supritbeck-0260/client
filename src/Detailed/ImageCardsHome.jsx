@@ -182,11 +182,16 @@ useEffect(getComments,[]);
             Avg Rating:<Rating name="read-only" precision={0.5} value={avg.rate} readOnly />({avg.total})
           </CardActions>:null}
           <div className={classes.container}>
-            {props.data.info.camera?<ToolComponent avatar={CameraIcon} label="Camera" data={props.data.info.camera}/>:null}<br/>
-            {props.data.info.lenses?<ToolComponent avatar={EditIcon}  label="Editing Tool" data={props.data.info.editing}/>:null}<br/>
-            {props.data.info.editing?<ToolComponent avatar={LensIcon} label="Lense" data={props.data.info.lenses}/>:null}<br/>
-            {props.data.info.others?<ToolComponent avatar={LibraryIcon} label="Others" data={props.data.info.others}/>:null}<br/>
-            {props.data.info.location?<ToolComponent avatar={LocationOnIcon} label="Location" data={props.data.info.location}/>:null}
+            {props.data.info.camera?
+            <ToolComponent avatar={CameraIcon} label="Camera" type='camera' user={{uid:props.data.info.uid,name:props.data.info.owner}} data={props.data.info.camera}/>:null}<br/>
+            {props.data.info.lenses?
+            <ToolComponent avatar={EditIcon}  label="Editing Tool" type='editing' user={{uid:props.data.info.uid,name:props.data.info.owner}} data={props.data.info.editing}/>:null}<br/>
+            {props.data.info.editing?
+            <ToolComponent avatar={LensIcon} label="Lense" type='lenses' user={{uid:props.data.info.uid,name:props.data.info.owner}} data={props.data.info.lenses}/>:null}<br/>
+            {props.data.info.others?
+            <ToolComponent avatar={LibraryIcon} label="Others" type='others' user={{uid:props.data.info.uid,name:props.data.info.owner}} data={props.data.info.others}/>:null}<br/>
+            {props.data.info.location?
+            <ToolComponent avatar={LocationOnIcon} label="Location" type='location' user={{uid:props.data.info.uid,name:props.data.info.owner}} data={props.data.info.location}/>:null}
             {props.data.info.mode?
             <Settings settings={props.data.info.settings} mode={props.data.info.mode}/>:null}
           </div>

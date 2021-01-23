@@ -1,5 +1,6 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect , useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {ServicesContex} from '../App';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles({
     root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 const ToolComponent = (props)=>{
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:600px)');
+    const services = useContext(ServicesContex);
     const [view,setView] = useState({});
     useEffect(()=>{
         if(matches) setView({font:'12px',margin:'7px',boxShadow: '10px 10px 5px grey',padding: '.75rem 1.25rem',icon:'20px'});
@@ -47,7 +49,7 @@ const ToolComponent = (props)=>{
                 <div className={classes.cardHeader} style={{padding:view.padding}}><props.avatar style={{fontSize:view.icon}}/> {props.label}</div>
                 <div className={classes.line}></div>
                     <div className={classes.cardBody}>
-                        <a href={props.data.link?props.data.link:'https://www.google.com/search?q='+props.data.value} target="_blank" className={classes.link}>
+                        <a onClick={()=>services.analysis(props.user.uid,props.user.name,props.data.value,props.type)} href={props.data.link?props.data.link:'https://www.google.com/search?q='+props.data.value} target="_blank" className={classes.link}>
                             <p className="card-text">{props.data.value}</p>
                         </a>
                 </div>

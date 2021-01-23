@@ -291,7 +291,7 @@ useEffect(()=>{
                 avatar={val.avt(view.icon)}
                 className={view.chip} label={val.label} variant="outlined"/></Tooltip>: 
                 <div className={classes.infoChips}>
-                    {!editFlag?<MultiChips data={val.values} view={view.fonts}/>:
+                    {!editFlag?<MultiChips user={{uid:id,name}} data={val.values} type={val.key} view={view.fonts}/>:
                     <InputChips data={val} view={{fonts:view.fonts,list:view.list}} getFun={getValues} key={ind} variable={val.key} className={classes.chipInput}/>}
                 </div>
             </div>

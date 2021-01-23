@@ -92,8 +92,8 @@ const fetchProduct = async (item,name)=>{
       })
       return result;
 }
-const analysis = (uid,name,product)=>{
-    Axios.post(process.env.REACT_APP_SERVER_URL+'/analysis/save',{uid,name,product}).then(res=>console.log(res));
+const analysis = (uid,owner,product,type)=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/analysis/save',{uid,owner,product,type}).then(res=>console.log(res));
 }
     return(
         <>
@@ -105,7 +105,6 @@ const analysis = (uid,name,product)=>{
                 userID:userID,
                 login:login,
                 logout:logout,
-                analysis:analysis
             }}>
             <ServicesContex.Provider
                 value={{
@@ -114,7 +113,8 @@ const analysis = (uid,name,product)=>{
                     socket:io,
                     notify:notify,
                     newupload:newupload,
-                    fetchProduct:fetchProduct,
+                    fetchProduct,
+                    analysis
                 }}
             >
                 <Navbar/>

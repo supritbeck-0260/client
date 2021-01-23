@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -20,6 +20,7 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 import LibraryIcon from '@material-ui/icons/LibraryAddOutlined';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Tooltip from '@material-ui/core/Tooltip';
+import {ServicesContex} from '../App';
 const useStyles = makeStyles({
   root: {
     margin:'0 3px',
@@ -66,6 +67,7 @@ const ImageCards = (props)=> {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:600px)');
   const [view,setView] = useState({});
+  const services = useContext(ServicesContex);
   var dates;
   if(props.info.date){
     const formattedDate = Intl.DateTimeFormat('en-US',{
@@ -111,7 +113,8 @@ useEffect(()=>{
           <Typography variant="body2" color="textSecondary" component="p">
             {props.info.camera && props.info.camera.value?
               <div className={classes.cameraSettings}>
-                <span className={classes.items}><Tooltip title='Camera'><CameraIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> </span>
+                <span className={classes.items}><Tooltip title='Camera'><CameraIcon className={classes.icons}/></Tooltip>
+                <a className={classes.navLinkDec} onClick={()=>services.analysis(props.info.uid,props.info.owner,props.info.camera.value,'camera')} href={props.info.camera.link?props.info.camera.link:'https://www.google.com/search?q='+props.info.camera.value} target='_blank'>{props.info.camera.value}</a> </span>
                 {props.info.mode == 'Manual' && props.info.settings?<span className={classes.icons}>
                 {props.info.settings.shutter && <Tooltip title="Shutter"><span>{props.info.settings.shutter}</span></Tooltip>}
                 {props.info.settings.apprature && <Tooltip title="Apprature"><span>,{props.info.settings.apprature}</span></Tooltip>}
@@ -122,22 +125,26 @@ useEffect(()=>{
             :<br/>}
             {props.info.lenses && props.info.lenses.value?
               <div className={classes.items}>
-               <Tooltip title='Lense'><LensIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
+               <Tooltip title='Lense'><LensIcon className={classes.icons}/></Tooltip>
+               <a className={classes.navLinkDec} onClick={()=>services.analysis(props.info.uid,props.info.owner,props.info.lenses.value,'lenses')} href={props.info.lenses.link?props.info.lenses.link:'https://www.google.com/search?q='+props.info.lenses.value} target='_blank'>{props.info.lenses.value}</a> 
               </div>
             :<br/>}
             {props.info.editing && props.info.editing.value?
                 <div className={classes.items}>
-                  <Tooltip title='Editing Tool'><EditIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
+                  <Tooltip title='Editing Tool'><EditIcon className={classes.icons}/></Tooltip>
+                  <a className={classes.navLinkDec} onClick={()=>services.analysis(props.info.uid,props.info.owner,props.info.editing.value,'editing')} href={props.info.editing.link?props.info.editing.link:'https://www.google.com/search?q='+props.info.editing.value} target='_blank'>{props.info.editing.value}</a> 
                 </div>
             :<br/>}
             {props.info.others && props.info.others.value?
               <div className={classes.items}>
-                 <Tooltip title='Others'><LibraryIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
+                 <Tooltip title='Others'><LibraryIcon className={classes.icons}/></Tooltip>
+                 <a className={classes.navLinkDec} onClick={()=>services.analysis(props.info.uid,props.info.owner,props.info.others.value,'others')} href={props.info.others.link?props.info.others.link:'https://www.google.com/search?q='+props.info.others.value} target='_blank'>{props.info.others.value}</a> 
               </div>
            :<br/>}
             {props.info.location && props.info.location.value?
               <div className={classes.items}>
-                <Tooltip title='Location'><LocationOnIcon className={classes.icons}/></Tooltip><a className={classes.navLinkDec} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
+                <Tooltip title='Location'><LocationOnIcon className={classes.icons}/></Tooltip>
+                <a className={classes.navLinkDec} onClick={()=>services.analysis(props.info.uid,props.info.owner,props.info.location.value,'location')} href={'https://www.google.com/search?q='+props.info.location.value} target='_blank'>{props.info.location.value}</a> 
               </div>            
             :<br/>}
           </Typography>

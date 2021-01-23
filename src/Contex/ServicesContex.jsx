@@ -7,6 +7,7 @@ const ServicesContex = createContext({
     notify:'',
     newupload:false,
     fetchProduct:()=>{},
+    analysis:()=>{},
 });
 
 export default ServicesContex;

@@ -92,6 +92,9 @@ const fetchProduct = async (item,name)=>{
       })
       return result;
 }
+const analysis = (uid,name,product)=>{
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/analysis/save',{uid,name,product}).then(res=>console.log(res));
+}
     return(
         <>
             <AuthContex.Provider value={{
@@ -101,7 +104,8 @@ const fetchProduct = async (item,name)=>{
                 isLoggedin:isLoggedin,
                 userID:userID,
                 login:login,
-                logout:logout
+                logout:logout,
+                analysis:analysis
             }}>
             <ServicesContex.Provider
                 value={{

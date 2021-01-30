@@ -15,6 +15,7 @@ import Hits from './Hits/Hits';
 import Admin from './Admin/Admin';
 import Axios from 'axios';
 import Search from './Search/Search';
+import Graph from './Admin/Chart/Chart'
 const App = ()=>{
 let tokenExpairTime = localStorage.getItem('tokenExpairTime');
 const tokenAliveFor = 86395000;
@@ -93,7 +94,7 @@ const fetchProduct = async (item,name)=>{
       return result;
 }
 const analysis = (uid,owner,product,type)=>{
-    Axios.post(process.env.REACT_APP_SERVER_URL+'/analysis/save',{uid,owner,product,type}).then(res=>console.log(res));
+    Axios.post(process.env.REACT_APP_SERVER_URL+'/analysis/save',{uid,owner,product,type});
 }
     return(
         <>
@@ -130,6 +131,7 @@ const analysis = (uid,owner,product,type)=>{
                    {isLoggedin?null: <Route exact path='/forgot' render={()=><Forgot/>}/>}
                    <Route exact path='/adminaccess' render={()=><Admin/>}/>
                     <Route exact path='/password/:id' render={()=><Confirm/>}/>
+                    <Route exact path='/chart' render={()=><Graph/>}/>
                     <Route component={()=><Home/>}/>
                 </Switch>
             </ServicesContex.Provider>

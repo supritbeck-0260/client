@@ -23,7 +23,31 @@ const Graph = () => {
     const [flag,setFlag] = useState(false);
     const [loading,setLoading] = useState(false);
     const [message,setMessage] = useState(null);
+    const [owners,setOwner] = useState(null);
     const auth = useContext(AuthContex);
+    const dateWiseGroup = (data)=>{
+        let formated = {};
+        data.forEach(value=>{
+            const date = new Date(value.date).toLocaleDateString()
+            if(formated[date]) formated[date].push(value);
+            else {
+              formated[date] = [];
+              formated[date].push(value);
+            }
+          });
+          return formated;
+    }
+    const ownerWiseGroup = (data)=>{
+        let formated = {};
+        data.forEach(value=>{
+            if(formated[value.uid]) formated[value.uid].push(value);
+            else {
+              formated[value.uid] = [];
+              formated[value.uid].push(value);
+            }
+          });
+          return formated;
+    }
     const generateGraph = graphInfo => {
         let labels = [];
         let data = [];
@@ -66,7 +90,9 @@ const Graph = () => {
             setLoading(false);
             switch (response.status){
                 case 200:
-                generateGraph(response.data);
+                generateGraph(dateWiseGroup(response.data));
+                setOwner(ownerWiseGroup(response.data));
+                console.log(ownerWiseGroup(response.data));
                 break;
                 case 201:
                 setFlag(true);
@@ -83,6 +109,25 @@ const Graph = () => {
         <h1 style={{textAlign:'center'}}>User Activity Chart</h1>
             <div className={classes.container}>
             <canvas id="myChart"></canvas>
+            </div>
+            <div>
+                {owners?Object.keys(owners).map(keys=> 
+                    <table>
+                        {/* <tr>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Country</th>
+                        </tr> */}
+                    {owners[keys].map(value=>
+                        <tr>
+                            <td>{value.owner}</td>
+                            <td>{value.type}</td>
+                            <td>{value.product}</td>
+                            <td>{new Date(value.date).toLocaleDateString()}</td>
+                        </tr>
+                        )}
+                    </table>
+                    ):null}
             </div>
         </div>
         

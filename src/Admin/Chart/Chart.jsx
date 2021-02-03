@@ -3,8 +3,10 @@ import {AuthContex} from '../../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {NavLink} from 'react-router-dom';
 import Chart from 'chart.js';
 import NotFound from '../../NotFound/NotFound';
+import Table from './Table';
 const useStyles = makeStyles({
     container:{
         width:'800px',
@@ -18,6 +20,10 @@ const useStyles = makeStyles({
         justifyContent:'center',
         alignItems:'center'
     },
+    tableCont:{
+        background:'#35290f',
+        padding:'5px',
+    }
 });
 const Graph = () => {
     const [flag,setFlag] = useState(false);
@@ -25,6 +31,7 @@ const Graph = () => {
     const [message,setMessage] = useState(null);
     const [owners,setOwner] = useState(null);
     const auth = useContext(AuthContex);
+    const classes = useStyles();
     const dateWiseGroup = (data)=>{
         let formated = {};
         data.forEach(value=>{
@@ -101,7 +108,7 @@ const Graph = () => {
             }     
      });
     },[]);
-    const classes = useStyles();
+
     return (
         <>
         {!loading && !flag?
@@ -110,23 +117,9 @@ const Graph = () => {
             <div className={classes.container}>
             <canvas id="myChart"></canvas>
             </div>
-            <div>
-                {owners?Object.keys(owners).map(keys=> 
-                    <table>
-                        {/* <tr>
-                            <th>Company</th>
-                            <th>Contact</th>
-                            <th>Country</th>
-                        </tr> */}
-                    {owners[keys].map(value=>
-                        <tr>
-                            <td>{value.owner}</td>
-                            <td>{value.type}</td>
-                            <td>{value.product}</td>
-                            <td>{new Date(value.date).toLocaleDateString()}</td>
-                        </tr>
-                        )}
-                    </table>
+            <div className={classes.tableCont}>
+                {owners?Object.keys(owners).map((keys,ind)=> 
+                <Table owner={owners[keys]} key={ind} keys={keys} index={ind+1}/>
                     ):null}
             </div>
         </div>

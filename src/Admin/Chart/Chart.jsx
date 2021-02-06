@@ -3,14 +3,12 @@ import {AuthContex} from '../../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {NavLink} from 'react-router-dom';
 import Chart from 'chart.js';
 import NotFound from '../../NotFound/NotFound';
 import Table from './Table';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles({
     container:{
-        width:'800px',
-        height:'500px',
         margin:'auto'
     },
     loader:{
@@ -32,6 +30,8 @@ const Graph = () => {
     const [owners,setOwner] = useState(null);
     const auth = useContext(AuthContex);
     const classes = useStyles();
+    const [view,setView] = useState({});
+    const matches = useMediaQuery('(min-width:600px)');
     const dateWiseGroup = (data)=>{
         let formated = {};
         data.forEach(value=>{
@@ -108,13 +108,16 @@ const Graph = () => {
             }     
      });
     },[]);
-
+useEffect(()=>{
+        if(matches) setView({graphW:'60%',graphH:'450px'});
+        else setView({graphW:'100%',graphH:'250px'});
+},[matches]);
     return (
         <>
         {!loading && !flag?
         <div>
         <h1 style={{textAlign:'center'}}>User Activity Chart</h1>
-            <div className={classes.container}>
+            <div className={classes.container} style={{width:view.graphW,height:view.graphH}}>
             <canvas id="myChart"></canvas>
             </div>
             <div className={classes.tableCont}>

@@ -36,7 +36,7 @@ const Table = (props) => {
     const classes = useStyles();
     return (
         <>
-        <Accordion style={{width:'50%'}}>
+        <Accordion style={{width:'100%'}}>
             <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"

@@ -1,4 +1,5 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
+import {ServicesContex} from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import GridListTile from '@material-ui/core/GridListTile';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const ProductSearch = (props) => {
+    const services = useContext(ServicesContex);
     const classes = useStyles();
     const searchType = props.type;
     const matches = useMediaQuery('(min-width:600px)');
@@ -72,7 +74,7 @@ const ProductSearch = (props) => {
                 </NavLink>
                 </CardActionArea>
                 <CardActions>
-                <Button style={{fontSize:view.product}} size="small" color="primary" href={value[searchType.category] && value[searchType.category].link?value[searchType.category].link:'https://www.google.com/search?q='+value[searchType.category].value} target="_blank">
+                <Button onClick={()=>services.analysis(value.uid,value.owner,value[props.type.category].value,props.type.category)} style={{fontSize:view.product}} size="small" color="primary" href={value[searchType.category] && value[searchType.category].link?value[searchType.category].link:'https://www.google.com/search?q='+value[searchType.category].value} target="_blank">
                 {value[searchType.category]?value[searchType.category].value:''}
                 </Button>
             </CardActions>
